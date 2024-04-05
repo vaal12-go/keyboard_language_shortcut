@@ -1,0 +1,9 @@
+project1.exe
+qwe1.log
+lib/x86_64-win64/project1.compiled
+lib/x86_64-win64/project1.o
+lib/x86_64-win64/project1.obj
+project1.res
+lib/x86_64-win64/project1.res
+lib/x86_64-win64/unit1.o
+lib/x86_64-win64/unit1.ppu

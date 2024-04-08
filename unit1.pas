@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, Windows, LazLogger, JwaWinUser;
+  Menus, Windows, LazLogger, JwaWinUser, registry;
 
 type
 
@@ -24,11 +24,16 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
+    AddToStartMenuItem: TMenuItem;
     Separator1: TMenuItem;
-    MenuItem5: TMenuItem;
+    ExitContextMenuItem: TMenuItem;
     TrayPopupMenu: TPopupMenu;
     TrayIcon: TTrayIcon;
+    procedure AddToStartMenuItemClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure ExitContextMenuItemClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 
   public
@@ -75,16 +80,50 @@ begin
 
 end;
 
+procedure TForm1.ExitContextMenuItemClick(Sender: TObject);
+begin
+  //ShowMessage('Will exit');
+  self.Close();
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  self.Hide()
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+
+begin
+
+end;
+
+procedure TForm1.AddToStartMenuItemClick(Sender: TObject);
+var
+  Registry: TRegistry;
+begin
+  Registry := TRegistry.Create;
+  try
+    // Navigate to proper "directory":
+    Registry.RootKey := HKEY_CURRENT_USER;
+    //if Registry.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\Run') then
+    if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run\',
+      False) then
+      //CompileCommand:=Registry.ReadString(''); //read the value of the default name
+      Registry.WriteString('KeyboardLangChange', Application.ExeName);
+  finally
+    Registry.Free;  // In non-Windows operating systems this flushes the reg.xml file to disk
+  end;
+end;
+
 procedure ActivateLanguage(const lng_const: string);
 var
   hk: HKL;
   forWindowHandle, parentHandle: HWND;
-  lang_str : PChar;
+  lang_str: PChar;
 begin
   lang_str := PChar(lng_const);
-  hk := Windows.LoadKeyboardLayoutA(lang_str,
-    JwaWinUser.KLF_ACTIVATE or JwaWinUser.KLF_SUBSTITUTE_OK or
-    JwaWinUser.KLF_SETFORPROCESS);
+  hk := Windows.LoadKeyboardLayoutA(lang_str, JwaWinUser.KLF_ACTIVATE or
+    JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS);
   //                 or JwaWinUser.KLF_NOTELLSHELL
   Windows.ActivateKeyboardLayout(hk, 0);
 
@@ -108,7 +147,7 @@ begin
 
   if (Mes.Unused = 1) then
   begin
-  ActivateLanguage('00000409');
+    ActivateLanguage('00000409');
     self.Caption := 'EN';
     newIcon.LoadFromFile(
       'c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\EN_64x64_05Apr2024.ico');

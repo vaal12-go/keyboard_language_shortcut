@@ -6,15 +6,15 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, windows, LazLogger;
+  Menus, Windows, LazLogger, JwaWinUser;
 
 type
 
   TWMHotKey = packed record
-    Msg: Cardinal;
-    HotKey: Longint;
-    Unused: Longint;
-    Result: Longint;
+    Msg: cardinal;
+    HotKey: longint;
+    Unused: longint;
+    Result: longint;
   end;
 
   { TForm1 }
@@ -32,7 +32,7 @@ type
   private
 
   public
-    ENIcon, RUIcon : Graphics.TPortableNetworkGraphic;
+    ENIcon, RUIcon: Graphics.TPortableNetworkGraphic;
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
 
 
@@ -50,73 +50,101 @@ implementation
 
 procedure TForm1.FormActivate(Sender: TObject);
 var
-   ico: TIcon;
+  ico: TIcon;
 begin
   //ShowMessage('Form activated');
-  windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_3);
-//  VK_OEM_3	0xC0	OEM_3 (~ `)
-//http://kbdedit.com/manual/low_level_vk_list.html
-  windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_1);
-  windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_2);
+  //windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_3); //'`
+  Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);  //{
+
+  //  VK_OEM_3  0xC0  OEM_3 (~ `)
+  //http://kbdedit.com/manual/low_level_vk_list.html
+  //windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_1);
+  //windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_2);
+
+  Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
+  Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
   self.ENIcon := Graphics.TPortableNetworkGraphic.Create();
-  self.ENIcon.LoadFromFile('c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\EN_32x32.png');
+  self.ENIcon.LoadFromFile(
+    'c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\EN_32x32.png');
   self.RUIcon := Graphics.TPortableNetworkGraphic.Create();
-  self.RUIcon.LoadFromFile('c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\RU_32x32.png');
+  self.RUIcon.LoadFromFile(
+    'c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\RU_32x32.png');
 
   //ico := TIcon.Create()
   //ico.
 
 end;
 
+procedure ActivateLanguage(const lng_const: string);
+var
+  hk: HKL;
+  forWindowHandle, parentHandle: HWND;
+  lang_str : PChar;
+begin
+  lang_str := PChar(lng_const);
+  hk := Windows.LoadKeyboardLayoutA(lang_str,
+    JwaWinUser.KLF_ACTIVATE or JwaWinUser.KLF_SUBSTITUTE_OK or
+    JwaWinUser.KLF_SETFORPROCESS);
+  //                 or JwaWinUser.KLF_NOTELLSHELL
+  Windows.ActivateKeyboardLayout(hk, 0);
+  Windows.PostMessage(forWindowHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
+  parentHandle := Windows.GetParent(forWindowHandle);
+  Windows.PostMessage(parentHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
+
+end;//procedure ActivateLanguage(var lng_const : string);
+
 procedure TForm1.OnMenuHotKey(var Mes: TWMHotKey);
 var
-   hk: HKL;
-   forWindowHandle, parentHandle : HWND;
-   newIcon : TIcon;
+  hk: HKL;
+  forWindowHandle, parentHandle: HWND;
+  newIcon: TIcon;
 begin
- //DebugLn(String(Mes.HotKey));
- // DebugLn(String(Mes.Msg));
- //ShowMessage('h1');
+  //DebugLn(String(Mes.HotKey));
+  // DebugLn(String(Mes.Msg));
+  //ShowMessage('h1');
   newIcon := TIcon.Create();
-  forWindowHandle := windows.GetForegroundWindow();
-  if(Mes.Unused = 1) then begin
-                  hk := windows.LoadKeyboardLayoutW('00000409', 0);
-                  self.Caption:= 'EN';
-                  newIcon.LoadFromFile('c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\EN_64x64_05Apr2024.ico');
-                                self.TrayIcon.Icon := newIcon;
-                                     //self.TrayIcon.Icon.AssignImage(self.ENIcon);
-    end;
-  if(Mes.Unused = 2) then begin
-                  hk := windows.LoadKeyboardLayoutW('00000419', 0);
-                                    self.Caption:= 'RUS';
-                                            //self.TrayIcon.Hide();
-                              //self.TrayIcon.Icon.AssignImage(self.RUIcon);
-                              newIcon.LoadFromFile('c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\RU_32x32.ico');
-                                self.TrayIcon.Icon := newIcon;
-                              //self.TrayIcon.Show();
-                                                             //self.TrayIcon.ShowIcon:= True;
-    end;
-    if(Mes.Unused = 3) then begin
-                  hk := windows.LoadKeyboardLayoutW('00000422', 0);
-                                    self.Caption:= 'UKR';
-                                    newIcon.LoadFromFile('c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\UKR_64x64.ico');
-                                self.TrayIcon.Icon := newIcon;
-    end;
- LazLogger.DebugLogger.CloseLogFileBetweenWrites:= True;
- DebugLn('have handle');
- //self.Hide();
- //self.Show();
-//  00000419 - RUS
-//  00000422 - UKR
- windows.ActivateKeyboardLayout(hk, 0);
- windows.PostMessage(forWindowHandle, windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
+  forWindowHandle := Windows.GetForegroundWindow();
+  if (Mes.Unused = 1) then
+  begin
+  ActivateLanguage('00000409');
+    self.Caption := 'EN';
+    newIcon.LoadFromFile(
+      'c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\EN_64x64_05Apr2024.ico');
+    self.TrayIcon.Icon := newIcon;
+    //self.TrayIcon.Icon.AssignImage(self.ENIcon);
+  end;
+  if (Mes.Unused = 2) then
+  begin
+    ActivateLanguage('00000419');
+    //hk := Windows.LoadKeyboardLayoutW('00000419', 0);
+    self.Caption := 'RUS';
+    //self.TrayIcon.Hide();
+    //self.TrayIcon.Icon.AssignImage(self.RUIcon);
+    newIcon.LoadFromFile(
+      'c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\RU_32x32.ico');
+    self.TrayIcon.Icon := newIcon;
+    //self.TrayIcon.Show();
+    //self.TrayIcon.ShowIcon:= True;
+  end;
+  if (Mes.Unused = 3) then
+  begin
+    ActivateLanguage('00000422');
+    //hk := Windows.LoadKeyboardLayoutW('00000422', 0);
+    self.Caption := 'UKR';
+    newIcon.LoadFromFile(
+      'c:\Users\may13\AGVDocs\Dev\04.Lazarus-projects\01.LangShortcut\icons\UKR_64x64_05Apr2024.ico');
+    self.TrayIcon.Icon := newIcon;
+  end;
+  LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
+  DebugLn('have handle');
+  //self.Hide();
+  //self.Show();
+  //  00000419 - RUS
+  //  00000422 - UKR
 
-               parentHandle:= windows.GetParent(forWindowHandle);
-                windows.PostMessage(parentHandle, windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
 
   //self.Hide();
 end;//procedure TForm1.OnMenuHotKey(var Mes: TWMHotKey);
 
 
 end.
-

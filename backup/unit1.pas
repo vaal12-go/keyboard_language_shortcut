@@ -26,7 +26,6 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     AddToStartMenuItem: TMenuItem;
-    qwe1: TMenuItem;
     Separator1: TMenuItem;
     ExitContextMenuItem: TMenuItem;
     LanguageNameTimer: TTimer;
@@ -38,8 +37,12 @@ type
     procedure ExitContextMenuItemClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
+    procedure UpdateLanguageState();
+    procedure UpdateLanguageIcon(lang: integer);
+
   private
     enIcon, ruIcon, ukrIcon : TIcon;
+
 
   public
     //ENIcon, RUIcon: Graphics.TPortableNetworkGraphic;
@@ -67,26 +70,19 @@ begin
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
   DebugLn('Hello 345');
   appPath := ExtractFilePath(Application.ExeName);
-    DebugLn('have handle');
-    DebugLn(appPath);
-    LazLogger.DebugLogger.DbgOut('Hello1');
-  //ShowMessage('Form activated');
-  //windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_3); //'`
+  DebugLn('have handle');
+  DebugLn(appPath);
+  LazLogger.DebugLogger.DbgOut('Hello1');
+
   Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);  //{
 
   //  VK_OEM_3  0xC0  OEM_3 (~ `)
   //http://kbdedit.com/manual/low_level_vk_list.html
-  //windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_1);
-  //windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_2);
+
 
   Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
   Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
-  //self.ENIcon := Graphics.TPortableNetworkGraphic.Create();
-  //self.ENIcon.LoadFromFile(
-  //  appPath + 'icons\EN_32x32.png');
-  //self.RUIcon := Graphics.TPortableNetworkGraphic.Create();
-  //self.RUIcon.LoadFromFile(
-  //  appPath+'icons\RU_32x32.png');
+
 
 
   self.enIcon := TIcon.Create();
@@ -101,53 +97,74 @@ begin
   self.ukrIcon.LoadFromFile(
       appPath+'icons\UKR_64x64_05Apr2024.ico');
 
-
-
-
-  //ico := TIcon.Create()
-  //ico.
-
 end;
 
 procedure TForm1.ExitContextMenuItemClick(Sender: TObject);
 begin
-  //ShowMessage('Will exit');
   self.Close();
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  //self.Hide()
+  self.Hide();
+  self.UpdateLanguageState();
 end;
 
-procedure TForm1.LanguageNameTimerTimer(Sender: TObject);
+procedure TForm1.UpdateLanguageIcon(lang: integer);
+begin
+  if lang = 1033 then  //ENglish
+    self.TrayIcon.Icon := self.enIcon;
+    //self.TrayIcon.Icon.AssignImage(self.ENIcon);
+
+  if lang = 1049 then //RU
+    self.TrayIcon.Icon := self.ruIcon;
+
+  if lang = 1058 then //UKR
+    self.TrayIcon.Icon := self.ukrIcon;
+
+end;
+
+
+procedure TForm1.UpdateLanguageState();
 var
    langKL : HKL;
    langID : integer;
    langName, langNameFull : string;
    forWindowHandle, parentHandle: HWND;
    procID, threadID : DWORD;
+   langRec : PTlangRec;
 
 begin
-
-  //ShowMessage('hello 5675');
   forWindowHandle := Windows.GetForegroundWindow();
   threadID := Windows.GetWindowThreadProcessId(forWindowHandle, procID);
-
-
 
   langKL := windows.GetKeyboardLayout(threadID);
   languages.loadLanguageRecords();
 
   langID := (langKL and $ffff0000) shr 16;
 
-  langName := (languages.findLanguageByCode(langID))^.LanguageName;
-  langNameFull := (languages.findLanguageByCode(langKL))^.LanguageName;
 
-  //ShowMessage('Found shor language name:'+langName+' long name:'+langNameFull);
+  langRec := nil;
+  langRec := languages.findLanguageByCode(langID);
+  if langRec <> nil then begin
+    langName := (languages.findLanguageByCode(langID))^.LanguageName;
+    langNameFull := (languages.findLanguageByCode(langKL))^.LanguageName;
 
+    //ShowMessage('Found shor language name:'+langName+' long name:'+langNameFull);
+    self.Label1.Caption:= langName;
+    self.Caption:= langName;
+    Application.Title:= 'Language:'+langName;
 
-    Label1.Caption:= langName;
+      self.UpdateLanguageIcon(langID);
+
+  end;
+end;
+
+procedure TForm1.LanguageNameTimerTimer(Sender: TObject);
+begin
+
+  self.UpdateLanguageState();
+
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -217,22 +234,24 @@ begin
   begin
     ActivateLanguage('00000409');
     self.Caption := 'EN';
+    self.UpdateLanguageIcon(1033);
     //newIcon.LoadFromFile(
     //  appPath+'icons\EN_64x64_05Apr2024.ico');
-    self.TrayIcon.Icon := self.enIcon;
-    self.TrayIcon.Icon.AssignImage(self.ENIcon);
+    //self.TrayIcon.Icon := self.enIcon;
+    //self.TrayIcon.Icon.AssignImage(self.ENIcon);
   end;
   if (Mes.Unused = 2) then
   begin
     ActivateLanguage('00000419');
     //hk := Windows.LoadKeyboardLayoutW('00000419', 0);
     self.Caption := 'RUS';
+    self.UpdateLanguageIcon(1049);
     //self.TrayIcon.Hide();
     //self.TrayIcon.Icon.AssignImage(self.RUIcon);
     //newIcon.LoadFromFile(
     //  appPath+'icons\RU_32x32.ico');
-    self.TrayIcon.Icon := self.ruIcon;
-    self.TrayIcon.Show();
+    //self.TrayIcon.Icon := self.ruIcon;
+    //self.TrayIcon.Show();
     //self.TrayIcon.ShowIcon:= True;
   end;
   if (Mes.Unused = 3) then
@@ -240,19 +259,12 @@ begin
     ActivateLanguage('00000422');
     //hk := Windows.LoadKeyboardLayoutW('00000422', 0);
     self.Caption := 'UKR';
+    self.UpdateLanguageIcon(1058);
     //newIcon.LoadFromFile(
     //  appPath+'icons\UKR_64x64_05Apr2024.ico');
-    self.TrayIcon.Icon := self.ukrIcon;
+    //self.TrayIcon.Icon := self.ukrIcon;
   end;
 
-
-  //self.Hide();
-  //self.Show();
-  //  00000419 - RUS
-  //  00000422 - UKR
-
-
-  //self.Hide();
 end;//procedure TForm1.OnMenuHotKey(var Mes: TWMHotKey);
 
 

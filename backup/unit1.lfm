@@ -1,28 +1,29 @@
 object Form1: TForm1
   Left = 1331
-  Height = 192
+  Height = 240
   Top = 216
-  Width = 256
+  Width = 320
   Caption = 'Form1'
-  ClientHeight = 192
-  ClientWidth = 256
+  ClientHeight = 240
+  ClientWidth = 320
+  DesignTimePPI = 120
   OnActivate = FormActivate
   OnShow = FormShow
   LCLVersion = '2.2.6.0'
   object Button1: TButton
-    Left = 16
-    Height = 25
-    Top = 8
-    Width = 75
+    Left = 20
+    Height = 31
+    Top = 10
+    Width = 94
     Caption = 'Button1'
     OnClick = Button1Click
     TabOrder = 0
   end
   object Label1: TLabel
-    Left = 34
-    Height = 15
-    Top = 77
-    Width = 34
+    Left = 42
+    Height = 20
+    Top = 96
+    Width = 44
     Caption = 'Label1'
     ParentColor = False
   end
@@ -731,12 +732,12 @@ object Form1: TForm1
       000000000000000000000000000000000000
     }
     Visible = True
-    Left = 194
-    Top = 84
+    Left = 243
+    Top = 105
   end
   object TrayPopupMenu: TPopupMenu
-    Left = 184
-    Top = 8
+    Left = 230
+    Top = 10
     object AddToStartMenuItem: TMenuItem
       Caption = 'Automatically Start with Windows (for current user)'
       OnClick = AddToStartMenuItemClick
@@ -757,14 +758,11 @@ object Form1: TForm1
       Caption = 'Exit'
       OnClick = ExitContextMenuItemClick
     end
-    object qwe1: TMenuItem
-      Caption = 'qwe1'
-    end
   end
   object LanguageNameTimer: TTimer
     Interval = 2000
     OnTimer = LanguageNameTimerTimer
-    Left = 71
-    Top = 126
+    Left = 89
+    Top = 158
   end
 end

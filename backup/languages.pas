@@ -38,7 +38,7 @@ begin
   //for currRec in langList.Items do begin
     currRec := langList.Items[i];
     if (currRec^.LanguageCode = code) then
-       findLanguageByCode := langList.Items[i];
+       Exit(langList.Items[i]);
 
 
     i := i+1;

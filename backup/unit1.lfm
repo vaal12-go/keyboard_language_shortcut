@@ -1,12 +1,13 @@
 object Form1: TForm1
-  Left = 984
+  Left = 1331
   Height = 192
-  Top = 385
+  Top = 216
   Width = 256
   Caption = 'Form1'
   ClientHeight = 192
   ClientWidth = 256
   OnActivate = FormActivate
+  OnShow = FormShow
   LCLVersion = '2.2.6.0'
   object Button1: TButton
     Left = 16
@@ -14,7 +15,16 @@ object Form1: TForm1
     Top = 8
     Width = 75
     Caption = 'Button1'
+    OnClick = Button1Click
     TabOrder = 0
+  end
+  object Label1: TLabel
+    Left = 34
+    Height = 15
+    Top = 77
+    Width = 34
+    Caption = 'Label1'
+    ParentColor = False
   end
   object TrayIcon: TTrayIcon
     PopUpMenu = TrayPopupMenu
@@ -727,6 +737,10 @@ object Form1: TForm1
   object TrayPopupMenu: TPopupMenu
     Left = 184
     Top = 8
+    object AddToStartMenuItem: TMenuItem
+      Caption = 'Automatically Start with Windows (for current user)'
+      OnClick = AddToStartMenuItemClick
+    end
     object MenuItem1: TMenuItem
       Caption = 'EN'
     end
@@ -739,8 +753,18 @@ object Form1: TForm1
     object Separator1: TMenuItem
       Caption = '-'
     end
-    object MenuItem5: TMenuItem
+    object ExitContextMenuItem: TMenuItem
       Caption = 'Exit'
+      OnClick = ExitContextMenuItemClick
     end
+    object qwe1: TMenuItem
+      Caption = 'qwe1'
+    end
+  end
+  object LanguageNameTimer: TTimer
+    Interval = 2000
+    OnTimer = LanguageNameTimerTimer
+    Left = 71
+    Top = 126
   end
 end

@@ -348,3 +348,9 @@ LangChange_05Apr2024.exe
 /.~lock.Keyboard identifiers and input method editors for Windows_01May2024 .csv#
 /lib/x86_64-win64/languages.o
 /lib/x86_64-win64/languages.ppu
+/lib/i386-win32/languages.o
+/lib/i386-win32/languages.ppu
+/lib/i386-win32/project1.o
+/lib/i386-win32/project1.or
+/lib/i386-win32/unit1.o
+/lib/i386-win32/unit1.ppu

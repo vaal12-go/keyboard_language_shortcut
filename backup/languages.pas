@@ -5,20 +5,22 @@ unit languages;
 
 
 interface
+
 uses
-  Classes, SysUtils, Dialogs;
+  Classes, SysUtils, Dialogs, Graphics, LazLogger;
 
 type
 
-PTlangRec = ^TLangRec;
+  PTlangRec = ^TLangRec;
 
-TLangRec = record
-    LanguageName : string;
-    LanguageCode : integer;
-end;
+  TLangRec = record
+    LanguageName: string;
+    LanguageCode: integer;
+    LanguageIcon: TIcon;
+  end;
 
 var
-  langList : TList;
+  langList: TList;
 
 procedure loadLanguageRecords();
 function findLanguageByCode(code: integer): PTlangRec;
@@ -30,33 +32,30 @@ implementation
 
 function findLanguageByCode(code: integer): PTlangRec;
 var
-  currRec : PTlangRec;
-  i : integer;
+  currRec: PTlangRec;
+  i: integer;
 begin
-  i:=0;
-  while i<langList.Count do begin
-  //for currRec in langList.Items do begin
+  i := 0;
+  while i < langList.Count do
+  begin
+    //for currRec in langList.Items do begin
     currRec := langList.Items[i];
     if (currRec^.LanguageCode = code) then
-       Exit(langList.Items[i]);
-
-
-    i := i+1;
-
-    end;
-
-
+      Exit(langList.Items[i]);
+    i := i + 1;
   end;
+  findLanguageByCode := nil;
+end;
 
 
 
 procedure loadLanguageRecords();
 var
   tfIn: TextFile;
-  lName, lCode, s: string;
-  splitStr : array of string;
-  rec : PTlangRec;
-  i, Code : integer;
+  lName, lCode, s, langCodeStr, icoFName: string;
+  splitStr: array of string;
+  rec: PTlangRec;
+  i, Code: integer;
 
 begin
 
@@ -69,40 +68,44 @@ begin
     reset(tfIn);
 
     // Keep reading lines until the end of the file is reached
-    while not eof(tfIn) do
+    while not EOF(tfIn) do
     begin
       readln(tfIn, s);
       splitStr := s.Split(';');
-
       new(rec);
-      rec^.LanguageName:= splitStr[0];
+      rec^.LanguageName := splitStr[0];
+      langCodeStr := splitStr[1];
+      DebugLn('langName:' + rec^.LanguageName);
+      Val('x' + langCodeStr, i, Code);
+      DebugLn('    code:' + langCodeStr);
+      icoFName :=   'icons\'+ langCodeStr+'.ico';
+      if FileExists(icoFName) then begin
+         DebugLn('    icoFname:' + icoFName);
+           rec^.LanguageIcon := TIcon.Create();
 
-      Val ('x'+splitStr[1],i,Code);
-      If Code<>0 then
-        ShowMessage('Error converting string:'+splitStr[1])
+      end
       else
-        rec^.LanguageCode:= i;
-      //rec^.LanguageCode:= splitStr[1];
+        DebugLn('    icoFname: NO ICO');
 
+
+      if Code <> 0 then
+        ShowMessage('Error converting string:' + splitStr[1])
+      else
+        rec^.LanguageCode := i;
       langList.Add(rec);
-
-
-
       //ShowMessage(s)
     end;
-
     // Done so close the file
     CloseFile(tfIn);
 
   except
     on E: EInOutError do
-     ShowMessage('File handling error occurred. Details:' + E.Message);
+      ShowMessage('File handling error occurred. Details:' + E.Message);
   end;
 
-      i := langList.Count;
-      i := i+1;
+  i := langList.Count;
+  i := i + 1;
 
-  end;
+end;
 
 end.
-

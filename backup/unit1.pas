@@ -26,9 +26,11 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     AddToStartMenuItem: TMenuItem;
+    RemoveFromStartMenuItem: TMenuItem;
     Separator1: TMenuItem;
     ExitContextMenuItem: TMenuItem;
     LanguageNameTimer: TTimer;
+    Separator2: TMenuItem;
     TrayPopupMenu: TPopupMenu;
     TrayIcon: TTrayIcon;
     procedure AddToStartMenuItemClick(Sender: TObject);
@@ -37,11 +39,12 @@ type
     procedure ExitContextMenuItemClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
+    procedure RemoveFromStartMenuItemClick(Sender: TObject);
     procedure UpdateLanguageState();
     procedure UpdateLanguageIcon(langRec : PTlangRec);
 
   private
-    enIcon, ruIcon, ukrIcon: TIcon;
+    //enIcon, ruIcon, ukrIcon: TIcon;
 
 
   public
@@ -76,7 +79,7 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 var
-  ico: TIcon;
+  //ico: TIcon;
   appPath: string;
 begin
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
@@ -183,6 +186,25 @@ end;
 procedure TForm1.LanguageNameTimerTimer(Sender: TObject);
 begin
   self.UpdateLanguageState();
+end;
+
+procedure TForm1.RemoveFromStartMenuItemClick(Sender: TObject);
+var
+  Registry: TRegistry;
+begin
+  ShowMessage('Will remove from autostart');
+  Registry := TRegistry.Create;
+  try
+    // Navigate to proper "directory":
+    Registry.RootKey := HKEY_CURRENT_USER;
+    //if Registry.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\Run') then
+    if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run\',
+      False) then
+      //CompileCommand:=Registry.ReadString(''); //read the value of the default name
+      Registry.DeleteValue('KeyboardLangChange')
+      //Registry.WriteString(, '');
+  finally
+    Registry.Free  // In non-Windows operating systems this flushes the reg.xml file to disk
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);

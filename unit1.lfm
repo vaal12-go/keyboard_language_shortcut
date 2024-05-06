@@ -742,14 +742,24 @@ object Form1: TForm1
       Caption = 'Automatically Start with Windows (for current user)'
       OnClick = AddToStartMenuItemClick
     end
+    object RemoveFromStartMenuItem: TMenuItem
+      Caption = 'Remove from Autostart'
+      OnClick = RemoveFromStartMenuItemClick
+    end
+    object Separator2: TMenuItem
+      Caption = '-'
+    end
     object MenuItem1: TMenuItem
       Caption = 'EN'
+      Enabled = False
     end
     object MenuItem2: TMenuItem
       Caption = 'RU'
+      Enabled = False
     end
     object MenuItem3: TMenuItem
       Caption = 'UKR'
+      Enabled = False
     end
     object Separator1: TMenuItem
       Caption = '-'

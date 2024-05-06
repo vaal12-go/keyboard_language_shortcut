@@ -75,17 +75,17 @@ begin
       new(rec);
       rec^.LanguageName := splitStr[0];
       langCodeStr := splitStr[1];
-      DebugLn('langName:' + rec^.LanguageName);
+      //DebugLn('langName:' + rec^.LanguageName);
       Val('x' + langCodeStr, i, Code);
-      DebugLn('    code:' + langCodeStr);
+      //DebugLn('    code:' + langCodeStr);
       icoFName :=   'icons\'+ langCodeStr+'.ico';
       if FileExists(icoFName) then begin
-         DebugLn('    icoFname:' + icoFName);
+         //DebugLn('    icoFname:' + icoFName);
            rec^.LanguageIcon := TIcon.Create();
-           LoadFromFile(icoFName);
-      end
-      else
-        DebugLn('    icoFname: NO ICO');
+           rec^.LanguageIcon.LoadFromFile(icoFName);
+      end;
+      //else
+        //DebugLn('    icoFname: NO ICO');
 
 
       if Code <> 0 then

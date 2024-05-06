@@ -38,10 +38,10 @@ type
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
     procedure UpdateLanguageState();
-    procedure UpdateLanguageIcon(lang: integer);
+    procedure UpdateLanguageIcon(langRec : PTlangRec);
 
   private
-    enIcon, ruIcon, ukrIcon: TIcon;
+    //enIcon, ruIcon, ukrIcon: TIcon;
 
 
   public
@@ -76,7 +76,7 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 var
-  ico: TIcon;
+  //ico: TIcon;
   appPath: string;
 begin
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
@@ -96,17 +96,17 @@ begin
 
 
 
-  self.enIcon := TIcon.Create();
-  self.enIcon.LoadFromFile(
-    appPath + 'icons\EN_64x64_05Apr2024.ico');
-
-  self.ruIcon := TIcon.Create();
-  self.ruIcon.LoadFromFile(
-    appPath + 'icons\RU_32x32.ico');
-
-  self.ukrIcon := TIcon.Create();
-  self.ukrIcon.LoadFromFile(
-    appPath + 'icons\UKR_64x64_05Apr2024.ico');
+  //self.enIcon := TIcon.Create();
+  //self.enIcon.LoadFromFile(
+  //  appPath + 'icons\EN_64x64_05Apr2024.ico');
+  //
+  //self.ruIcon := TIcon.Create();
+  //self.ruIcon.LoadFromFile(
+  //  appPath + 'icons\RU_32x32.ico');
+  //
+  //self.ukrIcon := TIcon.Create();
+  //self.ukrIcon.LoadFromFile(
+  //  appPath + 'icons\UKR_64x64_05Apr2024.ico');
 
 
 
@@ -115,16 +115,28 @@ begin
   self.UpdateLanguageState();
 end;
 
-procedure TForm1.UpdateLanguageIcon(lang: integer);
+procedure TForm1.UpdateLanguageIcon(langRec : PTlangRec);
+var
+  errStr: string;
 begin
-  if lang = 1033 then  //ENglish
-    self.TrayIcon.Icon := self.enIcon;
-  //self.TrayIcon.Icon.AssignImage(self.ENIcon);
-  if lang = 1049 then //RU
-    self.TrayIcon.Icon := self.ruIcon;
+  if langRec^.LanguageIcon <> nil then begin
+        self.TrayIcon.Icon :=   langRec^.LanguageIcon
+  end
+  else begin
+      errStr := 'Have language without icon:'+langRec^.LanguageName +sLineBreak;
+      errStr := errStr + '    code:'+InttoStr(langRec^.LanguageCode) +sLineBreak;
+    DebugLn(errStr);
+    ShowMessage(errStr);
+  end;
 
-  if lang = 1058 then //UKR
-    self.TrayIcon.Icon := self.ukrIcon;
+  //if lang = 1033 then  //ENglish
+  //  self.TrayIcon.Icon := self.enIcon;
+  ////self.TrayIcon.Icon.AssignImage(self.ENIcon);
+  //if lang = 1049 then //RU
+  //  self.TrayIcon.Icon := self.ruIcon;
+  //
+  //if lang = 1058 then //UKR
+  //  self.TrayIcon.Icon := self.ukrIcon;
 end;
 
 
@@ -141,6 +153,7 @@ begin
   threadID := Windows.GetWindowThreadProcessId(forWindowHandle, procID);
 
   langKL := Windows.GetKeyboardLayout(threadID);
+  //TODO: check what is upper bytes of langKL do
 
 
   langID := (langKL and $ffff0000) shr 16;
@@ -151,6 +164,8 @@ begin
   if langRec <> nil then
   begin
     langName := (langRec)^.LanguageName;
+    self.UpdateLanguageIcon(langRec);
+
     langRec := languages.findLanguageByCode(langKL);
     if langRec <> nil then
       langNameFull := (langRec)^.LanguageName;
@@ -160,7 +175,7 @@ begin
     self.Caption := langName;
     Application.Title := 'Language:' + langName;
 
-    self.UpdateLanguageIcon(langID);
+
 
   end;
 end;
@@ -217,7 +232,7 @@ procedure TForm1.OnMenuHotKey(var Mes: TWMHotKey);
 var
   hk: HKL;
   forWindowHandle, parentHandle: HWND;
-  //newIcon: TIcon;
+  langRec: PTlangRec;
   appPath: string;
 begin
   //ShowMessage('h1');
@@ -233,7 +248,8 @@ begin
   begin
     ActivateLanguage('00000409');
     self.Caption := 'EN';
-    self.UpdateLanguageIcon(1033);
+    langRec :=  languages.findLanguageByCode(1033);
+    self.UpdateLanguageIcon(langRec);
     //newIcon.LoadFromFile(
     //  appPath+'icons\EN_64x64_05Apr2024.ico');
     //self.TrayIcon.Icon := self.enIcon;
@@ -244,7 +260,8 @@ begin
     ActivateLanguage('00000419');
     //hk := Windows.LoadKeyboardLayoutW('00000419', 0);
     self.Caption := 'RUS';
-    self.UpdateLanguageIcon(1049);
+    langRec :=  languages.findLanguageByCode(1049);
+    self.UpdateLanguageIcon(langRec);
     //self.TrayIcon.Hide();
     //self.TrayIcon.Icon.AssignImage(self.RUIcon);
     //newIcon.LoadFromFile(
@@ -258,7 +275,8 @@ begin
     ActivateLanguage('00000422');
     //hk := Windows.LoadKeyboardLayoutW('00000422', 0);
     self.Caption := 'UKR';
-    self.UpdateLanguageIcon(1058);
+    langRec :=  languages.findLanguageByCode(1058);
+    self.UpdateLanguageIcon(langRec);
     //newIcon.LoadFromFile(
     //  appPath+'icons\UKR_64x64_05Apr2024.ico');
     //self.TrayIcon.Icon := self.ukrIcon;

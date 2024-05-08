@@ -1,4 +1,4 @@
-unit Unit1;
+unit MainUnit;
 
 {$mode objfpc}{$H+}
 
@@ -17,9 +17,9 @@ type
     Result: longint;
   end;
 
-  { TForm1 }
+  { TMainAppForm }
 
-  TForm1 = class(TForm)
+  TMainAppForm = class(TForm)
     Button1: TButton;
     Label1: TLabel;
     MenuItem1: TMenuItem;
@@ -33,62 +33,58 @@ type
     Separator2: TMenuItem;
     TrayPopupMenu: TPopupMenu;
     TrayIcon: TTrayIcon;
+
+
     procedure AddToStartMenuItemClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure ExitContextMenuItemClick(Sender: TObject);
+    procedure FormChangeBounds(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
     procedure RemoveFromStartMenuItemClick(Sender: TObject);
+
+
+  private
+    ApplicationFilePath : string;
+
+  public
+    procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
     procedure UpdateLanguageState();
     procedure UpdateLanguageIcon(langRec : PTlangRec);
 
-  private
-    //enIcon, ruIcon, ukrIcon: TIcon;
-
-
-  public
-    //ENIcon, RUIcon: Graphics.TPortableNetworkGraphic;
-    procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
-
-
-
-  end;
+  end;//TMainAppForm = class(TForm)
 
 var
-  Form1: TForm1;
+  Form1: TMainAppForm;
 
 implementation
 
 {$R *.lfm}
 
-{ TForm1 }
+{ TMainAppForm }
 
-procedure TForm1.FormActivate(Sender: TObject);
-
+procedure TMainAppForm.FormActivate(Sender: TObject);
 begin
-
-
 
 end;
 
-procedure TForm1.ExitContextMenuItemClick(Sender: TObject);
+procedure TMainAppForm.ExitContextMenuItemClick(Sender: TObject);
 begin
   self.Close();
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
-var
-  //ico: TIcon;
-  appPath: string;
+
+
+procedure TMainAppForm.FormShow(Sender: TObject);
+//var
+  //appPath: string;
 begin
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
-  //DebugLn('Hello 345');
-  appPath := ExtractFilePath(Application.ExeName);
+  self.ApplicationFilePath := ExtractFilePath(Application.ExeName);
   DebugLn('have handle');
-  DebugLn(appPath);
-  //LazLogger.Debug1Logger.DbgOut('Hello1');                     1
-  languages.loadLanguageRecords();
+  DebugLn(self.ApplicationFilePath);
+  languages.loadLanguageRecords(self.ApplicationFilePath);
 
   Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
   //http://kbdedit.com/manual/low_level_vk_list.html
@@ -98,27 +94,11 @@ begin
   //Windows.RegisterHotKey(self.Handle, 4, MOD_CONTROL, VK_K);  //{
 
 
-
-  //self.enIcon := TIcon.Create();
-  //self.enIcon.LoadFromFile(
-  //  appPath + 'icons\EN_64x64_05Apr2024.ico');
-  //
-  //self.ruIcon := TIcon.Create();
-  //self.ruIcon.LoadFromFile(
-  //  appPath + 'icons\RU_32x32.ico');
-  //
-  //self.ukrIcon := TIcon.Create();
-  //self.ukrIcon.LoadFromFile(
-  //  appPath + 'icons\UKR_64x64_05Apr2024.ico');
-
-
-
-
   self.Hide();
   self.UpdateLanguageState();
-end;
+end; //procedure TMainAppForm.FormShow(Sender: TObject);
 
-procedure TForm1.UpdateLanguageIcon(langRec : PTlangRec);
+procedure TMainAppForm.UpdateLanguageIcon(langRec : PTlangRec);
 var
   errStr: string;
 begin
@@ -143,7 +123,7 @@ begin
 end;
 
 
-procedure TForm1.UpdateLanguageState();
+procedure TMainAppForm.UpdateLanguageState();
 var
   langKL: HKL;
   langID: integer;
@@ -183,12 +163,12 @@ begin
   end;
 end;
 
-procedure TForm1.LanguageNameTimerTimer(Sender: TObject);
+procedure TMainAppForm.LanguageNameTimerTimer(Sender: TObject);
 begin
   self.UpdateLanguageState();
 end;
 
-procedure TForm1.RemoveFromStartMenuItemClick(Sender: TObject);
+procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
 var
   Registry: TRegistry;
 begin
@@ -207,14 +187,14 @@ begin
     Registry.Free  // In non-Windows operating systems this flushes the reg.xml file to disk
 end;
 
-  end; //procedure TForm1.RemoveFromStartMenuItemClick(Sender: TObject);
+  end; //procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TMainAppForm.Button1Click(Sender: TObject);
 begin
 
 end;
 
-procedure TForm1.AddToStartMenuItemClick(Sender: TObject);
+procedure TMainAppForm.AddToStartMenuItemClick(Sender: TObject);
 var
   Registry: TRegistry;
 begin
@@ -252,7 +232,7 @@ begin
 
 end;//procedure ActivateLanguage(var lng_const : string);
 
-procedure TForm1.OnMenuHotKey(var Mes: TWMHotKey);
+procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
 var
   hk: HKL;
   forWindowHandle, parentHandle: HWND;
@@ -306,7 +286,7 @@ begin
     //self.TrayIcon.Icon := self.ukrIcon;
   end;
 
-end;//procedure TForm1.OnMenuHotKey(var Mes: TWMHotKey);
+end;//procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
 
 
 end.

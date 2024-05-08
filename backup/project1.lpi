@@ -40,7 +40,7 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit1"/>
+        <UnitName Value="MainUnit"/>
       </Unit>
       <Unit>
         <Filename Value="languages.pas"/>

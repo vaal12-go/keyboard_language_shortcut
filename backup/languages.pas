@@ -22,7 +22,7 @@ type
 var
   langList: TList;
 
-procedure loadLanguageRecords();
+procedure loadLanguageRecords(pathToApplicationFile: string);
 function findLanguageByCode(code: integer): PTlangRec;
 
 
@@ -49,7 +49,7 @@ end;
 
 
 
-procedure loadLanguageRecords();
+procedure loadLanguageRecords(pathToApplicationFile: string);
 var
   tfIn: TextFile;
   lName, lCode, s, langCodeStr, icoFName: string;
@@ -61,7 +61,7 @@ begin
 
   langList := TList.Create();
 
-  AssignFile(tfIn, 'lang_list\Windows_lang_list_01May2024 .txt');
+  AssignFile(tfIn, pathToApplicationFile+'lang_list\Windows_lang_list_01May2024 .txt');
 
   try
     // Open the file for reading
@@ -83,9 +83,9 @@ begin
          //DebugLn('    icoFname:' + icoFName);
            rec^.LanguageIcon := TIcon.Create();
            rec^.LanguageIcon.LoadFromFile(icoFName);
-      end
-      else
-        DebugLn('    icoFname: NO ICO');
+      end;
+      //else
+        //DebugLn('    icoFname: NO ICO');
 
 
       if Code <> 0 then

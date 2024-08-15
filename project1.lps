@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
         <TopLine Value="160"/>
-        <CursorPos X="29" Y="165"/>
+        <CursorPos X="23" Y="191"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <WindowIndex Value="2"/>
@@ -37,8 +37,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="65"/>
-        <CursorPos X="43" Y="81"/>
+        <TopLine Value="43"/>
+        <CursorPos X="27" Y="54"/>
         <UsageCount Value="46"/>
         <Loaded Value="True"/>
       </Unit>
@@ -68,7 +68,7 @@
     <General>
       <ActiveWindowIndexAtStart Value="1"/>
     </General>
-    <JumpHistory HistoryIndex="17">
+    <JumpHistory HistoryIndex="18">
       <Position>
         <Filename Value="languages.pas"/>
         <Caret Line="85" Column="30" TopLine="67"/>
@@ -140,6 +140,10 @@
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="77" TopLine="77"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="52" Column="30" TopLine="43"/>
       </Position>
     </JumpHistory>
     <RunParams>

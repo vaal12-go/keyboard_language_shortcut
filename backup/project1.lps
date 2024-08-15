@@ -8,11 +8,10 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
-        <CursorPos Y="22"/>
+        <CursorPos X="80" Y="19"/>
         <UsageCount Value="71"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="mainunit.pas"/>
@@ -21,14 +20,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
-        <IsVisibleTab Value="True"/>
-        <WindowIndex Value="2"/>
-        <TopLine Value="25"/>
-        <CursorPos X="57" Y="41"/>
+        <TopLine Value="160"/>
+        <CursorPos X="23" Y="191"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
-          <TopLine Value="160"/>
-          <CursorPos X="10" Y="170"/>
+          <WindowIndex Value="2"/>
+          <TopLine Value="25"/>
+          <CursorPos X="57" Y="41"/>
         </ExtraEditor1>
         <UsageCount Value="71"/>
         <Loaded Value="True"/>
@@ -37,9 +35,10 @@
       <Unit>
         <Filename Value="languages.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="3"/>
-        <CursorPos X="60" Y="25"/>
+        <TopLine Value="43"/>
+        <CursorPos X="30" Y="52"/>
         <UsageCount Value="46"/>
         <Loaded Value="True"/>
       </Unit>
@@ -67,9 +66,9 @@
       </Unit>
     </Units>
     <General>
-      <ActiveWindowIndexAtStart Value="2"/>
+      <ActiveWindowIndexAtStart Value="1"/>
     </General>
-    <JumpHistory HistoryIndex="22">
+    <JumpHistory HistoryIndex="17">
       <Position>
         <Filename Value="languages.pas"/>
         <Caret Line="85" Column="30" TopLine="67"/>
@@ -77,10 +76,6 @@
       <Position>
         <Filename Value="languages.pas"/>
         <Caret Line="52" Column="60" TopLine="37"/>
-      </Position>
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="15" Column="31"/>
       </Position>
       <Position>
         <Filename Value="languages.pas"/>
@@ -135,24 +130,8 @@
         <Caret Line="270" Column="39" TopLine="254"/>
       </Position>
       <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="22" Column="38"/>
-      </Position>
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="23" Column="79"/>
-      </Position>
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="22" Column="38"/>
-      </Position>
-      <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="22" Column="15"/>
-      </Position>
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="12" Column="38"/>
       </Position>
       <Position>
         <Filename Value="mainunit.pas"/>

@@ -354,3 +354,5 @@ LangChange_05Apr2024.exe
 /lib/i386-win32/project1.or
 /lib/i386-win32/unit1.o
 /lib/i386-win32/unit1.ppu
+/lib/i386-win32/mainunit.o
+/lib/i386-win32/mainunit.ppu

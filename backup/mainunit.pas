@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, Windows, LazLogger, JwaWinUser, registry, languages;
+  Menus, Windows, LazLogger, JwaWinUser, registry, languages, lexer, RegistryRegistration;
 
 type
 
@@ -39,7 +39,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure ExitContextMenuItemClick(Sender: TObject);
-    procedure FormChangeBounds(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
     procedure RemoveFromStartMenuItemClick(Sender: TObject);
@@ -94,7 +93,7 @@ begin
   //Windows.RegisterHotKey(self.Handle, 4, MOD_CONTROL, VK_K);  //{
 
 
-  self.Hide();
+  //self.Hide();
   self.UpdateLanguageState();
 end; //procedure TMainAppForm.FormShow(Sender: TObject);
 
@@ -190,7 +189,37 @@ end;
   end; //procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
 
 procedure TMainAppForm.Button1Click(Sender: TObject);
+var
+
+  tfIn: TextFile;
+  s: string;
 begin
+
+
+  // Set the name of the file that will be read
+  AssignFile(tfIn, 'languages.conf');
+
+  // Embed the file handling in a try/except block to handle errors gracefully
+  try
+    // Open the file for reading
+    reset(tfIn);
+
+    // Keep reading lines until the end of the file is reached
+    while not Sysutils.eof(tfIn) do
+    begin
+      readln(tfIn, s);
+      DebugLn(s);
+      ParseLine(s);
+    end;
+
+    // Done so close the file
+    CloseFile(tfIn);
+
+  except
+    on E: EInOutError do
+     writeln('File handling error occurred. Details: ', E.Message);
+  end;
+
 
 end;
 
@@ -198,18 +227,19 @@ procedure TMainAppForm.AddToStartMenuItemClick(Sender: TObject);
 var
   Registry: TRegistry;
 begin
-  Registry := TRegistry.Create;
-  try
-    // Navigate to proper "directory":
-    Registry.RootKey := HKEY_CURRENT_USER;
-    //if Registry.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\Run') then
-    if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run\',
-      False) then
-      //CompileCommand:=Registry.ReadString(''); //read the value of the default name
-      Registry.WriteString('KeyboardLangChange', '"' + Application.ExeName + '"');
-  finally
-    Registry.Free;  // In non-Windows operating systems this flushes the reg.xml file to disk
-  end;
+  AddToStartMenu(Application.ExeName);
+  //Registry := TRegistry.Create;
+  //try
+  //  // Navigate to proper "directory":
+  //  Registry.RootKey := HKEY_CURRENT_USER;
+  //  //if Registry.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\Run') then
+  //  if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run\',
+  //    False) then
+  //    //CompileCommand:=Registry.ReadString(''); //read the value of the default name
+  //    Registry.WriteString('KeyboardLangChange', '"' + Application.ExeName + '"');
+  //finally
+  //  Registry.Free;  // In non-Windows operating systems this flushes the reg.xml file to disk
+  //end;
 end;
 
 procedure ActivateLanguage(const lng_const: string);

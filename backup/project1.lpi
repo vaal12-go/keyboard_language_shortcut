@@ -56,6 +56,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="RegistryRegistration"/>
       </Unit>
+      <Unit>
+        <Filename Value="parser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Parser"/>
+      </Unit>
+      <Unit>
+        <Filename Value="lexerconstants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LexerConstants"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

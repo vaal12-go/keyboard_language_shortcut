@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, Windows, LazLogger, JwaWinUser, registry, languages, lexer, RegistryRegistration;
+  Menus, Windows, LazLogger, JwaWinUser, registry, languages,  RegistryRegistration, Parser;
 
 type
 
@@ -85,10 +85,17 @@ begin
   DebugLn(self.ApplicationFilePath);
   languages.loadLanguageRecords(self.ApplicationFilePath);
 
-  Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
+  Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
   //http://kbdedit.com/manual/low_level_vk_list.html
-  Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
-  Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
+  Windows.RegisterHotKey(self.Handle, 2, MOD_ALT, VK_OEM_6); //}
+  Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
+
+
+  //OLD with Ctrl
+  //Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
+  ////http://kbdedit.com/manual/low_level_vk_list.html
+  //Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
+  //Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
 
   //Windows.RegisterHotKey(self.Handle, 4, MOD_CONTROL, VK_K);  //{
 
@@ -136,11 +143,7 @@ begin
 
   langKL := Windows.GetKeyboardLayout(threadID);
   //TODO: check what is upper bytes of langKL do
-
-
   langID := (langKL and $ffff0000) shr 16;
-
-
   langRec := nil;
   langRec := languages.findLanguageByCode(langID);
   if langRec <> nil then
@@ -156,9 +159,6 @@ begin
     self.Label1.Caption := langName;
     self.Caption := langName;
     Application.Title := 'Language:' + langName;
-
-
-
   end;
 end;
 
@@ -190,36 +190,15 @@ end;
 
 procedure TMainAppForm.Button1Click(Sender: TObject);
 var
-
-  tfIn: TextFile;
-  s: string;
+   vCode: PTVirtualCode;
 begin
+  //ParseLanguageConf();
+  LoadVirtualCodesFromFile();
+  vCode := FindVirtualCodeString('VK_FINAL');
 
-
-  // Set the name of the file that will be read
-  AssignFile(tfIn, 'languages.conf');
-
-  // Embed the file handling in a try/except block to handle errors gracefully
-  try
-    // Open the file for reading
-    reset(tfIn);
-
-    // Keep reading lines until the end of the file is reached
-    while not eof(tfIn) do
-    begin
-      readln(tfIn, s);
-      DebugLn(s);
-      ParseLine(s);
-    end;
-
-    // Done so close the file
-    CloseFile(tfIn);
-
-  except
-    on E: EInOutError do
-     writeln('File handling error occurred. Details: ', E.Message);
-  end;
-
+  vCode := FindVirtualCodeString('VK_XBUTTON2');
+  vCode := FindVirtualCodeString('qwe2');
+  vCode := FindVirtualCodeString('VK_XBUTTON2');
 
 end;
 
@@ -271,11 +250,8 @@ var
 begin
   //ShowMessage('h1');
   appPath := ExtractFilePath(Application.ExeName);
-
-
   //DebugLn(String(Mes.HotKey));
   // DebugLn(String(Mes.Msg));
-
   //newIcon := TIcon.Create();
 
   if (Mes.HotKey = 1) then

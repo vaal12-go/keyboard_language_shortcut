@@ -6,7 +6,7 @@ unit Lexer;
 interface
 
 uses
-  Classes, SysUtils, LazLogger, Character, JwaWinUser, LexerConstants, Parser;
+  Classes, SysUtils, LazLogger, Character, JwaWinUser, LexerConstants;
 
 type
 
@@ -25,7 +25,7 @@ type
     procedure SkipWhiteSpace();
   end;//TLexer = class
 
-function ParseLine(line: string): PTShortcutLangRec;
+//function ParseLine(line: string): PTShortcutLangRec;
 //function ParseModifier(tkn: PToken; shortCutRec: PTShortcutLangRec): ParserFunc;
 
 implementation
@@ -128,40 +128,7 @@ begin
 end;
 
 
-function ParseLine(line: string): PTShortcutLangRec;
-var
-  shLangRec: PTShortcutLangRec;
-  lx: TLexer;
-  currToken: PToken;
-  tkn_arr: LineOfTokens;
-  prs : TParser;
-begin
-  lx := TLexer.Create();
-  lx.TestCall();
-  lx.StartLine(line);
-  DebugLn(sLineBreak + sLineBreak + 'Starting new line');
-  tkn_arr := [];
-  repeat
-    begin
-      currToken := lx.NextToken();
-      PrintToken(currToken);
-      if currToken^.TokenType = HASHTAG then
-      begin
-        DebugLn('Found hashtag - skipping to the end of line');
-        Break;
-      end;
-      insert(currToken, tkn_arr, Length(tkn_arr));
 
-    end;
-  until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);
-
-  prs := TParser.Create();
-  shLangRec := prs.ParseLineOfTokens(tkn_arr);
-
-  if shLangRec^.langName = '' then exit(nil)
-  else
-    exit(shLangRec);
-end;
 
 procedure TLexer.StartLine(textLine: string);
 begin

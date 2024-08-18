@@ -205,7 +205,7 @@ begin
     reset(tfIn);
 
     // Keep reading lines until the end of the file is reached
-    while not Sysutils.eof(tfIn) do
+    while not eof(tfIn) do
     begin
       readln(tfIn, s);
       DebugLn(s);

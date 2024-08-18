@@ -1,3 +1,4 @@
+
 unit Lexer;
 
 {$mode ObjFPC}{$H+}
@@ -5,9 +6,11 @@ unit Lexer;
 interface
 
 uses
-  Classes, SysUtils, LazLogger, Character;
+  Classes, SysUtils, LazLogger, Character, JwaWinUser;
 
 type
+
+
 
   PToken = ^Token;
 
@@ -21,11 +24,16 @@ type
   PTShortcutLangRec = ^TShortcutLangRec;
 
   TShortcutLangRec = record
-    KbModifier1, KbModifier2, KbModifier3 : integer;
+    KbModifierArr : array of integer;
     Key : integer;
     langName : string;
     langIconName : string;
   end;
+
+  TParserFunc = ^ParserFunc;
+  ParserFunc = Function(tkn : PToken; shortCutRec : PTShortcutLangRec): TParserFunc;
+  //ParserFunc = function:pointer;
+
 
   TLexer = class
      procedure TestCall();
@@ -43,6 +51,7 @@ type
   end;//TLexer = class
 
   function ParseLine(line: string): PTShortcutLangRec;
+  function ParseModifier(tkn : PToken; shortCutRec : PTShortcutLangRec): ParserFunc;
 
   const
     HASHTAG = '#';
@@ -59,7 +68,13 @@ type
 
 
 
+
+
 implementation
+
+var
+  PARSEMODIFIER_FUNC: ParserFunc;
+    PARSEKEY_FUNC:  ParserFunc;
 
 function TLexer.ReadIdentifier(firstChar : char): string;
 var
@@ -98,8 +113,6 @@ begin
   end;
 end;
 
-
-
 function TLexer.NextToken():PToken;
 var
   tkn : PToken;
@@ -124,6 +137,10 @@ begin
        end;
        HYPHEN : begin
             tkn^.TokenType := HYPHEN;
+            tkn^.TokenLiteral := lexingLine[currPositionInLine];
+       end;
+       COLON : begin
+            tkn^.TokenType := COLON;
             tkn^.TokenLiteral := lexingLine[currPositionInLine];
        end;
        OPEN_SQ_BRACKET : begin
@@ -156,24 +173,87 @@ begin
   if tkn = nil then
       DebugLn('Have NIL token')
   else begin
-
        DebugLn('Have token:'+tkn^.TokenType);
        DebugLn(#9+tkn^.TokenLiteral);
   end;
+end;
+
+function IsModifier(ident : string): integer;
+begin
+  ident := LowerCase(ident);
+  case ident of
+       'alt' : exit(MOD_ALT);
+       'ctrl' : exit(MOD_CONTROL);
+       'shift' : exit(MOD_SHIFT);
+       'win' : exit(MOD_WIN);
+       else exit(-1);
+  end;
+end;//function IsModifier(ident : string): integer;
+
+function ParseKey(tkn : PToken; shortCutRec : PTShortcutLangRec): ParserFunc;
+begin
+  exit(nil);
+end;
+
+function ParseModifier(tkn : PToken; shortCutRec : PTShortcutLangRec): ParserFunc;
+var
+  currMod :integer;
+begin
+  case tkn^.TokenType of
+        IDENTIFIER: begin
+             DebugLn('ParseModifier: have modifier:'+tkn^.TokenLiteral);
+            currMod := IsModifier(tkn^.TokenLiteral);
+            if currMod = -1 then begin
+                 exit(ParseKey(tkn, shortCutRec));
+            end
+            else begin
+                exit(PARSEMODIFIER_FUNC);
+            end;
+        end;//IDENTIFIER: begin
+        HYPHEN: begin
+            DebugLn('ParseModifier: have hyphen');
+            exit(PARSEMODIFIER_FUNC);
+        end;
+
+        COLON: begin
+            DebugLn('ParseModifier: have colon');
+            exit(PARSEKEY_FUNC);
+            end;
+        else begin
+            DebugLn('ParseModifier: unknown token');
+            exit(nil)
+        end;
+
+   end;
 end;
 
 function ParseLineOfTokens(tkn_array : LineOfTokens):PTShortcutLangRec;
 var
   i:integer;
   currTkn : PToken;
+  phase : string;
+  currParserFunc, tempParserFunc : ParserFunc;
+  shLangRec : PTShortcutLangRec;
+  //point : pointer;
+
 begin
-  DebugLn('***********************************');
+  PARSEMODIFIER_FUNC:=  ParserFunc(@ParseModifier);
+  PARSEKEY_FUNC:=  ParserFunc(@ParseKey);
+  currParserFunc:= ParserFunc(@ParseModifier);
+  new(shLangRec);
+  shLangRec^.KbModifierArr := [];
+  shLangRec^.Key := -1;
+  shLangRec^.langName :='';
+  shLangRec^.langIconName :='';
+
   DebugLn(sLineBreak+sLineBreak+'Parsing line of tokens');
+  DebugLn('***********************************');
   for currTkn in tkn_array do begin
       PrintToken(currTkn);
-  end;
-
-
+      point := currParserFunc(currTkn, shLangRec);
+      currParserFunc := ParserFunc(point);
+      if currParserFunc = nil then break;
+  end;//for currTkn in tkn_array do begin
 end;
 
 function ParseLine(line: string): PTShortcutLangRec;
@@ -184,14 +264,6 @@ var
   tkn_arr : LineOfTokens;
 
 begin
-  new(shLangRec);
-  shLangRec^.KbModifier1 := -1;
-  shLangRec^.KbModifier2 := -1;
-  shLangRec^.KbModifier3 := -1;
-  shLangRec^.Key := -1;
-  shLangRec^.langName :='';
-  shLangRec^.langIconName :='';
-
   lx := TLexer.Create();
   lx.TestCall();
   lx.StartLine(line);
@@ -210,7 +282,7 @@ begin
     end;
   until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);
 
-  ParseLineOfTokens(tkn_arr);
+  shLangRec := ParseLineOfTokens(tkn_arr);
 
   if  shLangRec^.langName = '' then exit(nil)
   else exit(shLangRec);

@@ -9,9 +9,8 @@
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="1"/>
-        <CursorPos X="58" Y="13"/>
-        <UsageCount Value="82"/>
+        <CursorPos Y="24"/>
+        <UsageCount Value="138"/>
       </Unit>
       <Unit>
         <Filename Value="mainunit.pas"/>
@@ -21,34 +20,35 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="196"/>
-        <CursorPos X="18" Y="211"/>
+        <TopLine Value="75"/>
+        <CursorPos X="6" Y="81"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
           <CursorPos X="28" Y="9"/>
         </ExtraEditor1>
-        <UsageCount Value="82"/>
+        <UsageCount Value="138"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="languages.pas"/>
         <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="3"/>
         <TopLine Value="8"/>
         <CursorPos X="35" Y="78"/>
-        <UsageCount Value="57"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="113"/>
       </Unit>
       <Unit>
         <Filename Value="lexer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lexer"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="172"/>
-        <CursorPos X="30" Y="212"/>
-        <UsageCount Value="31"/>
+        <TopLine Value="230"/>
+        <CursorPos X="42" Y="254"/>
+        <FoldState Value=" T3iZ0D3 PiSb0i"/>
+        <UsageCount Value="87"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -59,14 +59,14 @@
         <WindowIndex Value="1"/>
         <TopLine Value="13"/>
         <CursorPos X="15" Y="15"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="87"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\rasterimage.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="425"/>
         <CursorPos X="11" Y="428"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\graphics.pp"/>
@@ -74,145 +74,146 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1267"/>
         <CursorPos X="14" Y="1284"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\icon.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="400"/>
         <CursorPos X="83" Y="424"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\winunits-jedi\src\jwawinuser.pas"/>
         <UnitName Value="JwaWinUser"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="744"/>
-        <CursorPos X="3" Y="762"/>
-        <UsageCount Value="13"/>
+        <TopLine Value="3827"/>
+        <CursorPos X="88" Y="3834"/>
+        <UsageCount Value="41"/>
+        <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="102" TopLine="92"/>
+        <Caret Line="210" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="142" TopLine="95"/>
+        <Caret Line="201" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="164" TopLine="133"/>
+        <Caret Line="228" TopLine="206"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="167" Column="52" TopLine="133"/>
+        <Caret Line="253" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="110" TopLine="83"/>
+        <Caret Line="254" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="132" TopLine="85"/>
+        <Caret Line="250" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="133" TopLine="86"/>
+        <Caret Line="251" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="134" TopLine="87"/>
+        <Caret Line="252" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="139" TopLine="92"/>
+        <Caret Line="284" TopLine="258"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="102" TopLine="92"/>
+        <Caret Line="241" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="142" TopLine="95"/>
+        <Caret Line="242" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="164" TopLine="133"/>
+        <Caret Line="243" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="167" TopLine="133"/>
+        <Caret Line="244" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="163" TopLine="133"/>
+        <Caret Line="245" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="110" TopLine="83"/>
+        <Caret Line="246" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="132" TopLine="85"/>
+        <Caret Line="248" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="133" TopLine="86"/>
+        <Caret Line="249" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="111" TopLine="81"/>
+        <Caret Line="250" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="135" Column="28" TopLine="112"/>
+        <Caret Line="251" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="148" Column="32" TopLine="122"/>
+        <Caret Line="252" TopLine="218"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="173" Column="54" TopLine="147"/>
+        <Caret Line="202" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="99" Column="38" TopLine="68"/>
+        <Caret Line="204" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="106" TopLine="68"/>
+        <Caret Line="205" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="112" TopLine="68"/>
+        <Caret Line="206" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="114" TopLine="68"/>
+        <Caret Line="210" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="106" TopLine="68"/>
+        <Caret Line="201" TopLine="179"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="112" TopLine="68"/>
+        <Caret Line="228" TopLine="206"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="106" TopLine="72"/>
+        <Caret Line="253" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="194" Column="11" TopLine="157"/>
+        <Caret Line="254" Column="22" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="lexer.pas"/>
-        <Caret Line="193" Column="24" TopLine="99"/>
+        <Caret Line="253" Column="71" TopLine="230"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -235,12 +236,32 @@
     </HistoryLists>
   </ProjectSession>
   <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="lexer.pas"/>
+        <Line Value="242"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="lexer.pas"/>
+        <Line Value="285"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="lexer.pas"/>
+        <Line Value="202"/>
+      </Item>
+    </BreakPoints>
     <Watches>
       <Item>
         <Expression Value="currToken"/>
-      </Item>
-      <Item>
-        <Expression Value="tkn"/>
       </Item>
       <Item>
         <Expression Value="currPositionInLine"/>
@@ -256,6 +277,18 @@
       </Item>
       <Item>
         <Expression Value="currToken^.TokenType &lt;> EOF_TYPE"/>
+      </Item>
+      <Item>
+        <Expression Value="@ParseModifier"/>
+      </Item>
+      <Item>
+        <Expression Value="point^"/>
+      </Item>
+      <Item>
+        <Expression Value="point^^"/>
+      </Item>
+      <Item>
+        <Expression Value="(point^)^"/>
       </Item>
     </Watches>
   </Debugging>

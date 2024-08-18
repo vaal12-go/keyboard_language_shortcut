@@ -9,15 +9,22 @@ uses
 
 type
   TParserFunc = ^ParserFunc;
-  ParserFunc = function(tkn: PToken; shortCutRec: PTShortcutLangRec): TParserFunc;
-
+  ParserFunc = function(tkn: PToken): TParserFunc of object;
+  //FuncPointer = function:ParserFunc of object;
 
   TParser = class
+    function ParseKey(tkn: PToken): TParserFunc;
+    function ParseModifier(tkn: PToken): TParserFunc;
+    function ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
+
+    private
+    shLangRec: PTShortcutLangRec;
+
   end;//  TParser = class
 
   //ParserFunc = function:pointer;
 
-  function ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
+  //function ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 
 
 implementation
@@ -39,12 +46,12 @@ var
     end;
   end;//function IsModifier(ident : string): integer;
 
-function ParseKey(tkn: PToken; shortCutRec: PTShortcutLangRec): ParserFunc;
+function TParser.ParseKey(tkn: PToken): TParserFunc;
 begin
   exit(nil);
 end;
 
-function ParseModifier(tkn: PToken; shortCutRec: PTShortcutLangRec): ParserFunc;
+function TParser.ParseModifier(tkn: PToken): TParserFunc;
 var
   currMod: integer;
 begin
@@ -54,21 +61,21 @@ begin
       currMod := IsModifier(tkn^.TokenLiteral);
       if currMod = -1 then
       begin
-        exit(ParseKey(tkn, shortCutRec));
+        exit(ParseKey(tkn));
       end
       else
       begin
-        exit(PARSEMODIFIER_FUNC);
+        exit(@PARSEMODIFIER_FUNC);
       end;
     end;//IDENTIFIER: begin
     HYPHEN: begin
       DebugLn('ParseModifier: have hyphen');
-      exit(PARSEMODIFIER_FUNC);
+      exit(@PARSEMODIFIER_FUNC);
     end;
 
     COLON: begin
       DebugLn('ParseModifier: have colon');
-      exit(PARSEKEY_FUNC);
+      exit(@PARSEKEY_FUNC);
     end;
     else
     begin
@@ -79,18 +86,18 @@ begin
   end;
 end;
 
-function ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
+function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 var
   i: integer;
   currTkn: PToken;
   phase: string;
   currParserFunc, tempParserFunc: ParserFunc;
-  shLangRec: PTShortcutLangRec;
-  point: pointer;
+  point: TParserFunc;
+  //procPointer : FuncPointer;
 begin
-  PARSEMODIFIER_FUNC := ParserFunc(@ParseModifier);
-  PARSEKEY_FUNC := ParserFunc(@ParseKey);
-  currParserFunc := ParserFunc(@ParseModifier);
+  PARSEMODIFIER_FUNC := ParserFunc(@Self.ParseModifier);
+  PARSEKEY_FUNC := ParserFunc(@Self.ParseKey);
+  currParserFunc := ParserFunc(@Self.ParseModifier);
   new(shLangRec);
   shLangRec^.KbModifierArr := [];
   shLangRec^.Key := -1;
@@ -102,8 +109,8 @@ begin
   for currTkn in tkn_array do
   begin
     PrintToken(currTkn);
-    point := currParserFunc(currTkn, shLangRec);
-    currParserFunc := ParserFunc(point);
+    point := currParserFunc(currTkn);
+    currParserFunc := ParserFunc(point^);
     if currParserFunc = nil then break;
   end;//for currTkn in tkn_array do begin
 end;

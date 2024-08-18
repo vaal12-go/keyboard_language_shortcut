@@ -10,13 +10,6 @@ uses
 
 type
 
-
-
-
-
-
-
-
   TLexer = class
     procedure TestCall();
     procedure StartLine(textLine: string);
@@ -35,14 +28,7 @@ type
 function ParseLine(line: string): PTShortcutLangRec;
 //function ParseModifier(tkn: PToken; shortCutRec: PTShortcutLangRec): ParserFunc;
 
-
-
-
-
-
 implementation
-
-
 
 function TLexer.ReadIdentifier(firstChar: char): string;
 var
@@ -142,17 +128,13 @@ begin
 end;
 
 
-
-
-
-
-
 function ParseLine(line: string): PTShortcutLangRec;
 var
   shLangRec: PTShortcutLangRec;
   lx: TLexer;
   currToken: PToken;
   tkn_arr: LineOfTokens;
+  prs : TParser;
 begin
   lx := TLexer.Create();
   lx.TestCall();
@@ -173,7 +155,8 @@ begin
     end;
   until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);
 
-  shLangRec := ParseLineOfTokens(tkn_arr);
+  prs := TParser.Create();
+  shLangRec := prs.ParseLineOfTokens(tkn_arr);
 
   if shLangRec^.langName = '' then exit(nil)
   else

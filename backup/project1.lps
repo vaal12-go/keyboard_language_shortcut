@@ -9,8 +9,9 @@
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <CursorPos X="60" Y="13"/>
-        <UsageCount Value="141"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="58" Y="13"/>
+        <UsageCount Value="142"/>
       </Unit>
       <Unit>
         <Filename Value="mainunit.pas"/>
@@ -21,13 +22,13 @@
         <UnitName Value="MainUnit"/>
         <WindowIndex Value="2"/>
         <TopLine Value="200"/>
-        <CursorPos X="7" Y="212"/>
+        <CursorPos X="6" Y="203"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
           <CursorPos X="28" Y="9"/>
         </ExtraEditor1>
-        <UsageCount Value="141"/>
+        <UsageCount Value="142"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -38,16 +39,15 @@
         <WindowIndex Value="3"/>
         <TopLine Value="8"/>
         <CursorPos X="35" Y="78"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="117"/>
       </Unit>
       <Unit>
         <Filename Value="lexer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lexer"/>
-        <TopLine Value="43"/>
-        <CursorPos X="13" Y="35"/>
-        <FoldState Value=" T3iJ08P"/>
-        <UsageCount Value="90"/>
+        <CursorPos X="17" Y="137"/>
+        <FoldState Value=" T3i508K"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -58,14 +58,14 @@
         <WindowIndex Value="1"/>
         <TopLine Value="13"/>
         <CursorPos X="15" Y="15"/>
-        <UsageCount Value="90"/>
+        <UsageCount Value="91"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\rasterimage.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="425"/>
         <CursorPos X="11" Y="428"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\graphics.pp"/>
@@ -73,14 +73,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1267"/>
         <CursorPos X="14" Y="1284"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\icon.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="400"/>
         <CursorPos X="83" Y="424"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\winunits-jedi\src\jwawinuser.pas"/>
@@ -97,8 +97,9 @@
         <UnitName Value="Parser"/>
         <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <CursorPos X="28" Y="28"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="54"/>
+        <CursorPos X="13" Y="75"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -106,8 +107,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="LexerConstants"/>
         <WindowIndex Value="3"/>
-        <CursorPos X="31" Y="8"/>
-        <UsageCount Value="23"/>
+        <CursorPos Y="9"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
@@ -116,124 +117,124 @@
     </General>
     <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="201" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="228" TopLine="206"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="254" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="255" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="251" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="252" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="253" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="202" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="204" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="205" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="206" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="207" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="201" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="228" TopLine="206"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="254" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="255" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="239" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="257" TopLine="230"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="287" TopLine="259"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="62" TopLine="41"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
-        <Caret Line="8" Column="27"/>
-      </Position>
-      <Position>
-        <Filename Value="lexerconstants.pas"/>
-        <Caret Column="20"/>
+        <Caret Line="63" TopLine="41"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
-        <Caret Line="8" Column="47"/>
+        <Caret Line="64" TopLine="41"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
-        <Caret Line="32" Column="54"/>
+        <Caret Line="70" Column="32" TopLine="41"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
-        <Caret Line="8" Column="59"/>
-      </Position>
-      <Position>
-        <Filename Value="lexerconstants.pas"/>
-        <Caret Line="30" Column="35" TopLine="16"/>
-      </Position>
-      <Position>
-        <Filename Value="lexerconstants.pas"/>
-        <Caret Line="8" Column="31"/>
+        <Caret Line="59" TopLine="41"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
-        <Caret Line="67" Column="4" TopLine="64"/>
+        <Caret Line="89" TopLine="69"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
-        <Caret Line="74" Column="72" TopLine="54"/>
+        <Caret Line="98" Column="21" TopLine="80"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
-        <Caret Line="15" Column="74"/>
+        <Caret Line="114" TopLine="80"/>
       </Position>
       <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="36" Column="83" TopLine="16"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="115" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="62" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="63" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="64" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="70" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="59" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="89" TopLine="69"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="117" Column="23" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="114" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="115" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="62" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="63" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="64" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="70" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="59" TopLine="41"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="89" TopLine="69"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="117" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="56" Column="47" TopLine="30"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="19" Column="42"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="12" Column="40"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="19" Column="43" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="70" Column="15" TopLine="49"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -261,8 +262,15 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="lexer.pas"/>
-        <Line Value="176"/>
+        <Source Value="parser.pas"/>
+        <Line Value="114"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="parser.pas"/>
+        <Line Value="62"/>
       </Item>
     </BreakPoints>
     <Watches>
@@ -286,6 +294,12 @@
       </Item>
       <Item>
         <Expression Value="@ParseModifier"/>
+      </Item>
+      <Item>
+        <Expression Value="PARSEMODIFIER_FUNC"/>
+      </Item>
+      <Item>
+        <Expression Value="point^"/>
       </Item>
     </Watches>
   </Debugging>

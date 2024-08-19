@@ -24,10 +24,13 @@ type
     KbModifierArr: array of integer;
     Key: integer;
     langName: string;
+    langCode: integer;
     langIconName: string;
   end;
 
 procedure PrintToken(tkn: PToken);
+procedure PrintTokenArray(tknArr: LineOfTokens);
+procedure PrintShortcutLangRec(langRec: PTShortcutLangRec);
 
 const
   HASHTAG = '#';
@@ -45,6 +48,25 @@ const
 
 
 implementation
+
+procedure PrintShortcutLangRec(langRec: PTShortcutLangRec);
+var
+  currMod : integer;
+  modifStr : string;
+begin
+  if langRec = nil then
+    DebugLn('Have NIL ShortcutLangRec')
+  else
+  begin
+    DebugLn('*****  Have ShortcutLangRec: *****');
+    modifStr:='';
+    for currMod in langRec^.KbModifierArr do begin
+      modifStr := modifStr + ' | '+IntToStr(currMod);
+    end;
+    DebugLn('Modifiers:'+modifStr);
+    DebugLn('Key:'+IntToStr(langRec^.Key)+'LangCode:'+IntToStr(langRec^.langCode));
+  end;
+end;
 
 procedure PrintToken(tkn: PToken);
 begin

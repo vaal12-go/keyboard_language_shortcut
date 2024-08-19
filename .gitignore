@@ -360,3 +360,9 @@ LangChange_05Apr2024.exe
 /lib/i386-win32/lexer.ppu
 /lib/i386-win32/parser.o
 /lib/i386-win32/parser.ppu
+/backup/mainunit.lfm
+/backup/mainunit.pas
+/backup/parser.pas
+/backup/lexer.pas
+/lib/i386-win32/lexerconstants.o
+/lib/i386-win32/lexerconstants.ppu

@@ -115,13 +115,14 @@ var
   prs: TParser;
 begin
   lx := TLexer.Create();
-  lx.TestCall();
   lx.StartLine(line);
   DebugLn(sLineBreak + sLineBreak + 'Starting new line');
   tkn_arr := [];
   repeat
     begin
       currToken := lx.NextToken();
+      if currToken = nil then
+        break;
       PrintToken(currToken);
       if currToken^.TokenType = HASHTAG then
       begin
@@ -130,7 +131,9 @@ begin
       end;
       insert(currToken, tkn_arr, Length(tkn_arr));
     end;
-  until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);
+  until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);//EOF is not needed
+
+  PrintTokenArray(tkn_arr);
 
   prs := TParser.Create();
   shLangRec := prs.ParseLineOfTokens(tkn_arr);

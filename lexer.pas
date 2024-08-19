@@ -11,24 +11,38 @@ uses
 type
 
   TLexer = class
-    procedure TestCall();
+    //procedure TestCall();
     procedure StartLine(textLine: string);
     function NextToken(): PToken;
-    //procedure Create(textLine :string);
 
   private
     lexingLine: string;
     currPositionInLine: integer;
-    //currSymbol : char;
     function ReadChar(): char;
     function ReadIdentifier(firstChar: char): string;
+    function ReadNumber(firstChar: char): string;
     procedure SkipWhiteSpace();
   end;//TLexer = class
 
-//function ParseLine(line: string): PTShortcutLangRec;
-//function ParseModifier(tkn: PToken; shortCutRec: PTShortcutLangRec): ParserFunc;
 
 implementation
+
+function TLexer.ReadNumber(firstChar: char): string;
+var
+  retStr: string;
+  currChar: char;
+begin
+  retStr := '';
+  currChar := firstChar;
+  while TCharacter.IsDigit(currChar) do
+  begin
+    retStr := retStr + lexingLine[currPositionInLine];
+    currChar := ReadChar();
+  end;
+  if currChar <> char(0) then //End of line
+    currPositionInLine := currPositionInLine-1;
+  exit(retStr);
+end;
 
 function TLexer.ReadIdentifier(firstChar: char): string;
 var
@@ -37,23 +51,28 @@ var
 begin
   retStr := '';
   currChar := firstChar;
-  while (currChar <> '') and (TCharacter.IsLetterOrDigit(currChar)) do
+  while TCharacter.IsLetterOrDigit(currChar) do
   begin
     retStr := retStr + lexingLine[currPositionInLine];
     currChar := ReadChar();
   end;
-  currPositionInLine := currPositionInLine - 1;
+  if currPositionInLine<>EOF_POSITION then
+    currPositionInLine := currPositionInLine-1;
   exit(retStr);
 end;
 
 procedure TLexer.SkipWhiteSpace();
 var
   currChar: char;
+  prevPos : integer;
 begin
+  if currPositionInLine = EOF_POSITION then exit();
+  prevPos := currPositionInLine;
   currChar := lexingLine[currPositionInLine];
   while TCharacter.IsWhiteSpace(currChar) do
     currChar := ReadChar();
-
+  if (currPositionInLine<>EOF_POSITION) and (prevPos<>currPositionInLine) then
+    currPositionInLine := currPositionInLine-1;
 end;
 
 function TLexer.ReadChar(): char;
@@ -73,22 +92,26 @@ end;
 function TLexer.NextToken(): PToken;
 var
   tkn: PToken;
+  currChar : char;
 begin
   new(tkn);
-  ReadChar();
-  if currPositionInLine = EOF_POSITION then
-  begin
-    tkn^.TokenType := EOF_TYPE;
-    tkn^.TokenLiteral := '';
-    exit(tkn);
+
+
+  currChar := ReadChar();
+  if TCharacter.IsWhiteSpace(currChar) then begin
+    SkipWhiteSpace();
+    currChar := ReadChar();
   end;
-
-  SkipWhiteSpace();
-
+  //if currPositionInLine = EOF_POSITION then
+  //begin
+  //  tkn^.TokenType := EOF_TYPE;
+  //  tkn^.TokenLiteral := '';
+  //  exit(tkn);
+  //end;
   if currPositionInLine = EOF_POSITION then
     exit(nil);
 
-  case lexingLine[currPositionInLine] of
+  case currChar of
     HASHTAG: begin
       tkn^.TokenType := HASHTAG;
       tkn^.TokenLiteral := lexingLine[currPositionInLine];
@@ -110,25 +133,24 @@ begin
       tkn^.TokenLiteral := lexingLine[currPositionInLine];
     end;
     char(0): begin
-      tkn^.TokenType := EOF_TYPE;
-      tkn^.TokenLiteral := '';
+      exit(nil);
     end;
-    else
-    begin
-      if TCharacter.IsLetterOrDigit(lexingLine[currPositionInLine]) then
-      begin
-        tkn^.TokenType := IDENTIFIER;
-        tkn^.TokenLiteral := ReadIdentifier(lexingLine[currPositionInLine]);
+    else begin
+      if TCharacter.IsLetterOrDigit(lexingLine[currPositionInLine]) then begin
+        if TCharacter.IsDigit(lexingLine[currPositionInLine]) then begin
+          tkn^.TokenType := NUMBER;
+          tkn^.TokenLiteral := ReadIdentifier(lexingLine[currPositionInLine]);
+        end
+        else begin
+          tkn^.TokenType := IDENTIFIER;
+          tkn^.TokenLiteral := ReadIdentifier(lexingLine[currPositionInLine]);
+        end;
       end;
     end;
-  end;
-
+  end;//case currChar of
+  if tkn^.TokenLiteral = '' then exit(nil);
   exit(tkn);
-
-end;
-
-
-
+end; //function TLexer.NextToken(): PToken;
 
 procedure TLexer.StartLine(textLine: string);
 begin
@@ -137,10 +159,10 @@ begin
   currPositionInLine := 0;
 end;
 
-procedure TLexer.TestCall();
-begin
-  DebugLn('I am Lexer');
-
-end;
+//procedure TLexer.TestCall();
+//begin
+//  DebugLn('I am Lexer');
+//
+//end;
 
 end.

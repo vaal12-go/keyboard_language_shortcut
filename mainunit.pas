@@ -192,13 +192,13 @@ procedure TMainAppForm.Button1Click(Sender: TObject);
 var
    vCode: PTVirtualCode;
 begin
-  //ParseLanguageConf();
-  LoadVirtualCodesFromFile();
-  vCode := FindVirtualCodeString('VK_FINAL');
-
-  vCode := FindVirtualCodeString('VK_XBUTTON2');
-  vCode := FindVirtualCodeString('qwe2');
-  vCode := FindVirtualCodeString('VK_XBUTTON2');
+  ParseLanguageConf();
+  //LoadVirtualCodesFromFile();
+  //vCode := FindVirtualCodeString('VK_FINAL');
+  //
+  //vCode := FindVirtualCodeString('VK_XBUTTON2');
+  //vCode := FindVirtualCodeString('qwe2');
+  //vCode := FindVirtualCodeString('VK_XBUTTON2');
 
 end;
 

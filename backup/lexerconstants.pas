@@ -5,7 +5,7 @@ unit LexerConstants;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, LazLogger;
 
 type
 
@@ -37,12 +37,11 @@ const
   CLOSE_SQ_BRACKET = ']';
 
   IDENTIFIER = 'IDENTIFIER';
+  NUMBER = 'NUMBER';
   EOF_POSITION = -100;
 
   EOF_TYPE = 'EOF';
   EOFCH = char(0);
-
-
 
 
 implementation
@@ -53,8 +52,17 @@ begin
     DebugLn('Have NIL token')
   else
   begin
-    DebugLn('Have token:' + tkn^.TokenType);
-    DebugLn(#9 + tkn^.TokenLiteral);
+    DebugLn('Have token:' + tkn^.TokenType+' Literal:'+tkn^.TokenLiteral);
+  end;
+end;
+
+procedure PrintTokenArray(tknArr: LineOfTokens);
+var
+  currToken : PToken;
+begin
+  DebugLn(sLineBreak+'Token Array:');
+  for currToken in tknArr do begin
+    PrintToken(currToken);
   end;
 end;
 

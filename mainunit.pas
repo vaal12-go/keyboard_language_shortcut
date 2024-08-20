@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, Windows, LazLogger, JwaWinUser, registry, languages,  RegistryRegistration, Parser;
+  Menus, Windows, LazLogger, JwaWinUser, registry, languages,
+  RegistryRegistration, Parser, ShellApi;
 
 type
 
@@ -17,6 +18,9 @@ type
     Result: longint;
   end;
 
+  HKLArray = array [0..1000] of HKL;
+  PHKL = ^HKL;
+
   { TMainAppForm }
 
   TMainAppForm = class(TForm)
@@ -26,31 +30,36 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     AddToStartMenuItem: TMenuItem;
+    ListCodes: TMenuItem;
+    OpenConfInNotepad: TMenuItem;
     RemoveFromStartMenuItem: TMenuItem;
     Separator1: TMenuItem;
     ExitContextMenuItem: TMenuItem;
     LanguageNameTimer: TTimer;
     Separator2: TMenuItem;
+    Separator3: TMenuItem;
     TrayPopupMenu: TPopupMenu;
     TrayIcon: TTrayIcon;
 
 
     procedure AddToStartMenuItemClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
+    //procedure FormActivate(Sender: TObject);
     procedure ExitContextMenuItemClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
+    procedure ListCodesClick(Sender: TObject);
+    procedure OpenConfInNotepadClick(Sender: TObject);
     procedure RemoveFromStartMenuItemClick(Sender: TObject);
 
 
   private
-    ApplicationFilePath : string;
+    ApplicationFilePath: string;
 
   public
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
     procedure UpdateLanguageState();
-    procedure UpdateLanguageIcon(langRec : PTlangRec);
+    procedure UpdateLanguageIcon(langRec: PTlangRec);
 
   end;//TMainAppForm = class(TForm)
 
@@ -63,33 +72,23 @@ implementation
 
 { TMainAppForm }
 
-procedure TMainAppForm.FormActivate(Sender: TObject);
-begin
-
-end;
-
 procedure TMainAppForm.ExitContextMenuItemClick(Sender: TObject);
 begin
   self.Close();
 end;
 
-
-
 procedure TMainAppForm.FormShow(Sender: TObject);
-//var
-  //appPath: string;
 begin
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
   self.ApplicationFilePath := ExtractFilePath(Application.ExeName);
-  DebugLn('have handle');
-  DebugLn(self.ApplicationFilePath);
+  //DebugLn('have handle');
+  //DebugLn(self.ApplicationFilePath);
   languages.loadLanguageRecords(self.ApplicationFilePath);
 
   Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
   //http://kbdedit.com/manual/low_level_vk_list.html
   Windows.RegisterHotKey(self.Handle, 2, MOD_ALT, VK_OEM_6); //}
   Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
-
 
   //OLD with Ctrl
   //Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
@@ -98,22 +97,22 @@ begin
   //Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
 
   //Windows.RegisterHotKey(self.Handle, 4, MOD_CONTROL, VK_K);  //{
-
-
   //self.Hide();
   self.UpdateLanguageState();
 end; //procedure TMainAppForm.FormShow(Sender: TObject);
 
-procedure TMainAppForm.UpdateLanguageIcon(langRec : PTlangRec);
+procedure TMainAppForm.UpdateLanguageIcon(langRec: PTlangRec);
 var
   errStr: string;
 begin
-  if langRec^.LanguageIcon <> nil then begin
-        self.TrayIcon.Icon :=   langRec^.LanguageIcon
+  if langRec^.LanguageIcon <> nil then
+  begin
+    self.TrayIcon.Icon := langRec^.LanguageIcon;
   end
-  else begin
-      errStr := 'Have language without icon:'+langRec^.LanguageName +sLineBreak;
-      errStr := errStr + '    code:'+InttoStr(langRec^.LanguageCode) +sLineBreak;
+  else
+  begin
+    errStr := 'Have language without icon:' + langRec^.LanguageName + sLineBreak;
+    errStr := errStr + '    code:' + IntToStr(langRec^.LanguageCode) + sLineBreak;
     DebugLn(errStr);
     ShowMessage(errStr);
   end;
@@ -123,7 +122,7 @@ begin
   ////self.TrayIcon.Icon.AssignImage(self.ENIcon);
   //if lang = 1049 then //RU
   //  self.TrayIcon.Icon := self.ruIcon;
-  //
+
   //if lang = 1058 then //UKR
   //  self.TrayIcon.Icon := self.ukrIcon;
 end;
@@ -167,58 +166,60 @@ begin
   self.UpdateLanguageState();
 end;
 
-procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
-var
-  Registry: TRegistry;
+procedure TMainAppForm.ListCodesClick(Sender: TObject);
 begin
-  ShowMessage('Will remove from autostart');
-  Registry := TRegistry.Create;
-  try
-    // Navigate to proper "directory":
-    Registry.RootKey := HKEY_CURRENT_USER;
-    //if Registry.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\Run') then
-    if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run\',
-      False) then
-      //CompileCommand:=Registry.ReadString(''); //read the value of the default name
-      Registry.DeleteValue('KeyboardLangChange')
-      //Registry.WriteString(, '');
-  finally
-    Registry.Free  // In non-Windows operating systems this flushes the reg.xml file to disk
+  ShowMessage('Not implemented');
 end;
 
-  end; //procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
+procedure TMainAppForm.OpenConfInNotepadClick(Sender: TObject);
+begin
+  //https://wiki.freepascal.org/Executing_External_Programs#SysUtils.ExecuteProcess
+   //ShowMessage(ExtractFilePath(Application.ExeName));
+   //ExecuteProcess(ExtractFilePath(Application.ExeName), 'start notepad.exe languages.conf');
+   ShellExecute(0,nil, PChar('notepad.exe'),PChar('languages.conf'),nil,1)
+end;
+
+procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
+begin
+  RemoveFromStartMenu();
+end; //procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
 
 procedure TMainAppForm.Button1Click(Sender: TObject);
 var
-   vCode: PTVirtualCode;
-begin
-  ParseLanguageConf();
-  //LoadVirtualCodesFromFile();
-  //vCode := FindVirtualCodeString('VK_FINAL');
-  //
-  //vCode := FindVirtualCodeString('VK_XBUTTON2');
-  //vCode := FindVirtualCodeString('qwe2');
-  //vCode := FindVirtualCodeString('VK_XBUTTON2');
+  hkArray : ^HKLArray;
+  hk : ^HKL;
 
+  ptr : pointer;
+  i, res: integer;
+  layoutName : string;
+//  vCode: PTVirtualCode;
+begin
+  //ptr := &hkArray;
+  new(hkArray);
+  i:=0;
+  while i<Length(hkArray^) do begin
+    hkArray^[i]:=0;
+    i:=i+1;
+  end;
+  //prt := PH
+
+  //https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutlist
+  res := GetKeyboardLayoutList(100, PHKL(hkArray));
+  i:=0;
+  while i<res do begin
+    DebugLn('Have language handle:'+IntToStr(hkArray^[i]));
+    DebugLn('Hex value:'+IntToHex(hkArray^[i]));
+
+    i:=i+1;
+  end;
+  ParseLanguageConf();
 end;
 
 procedure TMainAppForm.AddToStartMenuItemClick(Sender: TObject);
-var
-  Registry: TRegistry;
+//var
+//  Registry: TRegistry;
 begin
   AddToStartMenu(Application.ExeName);
-  //Registry := TRegistry.Create;
-  //try
-  //  // Navigate to proper "directory":
-  //  Registry.RootKey := HKEY_CURRENT_USER;
-  //  //if Registry.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\Run') then
-  //  if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run\',
-  //    False) then
-  //    //CompileCommand:=Registry.ReadString(''); //read the value of the default name
-  //    Registry.WriteString('KeyboardLangChange', '"' + Application.ExeName + '"');
-  //finally
-  //  Registry.Free;  // In non-Windows operating systems this flushes the reg.xml file to disk
-  //end;
 end;
 
 procedure ActivateLanguage(const lng_const: string);
@@ -227,7 +228,6 @@ var
   forWindowHandle, parentHandle: HWND;
   lang_str: PChar;
 begin
-
   lang_str := PChar(lng_const);
   hk := Windows.LoadKeyboardLayoutA(lang_str, JwaWinUser.KLF_ACTIVATE or
     JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS);
@@ -258,7 +258,7 @@ begin
   begin
     ActivateLanguage('00000409');
     self.Caption := 'EN';
-    langRec :=  languages.findLanguageByCode(1033);
+    langRec := languages.findLanguageByCode(1033);
     self.UpdateLanguageIcon(langRec);
     //newIcon.LoadFromFile(
     //  appPath+'icons\EN_64x64_05Apr2024.ico');
@@ -270,7 +270,7 @@ begin
     ActivateLanguage('00000419');
     //hk := Windows.LoadKeyboardLayoutW('00000419', 0);
     self.Caption := 'RUS';
-    langRec :=  languages.findLanguageByCode(1049);
+    langRec := languages.findLanguageByCode(1049);
     self.UpdateLanguageIcon(langRec);
     //self.TrayIcon.Hide();
     //self.TrayIcon.Icon.AssignImage(self.RUIcon);
@@ -285,7 +285,7 @@ begin
     ActivateLanguage('00000422');
     //hk := Windows.LoadKeyboardLayoutW('00000422', 0);
     self.Caption := 'UKR';
-    langRec :=  languages.findLanguageByCode(1058);
+    langRec := languages.findLanguageByCode(1058);
     self.UpdateLanguageIcon(langRec);
     //newIcon.LoadFromFile(
     //  appPath+'icons\UKR_64x64_05Apr2024.ico');

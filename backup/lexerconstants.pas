@@ -58,6 +58,7 @@ begin
     DebugLn('Have NIL ShortcutLangRec')
   else
   begin
+    DebugLn();
     DebugLn('*****  Have ShortcutLangRec: *****');
     modifStr:='';
     for currMod in langRec^.KbModifierArr do begin

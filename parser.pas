@@ -5,7 +5,7 @@ unit Parser;
 interface
 
 uses
-  Classes, SysUtils, LexerConstants, LazLogger, JwaWinUser, lexer;
+  Classes, SysUtils, LexerConstants, LazLogger, JwaWinUser, lexer, Dialogs;
 
 type
 
@@ -32,6 +32,15 @@ type
 
   end;//  TParser = class
 
+  TParserException = Class(Exception)
+    public
+      Description: string;
+      Token : PToken;
+      Constructor Create(descr: string = ''; tkn: PToken = nil);
+
+
+  end;
+
 procedure ParseLanguageConf();
 procedure LoadVirtualCodesFromFile();
 function FindVirtualCodeString(s: string): PTVirtualCode;
@@ -52,6 +61,11 @@ var
   PARSELANGCODE_FUNC: ParserFunc;
   virtCodeArr: array of ^TVirtualCode;
 
+Constructor TParserException.Create(descr: string = ''; tkn: PToken = nil);
+begin
+  Description:=descr;
+  Token:=tkn;
+end;
 
 function FindVirtualCodeString(s: string): PTVirtualCode;
 var
@@ -109,8 +123,6 @@ begin
   end;
 end;
 
-
-
 function ParseLine(line: string): PTShortcutLangRec;
 var
   shLangRec: PTShortcutLangRec;
@@ -131,7 +143,7 @@ begin
       //PrintToken(currToken);
       if currToken^.TokenType = HASHTAG then
       begin
-        DebugLn('Found hashtag - skipping to the end of line');
+        //DebugLn('Found hashtag - skipping to the end of line');
         Break;
       end;
       insert(currToken, tkn_arr, Length(tkn_arr));
@@ -166,7 +178,16 @@ begin
     begin
       readln(tfIn, s);
       DebugLn(s);
-      ParseLine(s);
+      try
+        ParseLine(s);
+      except
+        on E : TParserException do begin
+          ShowMessage('Error on line: '+s+
+                sLineBreak+E.Description+
+                sLineBreak+'Token:'+E.Token^.TokenLiteral);
+        end;
+      end;
+
     end;
 
     // Done so close the file
@@ -198,11 +219,11 @@ var
 begin
   case currToken^.TokenType of
     COLON: begin
-      DebugLn('ParseLangCode: have colon');
+      //DebugLn('ParseLangCode: have colon');
       exit(@PARSELANGCODE_FUNC);
     end;
     NUMBER: begin
-      DebugLn('ParseLangCode: have number');
+      //DebugLn('ParseLangCode: have number');
       Val(currToken^.TokenLiteral, shLangRec^.langCode, Code);
       //TODO: Add checking for error Code
     end;
@@ -217,12 +238,12 @@ begin
   case currToken^.TokenType of
     IDENTIFIER: begin
       vCode := FindVirtualCodeString(currToken^.TokenLiteral);
-      if vCode = nil then
-      begin
+      if vCode = nil then begin
+        raise TParserException.Create(
+            'Unknown virtual key name supplied:'+currToken^.TokenLiteral, currToken);
         exit(nil);//Should throw error as this is neither a modifier nor a key
       end
-      else
-      begin
+      else begin
         shLangRec^.Key := vCode^.CodeNumber;
         exit(@PARSELANGCODE_FUNC);
       end;
@@ -286,6 +307,7 @@ begin
   shLangRec^.Key := -1;
   shLangRec^.langName := '';
   shLangRec^.langIconName := '';
+  shLangRec^.langCode := -1;
 
   //DebugLn(sLineBreak + sLineBreak + 'Parsing line of tokens');
   //DebugLn('***********************************');

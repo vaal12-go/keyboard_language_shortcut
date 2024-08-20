@@ -51,7 +51,9 @@ var
 begin
   retStr := '';
   currChar := firstChar;
-  while TCharacter.IsLetterOrDigit(currChar) do
+  while (TCharacter.IsLetterOrDigit(currChar))
+         or
+        (currChar = '_') do
   begin
     retStr := retStr + lexingLine[currPositionInLine];
     currChar := ReadChar();

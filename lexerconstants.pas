@@ -65,7 +65,7 @@ begin
       modifStr := modifStr + ' | '+IntToStr(currMod);
     end;
     DebugLn('Modifiers:'+modifStr);
-    DebugLn('Key:'+IntToStr(langRec^.Key)+'LangCode:'+IntToStr(langRec^.langCode));
+    DebugLn('Key:'+IntToStr(langRec^.Key)+'  | LangCode:'+IntToStr(langRec^.langCode));
   end;
 end;
 

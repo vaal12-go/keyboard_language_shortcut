@@ -42,8 +42,8 @@ type
 
   end;
 
-function ParseLanguageConf(): PTShortcutLangRecArr;
-procedure LoadVirtualCodesFromFile();
+function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
+procedure LoadVirtualCodesFromFile(pathToApplicationFile: string);
 function FindVirtualCodeString(s: string): PTVirtualCodeLang;
 
 
@@ -87,7 +87,7 @@ begin
 end;
 
 
-procedure LoadVirtualCodesFromFile();
+procedure LoadVirtualCodesFromFile(pathToApplicationFile: string);
 var
   tfIn: TextFile;
   s: string;
@@ -158,13 +158,13 @@ begin
 
   //if shLangRec^.langName = '' then exit(nil)
   //else
-    exit(shLangRec);
+  exit(shLangRec);
 end;
 
-function ParseLanguageConf(): PTShortcutLangRecArr;
+function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
 var
-  retArray : array of PTShortcutLangRec;
-  currRec : PTShortcutLangRec;
+  retArray: array of PTShortcutLangRec;
+  currRec: PTShortcutLangRec;
   tfIn: TextFile;
   s: string;
 begin
@@ -192,15 +192,14 @@ begin
     on E: EInOutError do
       writeln('File handling error occurred. Details: ', E.Message);
     on E: TParserException do
-        begin
-          ShowMessage('Error on line: ' + s + sLineBreak + E.Description +
-            sLineBreak + 'Token:' + E.Token^.TokenLiteral);
-          exit(nil);
-        end;
+    begin
+      ShowMessage('Error on line: ' + s + sLineBreak + E.Description +
+        sLineBreak + 'Token:' + E.Token^.TokenLiteral);
+      exit(nil);
+    end;
   end;
 
   exit(retArray);
-
 
 end;
 
@@ -303,7 +302,7 @@ begin
   PARSEKEY_FUNC := ParserFunc(@Self.ParseKey);
   PARSELANGCODE_FUNC := ParserFunc(@Self.ParseLangCode);
 
-  LoadVirtualCodesFromFile();
+
 
   currParserFunc := ParserFunc(@Self.ParseModifier);
 
@@ -313,7 +312,7 @@ begin
   shLangRec^.langName := '';
   shLangRec^.langIconName := '';
   shLangRec^.langCode := -1;
-  shLangRec^.LanguageRec:= nil;
+  shLangRec^.LanguageRec := nil;
 
   //DebugLn(sLineBreak + sLineBreak + 'Parsing line of tokens');
   //DebugLn('***********************************');

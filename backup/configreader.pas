@@ -16,16 +16,16 @@ uses
 
 implementation
 
-procedure ReadConfigFile();
+procedure ReadConfigFile(pathToApplicationFile: string);
 var
   currShortcutRec: PTShortcutLangRec;
   currLangRec : PTLangRec;
 begin
   //ConfigPTShortcutLangRecArr := array of PTShortcutLangRec
-  ConfigPTShortcutLangRecArr := ParseLanguageConf();
+  ConfigPTShortcutLangRecArr := ParseLanguageConf(pathToApplicationFile);
   for currShortcutRec in ConfigPTShortcutLangRecArr do begin
     DebugLn('Have lang code:'+IntToStr(currShortcutRec^.langCode));
-    currLangRec := findLanguageByCode(currLangRec^.langCode);
+    currLangRec := findLanguageByCode(currShortcutRec^.langCode);
     PrintLangRecord(currLangRec);
   end;
 

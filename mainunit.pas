@@ -82,6 +82,7 @@ begin
   //DebugLn('have handle');
   //DebugLn(self.ApplicationFilePath);
   languages.loadLanguageRecords(self.ApplicationFilePath);
+  LoadVirtualCodesFromFile(self.ApplicationFilePath);
 
 
   //TODO: Alt modifier leads to 'freezing' of switching languages after several switches
@@ -106,7 +107,7 @@ begin
   //MItem.Name := ItemName;
   TrayPopupMenu.Items.Insert(2, MItem);
 
-  ReadConfigFile();
+  ReadConfigFile(self.ApplicationFilePath);
 
 
 

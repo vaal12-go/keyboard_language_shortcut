@@ -9,11 +9,12 @@ uses
 
 type
 
-  PTVirtualCode = ^TVirtualCode;
+  PTVirtualCodeLang = ^TVirtualCodeLang;
 
-  TVirtualCode = record
+  TVirtualCodeLang = record
     CodeString: string;
     CodeNumber: integer;
+    //LanguageRec: PTlangRec;
   end;
 
   TParserFunc = ^ParserFunc;
@@ -32,18 +33,18 @@ type
 
   end;//  TParser = class
 
-  TParserException = Class(Exception)
-    public
-      Description: string;
-      Token : PToken;
-      Constructor Create(descr: string = ''; tkn: PToken = nil);
+  TParserException = class(Exception)
+  public
+    Description: string;
+    Token: PToken;
+    constructor Create(descr: string = ''; tkn: PToken = nil);
 
 
   end;
 
-procedure ParseLanguageConf();
+function ParseLanguageConf(): PTShortcutLangRecArr;
 procedure LoadVirtualCodesFromFile();
-function FindVirtualCodeString(s: string): PTVirtualCode;
+function FindVirtualCodeString(s: string): PTVirtualCodeLang;
 
 
 //ParserFunc = function:pointer;
@@ -59,17 +60,17 @@ var
   PARSEMODIFIER_FUNC: ParserFunc;
   PARSEKEY_FUNC: ParserFunc;
   PARSELANGCODE_FUNC: ParserFunc;
-  virtCodeArr: array of ^TVirtualCode;
+  virtCodeArr: array of PTVirtualCodeLang;
 
-Constructor TParserException.Create(descr: string = ''; tkn: PToken = nil);
+constructor TParserException.Create(descr: string = ''; tkn: PToken = nil);
 begin
-  Description:=descr;
-  Token:=tkn;
+  Description := descr;
+  Token := tkn;
 end;
 
-function FindVirtualCodeString(s: string): PTVirtualCode;
+function FindVirtualCodeString(s: string): PTVirtualCodeLang;
 var
-  resVCode, currVCode: PTVirtualCode;
+  resVCode, currVCode: PTVirtualCodeLang;
 begin
   resVCode := nil;
   for currVCode in virtCodeArr do
@@ -90,7 +91,7 @@ procedure LoadVirtualCodesFromFile();
 var
   tfIn: TextFile;
   s: string;
-  virtCode: ^TVirtualCode;
+  virtCode: PTVirtualCodeLang;
   splitString: TStringArray;
 begin
   virtCodeArr := [];
@@ -155,13 +156,15 @@ begin
   prs := TParser.Create();
   shLangRec := prs.ParseLineOfTokens(tkn_arr);
 
-  if shLangRec^.langName = '' then exit(nil)
-  else
+  //if shLangRec^.langName = '' then exit(nil)
+  //else
     exit(shLangRec);
 end;
 
-procedure ParseLanguageConf();
+function ParseLanguageConf(): PTShortcutLangRecArr;
 var
+  retArray : array of PTShortcutLangRec;
+  currRec : PTShortcutLangRec;
   tfIn: TextFile;
   s: string;
 begin
@@ -178,16 +181,8 @@ begin
     begin
       readln(tfIn, s);
       DebugLn(s);
-      try
-        ParseLine(s);
-      except
-        on E : TParserException do begin
-          ShowMessage('Error on line: '+s+
-                sLineBreak+E.Description+
-                sLineBreak+'Token:'+E.Token^.TokenLiteral);
-        end;
-      end;
-
+      currRec := ParseLine(s);
+      insert(currRec, retArray, Length(retArray));
     end;
 
     // Done so close the file
@@ -196,7 +191,16 @@ begin
   except
     on E: EInOutError do
       writeln('File handling error occurred. Details: ', E.Message);
+    on E: TParserException do
+        begin
+          ShowMessage('Error on line: ' + s + sLineBreak + E.Description +
+            sLineBreak + 'Token:' + E.Token^.TokenLiteral);
+          exit(nil);
+        end;
   end;
+
+  exit(retArray);
+
 
 end;
 
@@ -233,17 +237,19 @@ end;
 function TParser.ParseKey(): TParserFunc;
 var
   currKey: string;
-  vCode: PTVirtualCode;
+  vCode: PTVirtualCodeLang;
 begin
   case currToken^.TokenType of
     IDENTIFIER: begin
       vCode := FindVirtualCodeString(currToken^.TokenLiteral);
-      if vCode = nil then begin
+      if vCode = nil then
+      begin
         raise TParserException.Create(
-            'Unknown virtual key name supplied:'+currToken^.TokenLiteral, currToken);
+          'Unknown virtual key name supplied:' + currToken^.TokenLiteral, currToken);
         exit(nil);//Should throw error as this is neither a modifier nor a key
       end
-      else begin
+      else
+      begin
         shLangRec^.Key := vCode^.CodeNumber;
         exit(@PARSELANGCODE_FUNC);
       end;
@@ -284,7 +290,6 @@ begin
   end;//case currToken^.TokenType of
 end;//function TParser.ParseModifier(): TParserFunc;
 
-
 function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 var
   i: integer;
@@ -308,6 +313,7 @@ begin
   shLangRec^.langName := '';
   shLangRec^.langIconName := '';
   shLangRec^.langCode := -1;
+  shLangRec^.LanguageRec:= nil;
 
   //DebugLn(sLineBreak + sLineBreak + 'Parsing line of tokens');
   //DebugLn('***********************************');
@@ -320,7 +326,7 @@ begin
     currParserFunc := ParserFunc(point^);
   end;//for currTkn in tkn_array do begin
 
-  PrintShortcutLangRec(shLangRec);
+  //PrintShortcutLangRec(shLangRec);
 
   exit(shLangRec);
 

@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   Menus, Windows, LazLogger, JwaWinUser, registry, languages,
-  RegistryRegistration, Parser, ShellApi;
+  RegistryRegistration, Parser, ShellApi, ConfigReader;
 
 type
 
@@ -53,9 +53,10 @@ type
     procedure RemoveFromStartMenuItemClick(Sender: TObject);
 
 
+
   private
     ApplicationFilePath: string;
-
+    procedure InitApp();
   public
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
     procedure UpdateLanguageState();
@@ -72,12 +73,9 @@ implementation
 
 { TMainAppForm }
 
-procedure TMainAppForm.ExitContextMenuItemClick(Sender: TObject);
-begin
-  self.Close();
-end;
-
-procedure TMainAppForm.FormShow(Sender: TObject);
+procedure TMainAppForm.InitApp();
+var
+  MItem: TMenuItem;
 begin
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
   self.ApplicationFilePath := ExtractFilePath(Application.ExeName);
@@ -85,36 +83,58 @@ begin
   //DebugLn(self.ApplicationFilePath);
   languages.loadLanguageRecords(self.ApplicationFilePath);
 
-  Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
-  //http://kbdedit.com/manual/low_level_vk_list.html
-  Windows.RegisterHotKey(self.Handle, 2, MOD_ALT, VK_OEM_6); //}
-  Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
+
+  //TODO: Alt modifier leads to 'freezing' of switching languages after several switches
+  //Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
+  ////http://kbdedit.com/manual/low_level_vk_list.html
+  //Windows.RegisterHotKey(self.Handle, 2, MOD_ALT, VK_OEM_6); //}
+  //Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
 
   //OLD with Ctrl
-  //Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
-  ////http://kbdedit.com/manual/low_level_vk_list.html
-  //Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
-  //Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
+  Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
+  //http://kbdedit.com/manual/low_level_vk_list.html
+  Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
+  Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
 
   //Windows.RegisterHotKey(self.Handle, 4, MOD_CONTROL, VK_K);  //{
   //self.Hide();
   self.UpdateLanguageState();
+
+  MItem := TMenuItem.Create(Self);
+  MItem.Caption := 'Caption';
+  //MItem.OnClick := OClick;
+  //MItem.Name := ItemName;
+  TrayPopupMenu.Items.Insert(2, MItem);
+
+  ReadConfigFile();
+
+
+
+
+end;
+
+procedure TMainAppForm.ExitContextMenuItemClick(Sender: TObject);
+begin
+  self.Close();
+end;
+
+procedure TMainAppForm.FormShow(Sender: TObject);
+begin
+  self.InitApp();
 end; //procedure TMainAppForm.FormShow(Sender: TObject);
 
 procedure TMainAppForm.UpdateLanguageIcon(langRec: PTlangRec);
 var
   errStr: string;
 begin
-  if langRec^.LanguageIcon <> nil then
+  if langRec^.LanguageIconFileName <> '' then
   begin
     self.TrayIcon.Icon := langRec^.LanguageIcon;
-  end
-  else
-  begin
+  end else begin
     errStr := 'Have language without icon:' + langRec^.LanguageName + sLineBreak;
-    errStr := errStr + '    code:' + IntToStr(langRec^.LanguageCode) + sLineBreak;
+    errStr := errStr + '    code:' + IntToStr(langRec^.LanguageCodeInt) + sLineBreak;
     DebugLn(errStr);
-    ShowMessage(errStr);
+    //ShowMessage(errStr);
   end;
 
   //if lang = 1033 then  //ENglish
@@ -174,9 +194,9 @@ end;
 procedure TMainAppForm.OpenConfInNotepadClick(Sender: TObject);
 begin
   //https://wiki.freepascal.org/Executing_External_Programs#SysUtils.ExecuteProcess
-   //ShowMessage(ExtractFilePath(Application.ExeName));
-   //ExecuteProcess(ExtractFilePath(Application.ExeName), 'start notepad.exe languages.conf');
-   ShellExecute(0,nil, PChar('notepad.exe'),PChar('languages.conf'),nil,1)
+  //ShowMessage(ExtractFilePath(Application.ExeName));
+  //ExecuteProcess(ExtractFilePath(Application.ExeName), 'start notepad.exe languages.conf');
+  ShellExecute(0, nil, PChar('notepad.exe'), PChar('languages.conf'), nil, 1);
 end;
 
 procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
@@ -186,33 +206,35 @@ end; //procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
 
 procedure TMainAppForm.Button1Click(Sender: TObject);
 var
-  hkArray : ^HKLArray;
-  hk : ^HKL;
+  hkArray: ^HKLArray;
+  hk: ^HKL;
 
-  ptr : pointer;
+  ptr: pointer;
   i, res: integer;
-  layoutName : string;
-//  vCode: PTVirtualCode;
+  layoutName: string;
+  //  vCode: PTVirtualCode;
 begin
   //ptr := &hkArray;
   new(hkArray);
-  i:=0;
-  while i<Length(hkArray^) do begin
-    hkArray^[i]:=0;
-    i:=i+1;
+  i := 0;
+  while i < Length(hkArray^) do
+  begin
+    hkArray^[i] := 0;
+    i := i + 1;
   end;
   //prt := PH
 
   //https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutlist
   res := GetKeyboardLayoutList(100, PHKL(hkArray));
-  i:=0;
-  while i<res do begin
-    DebugLn('Have language handle:'+IntToStr(hkArray^[i]));
-    DebugLn('Hex value:'+IntToHex(hkArray^[i]));
+  i := 0;
+  while i < res do
+  begin
+    DebugLn('Have language handle:' + IntToStr(hkArray^[i]));
+    DebugLn('Hex value:' + IntToHex(hkArray^[i]));
 
-    i:=i+1;
+    i := i + 1;
   end;
-  ParseLanguageConf();
+
 end;
 
 procedure TMainAppForm.AddToStartMenuItemClick(Sender: TObject);

@@ -66,6 +66,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="LexerConstants"/>
       </Unit>
+      <Unit>
+        <Filename Value="configreader.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ConfigReader"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

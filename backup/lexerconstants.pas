@@ -5,7 +5,7 @@ unit LexerConstants;
 interface
 
 uses
-  Classes, SysUtils, LazLogger;
+  Classes, SysUtils, LazLogger, languages;
 
 type
 
@@ -26,6 +26,7 @@ type
     langName: string;
     langCode: integer;
     langIconName: string;
+    LanguageRec : PTlangRec;
   end;
 
 procedure PrintToken(tkn: PToken);
@@ -65,7 +66,7 @@ begin
       modifStr := modifStr + ' | '+IntToStr(currMod);
     end;
     DebugLn('Modifiers:'+modifStr);
-    DebugLn('Key:'+IntToStr(langRec^.Key)+'LangCode:'+IntToStr(langRec^.langCode));
+    DebugLn('Key:'+IntToStr(langRec^.Key)+'  | LangCode:'+IntToStr(langRec^.langCode));
   end;
 end;
 

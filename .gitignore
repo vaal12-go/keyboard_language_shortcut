@@ -366,3 +366,16 @@ LangChange_05Apr2024.exe
 /backup/lexer.pas
 /lib/i386-win32/lexerconstants.o
 /lib/i386-win32/lexerconstants.ppu
+/lib/i386-win32/configreader.o
+/lib/i386-win32/configreader.ppu
+/lib/i386-win32/mainunit.lfm
+/lib/i386-win32/project1.compiled
+/lib/i386-win32/registryregistration.o
+/lib/i386-win32/registryregistration.ppu
+/file_log1.log
+/langcut_24Sep01_Sun_pre_18_32_59.log
+/langcut_24Sep01_Sun_pre_18_34_09.log
+/langcut_24Sep01_Sun_pre_18_35_06.log
+/langcut_24Sep01_Sun_pre_18_36_32.log
+/langcut_24Sep01_Sun_pre_18_36_49.log
+/langcut_24Sep01_Sun.log

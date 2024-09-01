@@ -10,7 +10,6 @@ uses
   RegistryRegistration, Parser, ShellApi, ConfigReader;
 
 type
-
   TWMHotKey = packed record
     Msg: cardinal;
     HotKey: longint;
@@ -76,11 +75,27 @@ implementation
 procedure TMainAppForm.InitApp();
 var
   MItem: TMenuItem;
+  currDateTime : TDateTime;
+  dtStr, logFName, renameLogFName, hmsStr : string;
+
 begin
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
+  currDateTime := Now();
+  DateTimeToString (dtStr,'yymmmdd_ddd',currDateTime);
+
+  logFName := self.ApplicationFilePath+'langcut_'+dtStr+'.log';
+  if FileExists(logFName) then begin
+    DateTimeToString(hmsStr, 'hh_mm_ss', currDateTime);
+    renameLogFName := self.ApplicationFilePath+'langcut_'+dtStr+'_pre_'+hmsStr+'.log';
+    RenameFile(logFName, renameLogFName);
+  end;
+
+
   self.ApplicationFilePath := ExtractFilePath(Application.ExeName);
-  //DebugLn('have handle');
-  //DebugLn(self.ApplicationFilePath);
+  LazLogger.DebugLogger.LogName:= logFName;
+
+  DebugLn('Current time:'+dtStr+'  '+hmsStr);
+
   languages.loadLanguageRecords(self.ApplicationFilePath);
   LoadVirtualCodesFromFile(self.ApplicationFilePath);
 
@@ -110,9 +125,7 @@ begin
   ReadConfigFile(self.ApplicationFilePath);
 
 
-
-
-end;
+end;//procedure TMainAppForm.InitApp();
 
 procedure TMainAppForm.ExitContextMenuItemClick(Sender: TObject);
 begin
@@ -195,8 +208,6 @@ end;
 procedure TMainAppForm.OpenConfInNotepadClick(Sender: TObject);
 begin
   //https://wiki.freepascal.org/Executing_External_Programs#SysUtils.ExecuteProcess
-  //ShowMessage(ExtractFilePath(Application.ExeName));
-  //ExecuteProcess(ExtractFilePath(Application.ExeName), 'start notepad.exe languages.conf');
   ShellExecute(0, nil, PChar('notepad.exe'), PChar('languages.conf'), nil, 1);
 end;
 
@@ -209,13 +220,10 @@ procedure TMainAppForm.Button1Click(Sender: TObject);
 var
   hkArray: ^HKLArray;
   hk: ^HKL;
-
   ptr: pointer;
   i, res: integer;
   layoutName: string;
-  //  vCode: PTVirtualCode;
 begin
-  //ptr := &hkArray;
   new(hkArray);
   i := 0;
   while i < Length(hkArray^) do
@@ -223,8 +231,6 @@ begin
     hkArray^[i] := 0;
     i := i + 1;
   end;
-  //prt := PH
-
   //https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutlist
   res := GetKeyboardLayoutList(100, PHKL(hkArray));
   i := 0;
@@ -232,7 +238,6 @@ begin
   begin
     DebugLn('Have language handle:' + IntToStr(hkArray^[i]));
     DebugLn('Hex value:' + IntToHex(hkArray^[i]));
-
     i := i + 1;
   end;
 

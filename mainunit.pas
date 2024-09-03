@@ -55,6 +55,7 @@ type
 
   private
     ApplicationFilePath: string;
+    DebugMode : Boolean;
     procedure InitApp();
   public
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
@@ -77,11 +78,15 @@ var
   MItem: TMenuItem;
   currDateTime : TDateTime;
   dtStr, logFName, renameLogFName, hmsStr : string;
+  i : integer;
 
 begin
+  self.DebugMode:= False;
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
   currDateTime := Now();
   DateTimeToString (dtStr,'yymmmdd_ddd',currDateTime);
+
+  self.ApplicationFilePath := ExtractFilePath(Application.ExeName);
 
   logFName := self.ApplicationFilePath+'langcut_'+dtStr+'.log';
   if FileExists(logFName) then begin
@@ -91,7 +96,7 @@ begin
   end;
 
 
-  self.ApplicationFilePath := ExtractFilePath(Application.ExeName);
+
   LazLogger.DebugLogger.LogName:= logFName;
 
   DebugLn('Current time:'+dtStr+'  '+hmsStr);
@@ -123,6 +128,18 @@ begin
   TrayPopupMenu.Items.Insert(2, MItem);
 
   ReadConfigFile(self.ApplicationFilePath);
+
+  DebugLn('param[0]:'+paramStr(0));
+  for i := 1 to paramCount() do
+	begin
+		DebugLn('. argument: ', paramStr(i));
+    if paramStr(i) = '--dbg' then
+        DebugLn('Running in debug mode');
+        self.DebugMode:= True;
+	end;
+
+  if not self.DebugMode then
+    self.Hide();
 
 
 end;//procedure TMainAppForm.InitApp();
@@ -198,6 +215,7 @@ end;
 procedure TMainAppForm.LanguageNameTimerTimer(Sender: TObject);
 begin
   self.UpdateLanguageState();
+  LanguageNameTimer.Interval:=100;
 end;
 
 procedure TMainAppForm.ListCodesClick(Sender: TObject);
@@ -266,7 +284,6 @@ begin
   Windows.PostMessage(forWindowHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
   parentHandle := Windows.GetParent(forWindowHandle);
   Windows.PostMessage(parentHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
-
 end;//procedure ActivateLanguage(var lng_const : string);
 
 procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
@@ -276,11 +293,9 @@ var
   langRec: PTlangRec;
   appPath: string;
 begin
-  //ShowMessage('h1');
   appPath := ExtractFilePath(Application.ExeName);
-  //DebugLn(String(Mes.HotKey));
-  // DebugLn(String(Mes.Msg));
-  //newIcon := TIcon.Create();
+
+  LanguageNameTimer.Enabled:=False;
 
   if (Mes.HotKey = 1) then
   begin
@@ -288,38 +303,23 @@ begin
     self.Caption := 'EN';
     langRec := languages.findLanguageByCode(1033);
     self.UpdateLanguageIcon(langRec);
-    //newIcon.LoadFromFile(
-    //  appPath+'icons\EN_64x64_05Apr2024.ico');
-    //self.TrayIcon.Icon := self.enIcon;
-    //self.TrayIcon.Icon.AssignImage(self.ENIcon);
   end;
   if (Mes.HotKey = 2) then
   begin
     ActivateLanguage('00000419');
-    //hk := Windows.LoadKeyboardLayoutW('00000419', 0);
     self.Caption := 'RUS';
     langRec := languages.findLanguageByCode(1049);
     self.UpdateLanguageIcon(langRec);
-    //self.TrayIcon.Hide();
-    //self.TrayIcon.Icon.AssignImage(self.RUIcon);
-    //newIcon.LoadFromFile(
-    //  appPath+'icons\RU_32x32.ico');
-    //self.TrayIcon.Icon := self.ruIcon;
-    //self.TrayIcon.Show();
-    //self.TrayIcon.ShowIcon:= True;
   end;
   if (Mes.HotKey = 3) then
   begin
     ActivateLanguage('00000422');
-    //hk := Windows.LoadKeyboardLayoutW('00000422', 0);
     self.Caption := 'UKR';
     langRec := languages.findLanguageByCode(1058);
     self.UpdateLanguageIcon(langRec);
-    //newIcon.LoadFromFile(
-    //  appPath+'icons\UKR_64x64_05Apr2024.ico');
-    //self.TrayIcon.Icon := self.ukrIcon;
   end;
-
+  LanguageNameTimer.Interval:= 1000;
+  LanguageNameTimer.Enabled:=True;
 end;//procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
 
 

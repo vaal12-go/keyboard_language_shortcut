@@ -95,7 +95,9 @@ var
   splitString: TStringArray;
 begin
   virtCodeArr := [];
-  AssignFile(tfIn, 'Virtual key codes_transformed_19Aug2024.csv');
+
+  DebugLn('opening file:'+pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
+  AssignFile(tfIn, pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
 
   // Embed the file handling in a try/except block to handle errors gracefully
   try
@@ -169,7 +171,8 @@ var
   s: string;
 begin
   // Set the name of the file that will be read
-  AssignFile(tfIn, 'languages.conf');
+  DebugLn('opening file:'+pathToApplicationFile+'languages.conf');
+  AssignFile(tfIn, pathToApplicationFile+'languages.conf');
 
   // Embed the file handling in a try/except block to handle errors gracefully
   try

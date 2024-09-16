@@ -58,7 +58,7 @@ implementation
 
 var
   PARSEMODIFIER_FUNC: ParserFunc;
-  PARSEKEY_FUNC: ParserFunc;
+  //PARSEKEY_FUNC: ParserFunc;
   PARSELANGCODE_FUNC: ParserFunc;
   virtCodeArr: array of PTVirtualCodeLang;
 
@@ -165,7 +165,7 @@ end;
 
 function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
 var
-  retArray: array of PTShortcutLangRec;
+  retArray: array of PTShortcutLangRec = ();
   currRec: PTShortcutLangRec;
   tfIn: TextFile;
   s: string;
@@ -173,6 +173,8 @@ begin
   // Set the name of the file that will be read
   DebugLn('opening file:'+pathToApplicationFile+'languages.conf');
   AssignFile(tfIn, pathToApplicationFile+'languages.conf');
+
+  //SetLength(retArray, 0);
 
   // Embed the file handling in a try/except block to handle errors gracefully
   try
@@ -238,7 +240,7 @@ end;
 
 function TParser.ParseKey(): TParserFunc;
 var
-  currKey: string;
+  //currKey: string;
   vCode: PTVirtualCodeLang;
 begin
   case currToken^.TokenType of
@@ -294,15 +296,14 @@ end;//function TParser.ParseModifier(): TParserFunc;
 
 function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 var
-  i: integer;
-  //currTkn: PToken;
-  phase: string;
-  currParserFunc, tempParserFunc: ParserFunc;
+  //i: integer;
+  //phase: string;
+  currParserFunc: ParserFunc;
   point: TParserFunc;
   //procPointer : FuncPointer;
 begin
   PARSEMODIFIER_FUNC := ParserFunc(@Self.ParseModifier);
-  PARSEKEY_FUNC := ParserFunc(@Self.ParseKey);
+  //PARSEKEY_FUNC := ParserFunc(@Self.ParseKey);
   PARSELANGCODE_FUNC := ParserFunc(@Self.ParseLangCode);
 
 

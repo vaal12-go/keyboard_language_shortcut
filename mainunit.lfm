@@ -742,6 +742,8 @@ object MainAppForm: TMainAppForm
     end
     object ListCodes: TMenuItem
       Caption = 'List languages and codes'
+      Enabled = False
+      Visible = False
       OnClick = ListCodesClick
     end
     object Separator3: TMenuItem
@@ -759,15 +761,7 @@ object MainAppForm: TMainAppForm
       Caption = '-'
     end
     object MenuItem1: TMenuItem
-      Caption = 'EN'
-      Enabled = False
-    end
-    object MenuItem2: TMenuItem
-      Caption = 'RU'
-      Enabled = False
-    end
-    object MenuItem3: TMenuItem
-      Caption = 'UKR'
+      Caption = 'Version 0.1 16Sep2024'
       Enabled = False
     end
     object Separator1: TMenuItem

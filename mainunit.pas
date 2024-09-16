@@ -25,11 +25,9 @@ type
   TMainAppForm = class(TForm)
     Button1: TButton;
     Label1: TLabel;
-    MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
-    MenuItem3: TMenuItem;
     AddToStartMenuItem: TMenuItem;
     ListCodes: TMenuItem;
+    MenuItem1: TMenuItem;
     OpenConfInNotepad: TMenuItem;
     RemoveFromStartMenuItem: TMenuItem;
     Separator1: TMenuItem;
@@ -121,11 +119,12 @@ begin
   //self.Hide();
   self.UpdateLanguageState();
 
-  MItem := TMenuItem.Create(Self);
-  MItem.Caption := 'Caption';
-  //MItem.OnClick := OClick;
-  //MItem.Name := ItemName;
-  TrayPopupMenu.Items.Insert(2, MItem);
+  //Creation of new menu item
+  //MItem := TMenuItem.Create(Self);
+  //MItem.Caption := 'Caption';
+  ////MItem.OnClick := OClick;
+  ////MItem.Name := ItemName;
+  //TrayPopupMenu.Items.Insert(2, MItem);
 
   ReadConfigFile(self.ApplicationFilePath);
 
@@ -183,8 +182,8 @@ procedure TMainAppForm.UpdateLanguageState();
 var
   langKL: HKL;
   langID: integer;
-  langName, langNameFull: string;
-  forWindowHandle, parentHandle: HWND;
+  langName: string;
+  forWindowHandle: HWND;
   procID, threadID: DWORD;
   langRec: PTlangRec;
 begin
@@ -202,8 +201,8 @@ begin
     self.UpdateLanguageIcon(langRec);
 
     langRec := languages.findLanguageByCode(langKL);
-    if langRec <> nil then
-      langNameFull := (langRec)^.LanguageName;
+    //if langRec <> nil then
+    //  langNameFull := (langRec)^.LanguageName;
 
     //ShowMessage('Found shor language name:'+langName+' long name:'+langNameFull);
     self.Label1.Caption := langName;
@@ -237,10 +236,10 @@ end; //procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
 procedure TMainAppForm.Button1Click(Sender: TObject);
 var
   hkArray: ^HKLArray;
-  hk: ^HKL;
-  ptr: pointer;
+  //hk: ^HKL;
+  //ptr: pointer;
   i, res: integer;
-  layoutName: string;
+  //layoutName: string;
 begin
   new(hkArray);
   i := 0;
@@ -288,12 +287,12 @@ end;//procedure ActivateLanguage(var lng_const : string);
 
 procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
 var
-  hk: HKL;
-  forWindowHandle, parentHandle: HWND;
+  //hk: HKL;
+  //forWindowHandle, parentHandle: HWND;
   langRec: PTlangRec;
-  appPath: string;
+  //appPath: string;
 begin
-  appPath := ExtractFilePath(Application.ExeName);
+  //appPath := ExtractFilePath(Application.ExeName);
 
   LanguageNameTimer.Enabled:=False;
 

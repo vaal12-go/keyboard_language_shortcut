@@ -1,4 +1,3 @@
-
 unit Lexer;
 
 {$mode ObjFPC}{$H+}
@@ -6,7 +5,7 @@ unit Lexer;
 interface
 
 uses
-  Classes, SysUtils, LazLogger, Character, JwaWinUser, LexerConstants;
+  Classes, SysUtils, LazLogger, Character, LexerConstants;
 
 type
 
@@ -104,12 +103,6 @@ begin
     SkipWhiteSpace();
     currChar := ReadChar();
   end;
-  //if currPositionInLine = EOF_POSITION then
-  //begin
-  //  tkn^.TokenType := EOF_TYPE;
-  //  tkn^.TokenLiteral := '';
-  //  exit(tkn);
-  //end;
   if currPositionInLine = EOF_POSITION then
     exit(nil);
 
@@ -157,14 +150,8 @@ end; //function TLexer.NextToken(): PToken;
 procedure TLexer.StartLine(textLine: string);
 begin
   lexingLine := textLine;
-  DebugLn('Lexing line:' + lexingLine);
+  //DebugLn('Lexing line:' + lexingLine);
   currPositionInLine := 0;
 end;
-
-//procedure TLexer.TestCall();
-//begin
-//  DebugLn('I am Lexer');
-//
-//end;
 
 end.

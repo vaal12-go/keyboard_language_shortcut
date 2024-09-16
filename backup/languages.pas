@@ -2,7 +2,6 @@ unit languages;
 
 {$mode ObjFPC}{$H+}
 
-
 interface
 
 uses
@@ -48,6 +47,7 @@ var
   currRec: PTlangRec;
   i: integer;
 begin
+  DebugLn('findLanguageByCode. Code:'+IntToStr(code));
   i := 0;
   findLanguageByCode := nil;
   while i < langList.Count do
@@ -62,38 +62,35 @@ begin
     if (currRec^.LanguageCodeShortInt = code) then
       Exit(langList.Items[i]);
   end;
-
-end;
+end;//function findLanguageByCode(code: integer): PTlangRec;
 
 function findIconByLanguage(langRec: PTlangRec; pathToApplicationFile: string): string;
 var
-  icoFName, mask, icoFile, shortLangCode: string;
+  //icoFName, mask, icoFile, shortLangCode: string;
+  mask, shortLangCode: string;
   icoFiles: TStringList;
 begin
   mask := '*'+langRec^.LanguageCodeStr+'.ico';
-  DebugLn('Mask:'+mask);
+  //DebugLn('Mask:'+mask);
   icoFiles := FindAllFiles(pathToApplicationFile + 'icons\', mask, False);
-  for icoFile in icoFiles do begin
-    DebugLn('Found file:'+icoFile);
-  end;
+  //for icoFile in icoFiles do begin
+  //  DebugLn('Found file:'+icoFile);
+  //end;
   if icoFiles.Count > 0 then
   begin
-    DebugLn('Found good icon first try:'+icoFiles[0]);
+    //DebugLn('Found good icon first try:'+icoFiles[0]);
     exit(icoFiles[0]);
   end;
 
   if Length(langRec^.LanguageCodeStr) >= 4 then begin
     shortLangCode := langRec^.LanguageCodeStr.Substring(langRec^.LanguageCodeStr.Length -4);
-    DebugLn('ShortLangCode:'+shortLangCode);
+    //DebugLn('ShortLangCode:'+shortLangCode);
     mask := '*'+shortLangCode+'.ico';
     icoFiles := FindAllFiles(pathToApplicationFile + 'icons\', mask, False);
-    for icoFile in icoFiles do begin
-      DebugLn('Found file (shortCode):'+icoFile);
-    end;
+    //for icoFile in icoFiles do begin
+    //  DebugLn('Found file (shortCode):'+icoFile);
+    //end;
   end;
-
-
-
   exit('');
   //icoFName := pathToApplicationFile + 'icons\' + rec^.LanguageCodeStr + ;
 end;
@@ -101,7 +98,8 @@ end;
 procedure loadLanguageRecords(pathToApplicationFile: string);
 var
   tfIn: TextFile;
-  lName, lCode, s, shortLangCode: string;
+  //lName, lCode,
+    s, shortLangCode: string;
   splitStr: array of string;
   rec: PTlangRec;
   i, Code : integer;
@@ -117,8 +115,8 @@ begin
       new(rec);
       rec^.LanguageName := splitStr[0];
       rec^.LanguageCodeStr := splitStr[1];
-      DebugLn('langName:' + rec^.LanguageName);
-      DebugLn('    code:' + rec^.LanguageCodeStr);
+      //DebugLn('langName:' + rec^.LanguageName);
+      //DebugLn('    code:' + rec^.LanguageCodeStr);
       Val('$' + rec^.LanguageCodeStr, rec^.LanguageCodeInt, Code);
 
       if Code <> 0 then
@@ -133,9 +131,7 @@ begin
         rec^.LanguageCodeShortInt:= rec^.LanguageCodeInt;
       end;
 
-
       rec^.LanguageIconFileName := findIconByLanguage(rec, pathToApplicationFile);
-
 
       if FileExists(rec^.LanguageIconFileName) then
       begin
@@ -143,8 +139,6 @@ begin
         rec^.LanguageIcon := TIcon.Create();
         rec^.LanguageIcon.LoadFromFile(rec^.LanguageIconFileName);
       end;
-
-
 
       langList.Add(rec);
       //ShowMessage(s)
@@ -159,7 +153,6 @@ begin
 
   i := langList.Count;
   i := i + 1;
-
-end;
+end;//procedure loadLanguageRecords(pathToApplicationFile: string);
 
 end.

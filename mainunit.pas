@@ -6,8 +6,9 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, Windows, LazLogger, JwaWinUser, registry, languages,
-  RegistryRegistration, Parser, ShellApi, ConfigReader;
+  Menus, Windows, LazLogger, JwaWinUser, languages,
+  RegistryRegistration, Parser, ShellApi, ConfigReader,
+  LexerConstants;
 
 type
   TWMHotKey = packed record
@@ -38,10 +39,8 @@ type
     TrayPopupMenu: TPopupMenu;
     TrayIcon: TTrayIcon;
 
-
     procedure AddToStartMenuItemClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    //procedure FormActivate(Sender: TObject);
     procedure ExitContextMenuItemClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
@@ -73,10 +72,12 @@ implementation
 
 procedure TMainAppForm.InitApp();
 var
-  MItem: TMenuItem;
+  //MItem: TMenuItem;
   currDateTime : TDateTime;
   dtStr, logFName, renameLogFName, hmsStr : string;
-  i : integer;
+  i, modifier: integer;
+  modifiers: uint;
+  currShortcutRec: PTShortcutLangRec;
 
 begin
   self.DebugMode:= False;
@@ -93,15 +94,9 @@ begin
     RenameFile(logFName, renameLogFName);
   end;
 
-
-
   LazLogger.DebugLogger.LogName:= logFName;
-
-  DebugLn('Current time:'+dtStr+'  '+hmsStr);
-
   languages.loadLanguageRecords(self.ApplicationFilePath);
   LoadVirtualCodesFromFile(self.ApplicationFilePath);
-
 
   //TODO: Alt modifier leads to 'freezing' of switching languages after several switches
   //Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
@@ -109,11 +104,16 @@ begin
   //Windows.RegisterHotKey(self.Handle, 2, MOD_ALT, VK_OEM_6); //}
   //Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
 
+
+  //MOD_CONTROL = 2
+  //VK_OEM_4 = $DB; = decimal 219
+
+
   //OLD with Ctrl
-  Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
-  //http://kbdedit.com/manual/low_level_vk_list.html
-  Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
-  Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
+  //Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
+  ////http://kbdedit.com/manual/low_level_vk_list.html
+  //Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
+  //Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
 
   //Windows.RegisterHotKey(self.Handle, 4, MOD_CONTROL, VK_K);  //{
   //self.Hide();
@@ -128,7 +128,20 @@ begin
 
   ReadConfigFile(self.ApplicationFilePath);
 
-  DebugLn('param[0]:'+paramStr(0));
+  i:=1;
+  modifiers :=0;
+  for currShortcutRec in ConfigPTShortcutLangRecArr do begin
+    for modifier in currShortcutRec^.KbModifierArr do begin
+      modifiers := modifiers or modifier;
+    end;
+    DebugLn('Modifiers:'+IntToStr(modifiers));
+    DebugLn('Key:'+IntToStr(currShortcutRec^.Key));
+    currShortcutRec^.HotKeyID:=i;
+    Windows.RegisterHotKey(self.Handle, i, modifiers, currShortcutRec^.Key);
+    i:=i+1;
+  end;
+
+  //DebugLn('param[0]:'+paramStr(0));
   for i := 1 to paramCount() do
 	begin
 		DebugLn('. argument: ', paramStr(i));
@@ -139,8 +152,6 @@ begin
 
   if not self.DebugMode then
     self.Hide();
-
-
 end;//procedure TMainAppForm.InitApp();
 
 procedure TMainAppForm.ExitContextMenuItemClick(Sender: TObject);
@@ -188,6 +199,7 @@ var
   langRec: PTlangRec;
 begin
   forWindowHandle := Windows.GetForegroundWindow();
+  procID := 0;
   threadID := Windows.GetWindowThreadProcessId(forWindowHandle, procID);
 
   langKL := Windows.GetKeyboardLayout(threadID);
@@ -285,14 +297,29 @@ begin
   Windows.PostMessage(parentHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
 end;//procedure ActivateLanguage(var lng_const : string);
 
+function findShortcutRecByHotkey(hotkey : longint) : PTShortcutLangRec;
+var
+  currRec : PTShortcutLangRec;
+begin
+  for currRec in ConfigPTShortcutLangRecArr do begin
+    if currRec^.HotKeyID = hotkey then
+      exit(currRec);
+  end;
+  exit(nil);
+end;
+
 procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
 var
-  //hk: HKL;
-  //forWindowHandle, parentHandle: HWND;
   langRec: PTlangRec;
-  //appPath: string;
+  shortcutRec :PTShortcutLangRec;
+
 begin
   //appPath := ExtractFilePath(Application.ExeName);
+
+  shortcutRec:=findShortcutRecByHotkey(Mes.HotKey);
+  DebugLn('---------------------');
+  PrintShortcutLangRec(shortcutRec);
+
 
   LanguageNameTimer.Enabled:=False;
 

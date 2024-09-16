@@ -5,7 +5,7 @@ unit LexerConstants;
 interface
 
 uses
-  Classes, SysUtils, LazLogger, languages;
+  Classes, SysUtils, Windows, LazLogger, languages;
 
 type
 
@@ -21,13 +21,16 @@ type
   PTShortcutLangRec = ^TShortcutLangRec;
 
   TShortcutLangRec = record
-    KbModifierArr: array of integer;
-    Key: integer;
+    KbModifierArr: array of uint;
+    Key: uint;
+    HotKeyID : longint;
     langName: string;
     langCode: integer;
     langIconName: string;
     LanguageRec : PTlangRec;
   end;
+
+  PTShortcutLangRecArr = array of PTShortcutLangRec;
 
 procedure PrintToken(tkn: PToken);
 procedure PrintTokenArray(tknArr: LineOfTokens);

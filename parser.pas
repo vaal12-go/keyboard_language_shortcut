@@ -47,11 +47,6 @@ procedure LoadVirtualCodesFromFile(pathToApplicationFile: string);
 function FindVirtualCodeString(s: string): PTVirtualCodeLang;
 
 
-//ParserFunc = function:pointer;
-
-//function ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
-
-
 implementation
 
 //Virtual codes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
@@ -96,7 +91,7 @@ var
 begin
   virtCodeArr := [];
 
-  DebugLn('opening file:'+pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
+  //DebugLn('opening file:'+pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
   AssignFile(tfIn, pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
 
   // Embed the file handling in a try/except block to handle errors gracefully
@@ -114,7 +109,6 @@ begin
       virtCode^.CodeString := splitString[0];
       Val(splitString[1], virtCode^.CodeNumber);
       insert(virtCode, virtCodeArr, Length(virtCodeArr));
-      //ParseLine(s);
     end;
 
     // Done so close the file
@@ -136,32 +130,23 @@ var
 begin
   lx := TLexer.Create();
   lx.StartLine(line);
-  //DebugLn(sLineBreak + sLineBreak + 'Starting new line');
   tkn_arr := [];
   repeat
     begin
       currToken := lx.NextToken();
       if currToken = nil then
         break;
-      //PrintToken(currToken);
       if currToken^.TokenType = HASHTAG then
       begin
-        //DebugLn('Found hashtag - skipping to the end of line');
         Break;
       end;
       insert(currToken, tkn_arr, Length(tkn_arr));
     end;
   until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);//EOF is not needed
-
-  //PrintTokenArray(tkn_arr);
-
   prs := TParser.Create();
   shLangRec := prs.ParseLineOfTokens(tkn_arr);
-
-  //if shLangRec^.langName = '' then exit(nil)
-  //else
   exit(shLangRec);
-end;
+end; //function ParseLine(line: string): PTShortcutLangRec;
 
 function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
 var
@@ -170,18 +155,10 @@ var
   tfIn: TextFile;
   s: string;
 begin
-  // Set the name of the file that will be read
-  DebugLn('opening file:'+pathToApplicationFile+'languages.conf');
+  //DebugLn('opening file:'+pathToApplicationFile+'languages.conf');
   AssignFile(tfIn, pathToApplicationFile+'languages.conf');
-
-  //SetLength(retArray, 0);
-
-  // Embed the file handling in a try/except block to handle errors gracefully
   try
-    // Open the file for reading
     reset(tfIn);
-
-    // Keep reading lines until the end of the file is reached
     while not EOF(tfIn) do
     begin
       readln(tfIn, s);
@@ -189,10 +166,7 @@ begin
       currRec := ParseLine(s);
       insert(currRec, retArray, Length(retArray));
     end;
-
-    // Done so close the file
     CloseFile(tfIn);
-
   except
     on E: EInOutError do
       writeln('File handling error occurred. Details: ', E.Message);
@@ -203,9 +177,7 @@ begin
       exit(nil);
     end;
   end;
-
   exit(retArray);
-
 end;
 
 function IsModifier(ident: string): integer;
@@ -232,7 +204,7 @@ begin
     end;
     NUMBER: begin
       //DebugLn('ParseLangCode: have number');
-      Val(currToken^.TokenLiteral, shLangRec^.langCode, Code);
+      Val('$'+currToken^.TokenLiteral, shLangRec^.langCode, Code);
       //TODO: Add checking for error Code
     end;
   end;
@@ -296,43 +268,33 @@ end;//function TParser.ParseModifier(): TParserFunc;
 
 function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 var
-  //i: integer;
-  //phase: string;
   currParserFunc: ParserFunc;
   point: TParserFunc;
-  //procPointer : FuncPointer;
 begin
   PARSEMODIFIER_FUNC := ParserFunc(@Self.ParseModifier);
-  //PARSEKEY_FUNC := ParserFunc(@Self.ParseKey);
   PARSELANGCODE_FUNC := ParserFunc(@Self.ParseLangCode);
-
-
 
   currParserFunc := ParserFunc(@Self.ParseModifier);
 
   new(shLangRec);
   shLangRec^.KbModifierArr := [];
-  shLangRec^.Key := -1;
+  shLangRec^.Key := 0;
+  shLangRec^.HotKeyID:=-1;
   shLangRec^.langName := '';
   shLangRec^.langIconName := '';
   shLangRec^.langCode := -1;
   shLangRec^.LanguageRec := nil;
 
-  //DebugLn(sLineBreak + sLineBreak + 'Parsing line of tokens');
-  //DebugLn('***********************************');
   for currToken in tkn_array do
   begin
-    //PrintToken(currToken);
-    //if currToken^.TokenLiteral = EOF_TYPE then break;
+
     point := currParserFunc();
     if point = nil then break;
     currParserFunc := ParserFunc(point^);
   end;//for currTkn in tkn_array do begin
 
-  //PrintShortcutLangRec(shLangRec);
-
   exit(shLangRec);
 
-end;
+end;//function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 
 end.

@@ -5,7 +5,7 @@ unit LexerConstants;
 interface
 
 uses
-  Classes, SysUtils, LazLogger, languages;
+  Classes, SysUtils, Windows, LazLogger, languages;
 
 type
 
@@ -21,8 +21,9 @@ type
   PTShortcutLangRec = ^TShortcutLangRec;
 
   TShortcutLangRec = record
-    KbModifierArr: array of integer;
-    Key: integer;
+    KbModifierArr: array of uint;
+    Key: uint;
+    HotKeyID : longint;
     langName: string;
     langCode: integer;
     langIconName: string;
@@ -67,8 +68,9 @@ begin
     for currMod in langRec^.KbModifierArr do begin
       modifStr := modifStr + ' | '+IntToStr(currMod);
     end;
-    DebugLn('Modifiers:'+modifStr);
-    DebugLn('Key:'+IntToStr(langRec^.Key)+'  | LangCode:'+IntToStr(langRec^.langCode));
+    DebugLn('   Modifiers:'+modifStr);
+    DebugLn('   Key:'+IntToStr(langRec^.Key)+'  | LangCode:'+IntToStr(langRec^.langCode));
+    DebugLn('   Language name:'+langRec^.langName);
   end;
 end;
 

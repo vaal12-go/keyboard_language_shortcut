@@ -54,6 +54,7 @@ type
     ApplicationFilePath: string;
     DebugMode : Boolean;
     procedure InitApp();
+    procedure ActivateLanguage(langRec: PTShortcutLangRec);
   public
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
     procedure UpdateLanguageState();
@@ -178,6 +179,7 @@ begin
     //ShowMessage(errStr);
   end;
 
+
   //if lang = 1033 then  //ENglish
   //  self.TrayIcon.Icon := self.enIcon;
   ////self.TrayIcon.Icon.AssignImage(self.ENIcon);
@@ -186,8 +188,7 @@ begin
 
   //if lang = 1058 then //UKR
   //  self.TrayIcon.Icon := self.ukrIcon;
-end;
-
+end;//procedure TMainAppForm.UpdateLanguageIcon(langRec: PTlangRec);
 
 procedure TMainAppForm.UpdateLanguageState();
 var
@@ -279,22 +280,24 @@ begin
   AddToStartMenu(Application.ExeName);
 end;
 
-procedure ActivateLanguage(const lng_const: string);
+procedure TMainAppForm.ActivateLanguage(langRec: PTShortcutLangRec);
 var
   hk: HKL;
   forWindowHandle, parentHandle: HWND;
   lang_str: PChar;
+  //errStr : string;
 begin
-  lang_str := PChar(lng_const);
+  lang_str := PChar(langRec^.LanguageRec^.LanguageCodeStr);
   hk := Windows.LoadKeyboardLayoutA(lang_str, JwaWinUser.KLF_ACTIVATE or
     JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS);
   //                 or JwaWinUser.KLF_NOTELLSHELL
   Windows.ActivateKeyboardLayout(hk, 0);
-
   forWindowHandle := Windows.GetForegroundWindow();
   Windows.PostMessage(forWindowHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
   parentHandle := Windows.GetParent(forWindowHandle);
   Windows.PostMessage(parentHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
+
+  self.UpdateLanguageIcon(langRec^.LanguageRec);
 end;//procedure ActivateLanguage(var lng_const : string);
 
 function findShortcutRecByHotkey(hotkey : longint) : PTShortcutLangRec;
@@ -310,40 +313,38 @@ end;
 
 procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
 var
-  langRec: PTlangRec;
+  //langRec: PTlangRec;
   shortcutRec :PTShortcutLangRec;
-
 begin
-  //appPath := ExtractFilePath(Application.ExeName);
-
   shortcutRec:=findShortcutRecByHotkey(Mes.HotKey);
   DebugLn('---------------------');
   PrintShortcutLangRec(shortcutRec);
 
-
   LanguageNameTimer.Enabled:=False;
 
-  if (Mes.HotKey = 1) then
-  begin
-    ActivateLanguage('00000409');
-    self.Caption := 'EN';
-    langRec := languages.findLanguageByCode(1033);
-    self.UpdateLanguageIcon(langRec);
-  end;
-  if (Mes.HotKey = 2) then
-  begin
-    ActivateLanguage('00000419');
-    self.Caption := 'RUS';
-    langRec := languages.findLanguageByCode(1049);
-    self.UpdateLanguageIcon(langRec);
-  end;
-  if (Mes.HotKey = 3) then
-  begin
-    ActivateLanguage('00000422');
-    self.Caption := 'UKR';
-    langRec := languages.findLanguageByCode(1058);
-    self.UpdateLanguageIcon(langRec);
-  end;
+  self.ActivateLanguage(shortcutRec);
+
+  //if (Mes.HotKey = 1) then
+  //begin
+  //  ActivateLanguage('00000409');
+  //  self.Caption := 'EN';
+  //  langRec := languages.findLanguageByCode(1033);
+  //  self.UpdateLanguageIcon(langRec);
+  //end;
+  //if (Mes.HotKey = 2) then
+  //begin
+  //  ActivateLanguage('00000419');
+  //  self.Caption := 'RUS';
+  //  langRec := languages.findLanguageByCode(1049);
+  //  self.UpdateLanguageIcon(langRec);
+  //end;
+  //if (Mes.HotKey = 3) then
+  //begin
+  //  ActivateLanguage('00000422');
+  //  self.Caption := 'UKR';
+  //  langRec := languages.findLanguageByCode(1058);
+  //  self.UpdateLanguageIcon(langRec);
+  //end;
   LanguageNameTimer.Interval:= 1000;
   LanguageNameTimer.Enabled:=True;
 end;//procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);

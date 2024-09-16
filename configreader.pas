@@ -19,16 +19,17 @@ implementation
 procedure ReadConfigFile(pathToApplicationFile: string);
 var
   currShortcutRec: PTShortcutLangRec;
-  currLangRec : PTLangRec;
+  //currLangRec : PTLangRec;
   modifier : integer;
 begin
+  //TODO: check why    Language name: is empty
   //ConfigPTShortcutLangRecArr := array of PTShortcutLangRec
   ConfigPTShortcutLangRecArr := ParseLanguageConf(pathToApplicationFile);
   for currShortcutRec in ConfigPTShortcutLangRecArr do begin
     DebugLn(sLineBreak+sLineBreak+'*********************');
     DebugLn('Have lang code:'+IntToStr(currShortcutRec^.langCode));
-    currLangRec := findLanguageByCode(currShortcutRec^.langCode);
-    PrintLangRecord(currLangRec);
+    currShortcutRec^.LanguageRec := findLanguageByCode(currShortcutRec^.langCode);
+    PrintLangRecord(currShortcutRec^.LanguageRec);
     for modifier in currShortcutRec^.KbModifierArr do begin
       DebugLn('   Keyboard modifier code:'+IntToStr(modifier));
     end;

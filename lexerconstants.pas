@@ -71,6 +71,7 @@ begin
     DebugLn('   Modifiers:'+modifStr);
     DebugLn('   Key:'+IntToStr(langRec^.Key)+'  | LangCode:'+IntToStr(langRec^.langCode));
     DebugLn('   Language name:'+langRec^.langName);
+    DebugLn('   Language string code:'+langRec^.LanguageRec^.LanguageCodeStr);
   end;
 end;
 

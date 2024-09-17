@@ -1,0 +1,10 @@
+#This is a configuration file for the keyboard layout global shortcut
+#Each shortcut 
+
+Ctrl-VK_OEM_4 	:	409  	#Eng 
+Ctrl-VK_OEM_6 	:	419  	#Rus
+Ctrl-VK_OEM_5 	:	422  	#UKR
+
+
+Ctrl-VK_NUMPAD1 :	10415	#Polish
+Ctrl-VK_NUMPAD2 :	401		#Arab  

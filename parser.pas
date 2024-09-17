@@ -90,35 +90,24 @@ var
   splitString: TStringArray;
 begin
   virtCodeArr := [];
-
-  //DebugLn('opening file:'+pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
   AssignFile(tfIn, pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
-
-  // Embed the file handling in a try/except block to handle errors gracefully
   try
-    // Open the file for reading
     reset(tfIn);
-
-    // Keep reading lines until the end of the file is reached
     while not EOF(tfIn) do
     begin
       readln(tfIn, s);
-      //DebugLn(s);
       new(virtCode);
       splitString := s.Split(';');
       virtCode^.CodeString := splitString[0];
       Val(splitString[1], virtCode^.CodeNumber);
       insert(virtCode, virtCodeArr, Length(virtCodeArr));
     end;
-
-    // Done so close the file
     CloseFile(tfIn);
-
   except
     on E: EInOutError do
       writeln('File handling error occurred. Details: ', E.Message);
   end;
-end;
+end;//procedure LoadVirtualCodesFromFile(pathToApplicationFile: string);
 
 function ParseLine(line: string): PTShortcutLangRec;
 var
@@ -164,7 +153,8 @@ begin
       readln(tfIn, s);
       DebugLn(s);
       currRec := ParseLine(s);
-      insert(currRec, retArray, Length(retArray));
+      if currRec <> nil then
+        insert(currRec, retArray, Length(retArray));
     end;
     CloseFile(tfIn);
   except
@@ -199,11 +189,9 @@ var
 begin
   case currToken^.TokenType of
     COLON: begin
-      //DebugLn('ParseLangCode: have colon');
       exit(@PARSELANGCODE_FUNC);
     end;
     NUMBER: begin
-      //DebugLn('ParseLangCode: have number');
       Val('$'+currToken^.TokenLiteral, shLangRec^.langCode, Code);
       //TODO: Add checking for error Code
     end;
@@ -212,7 +200,6 @@ end;
 
 function TParser.ParseKey(): TParserFunc;
 var
-  //currKey: string;
   vCode: PTVirtualCodeLang;
 begin
   case currToken^.TokenType of
@@ -242,7 +229,6 @@ var
 begin
   case currToken^.TokenType of
     IDENTIFIER: begin
-      //DebugLn('ParseModifier: have modifier:' + currToken^.TokenLiteral);
       currMod := IsModifier(currToken^.TokenLiteral);
       if currMod = -1 then
       begin
@@ -255,14 +241,12 @@ begin
       end;
     end;//IDENTIFIER: begin
     HYPHEN: begin
-      //DebugLn('ParseModifier: have hyphen');
       exit(@PARSEMODIFIER_FUNC);
     end;
     else begin
       DebugLn('ParseModifier: unknown token');
       exit(nil);//TODO: Should throw error
     end;
-
   end;//case currToken^.TokenType of
 end;//function TParser.ParseModifier(): TParserFunc;
 
@@ -270,6 +254,7 @@ function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 var
   currParserFunc: ParserFunc;
   point: TParserFunc;
+
 begin
   PARSEMODIFIER_FUNC := ParserFunc(@Self.ParseModifier);
   PARSELANGCODE_FUNC := ParserFunc(@Self.ParseLangCode);
@@ -285,15 +270,18 @@ begin
   shLangRec^.langCode := -1;
   shLangRec^.LanguageRec := nil;
 
+
   for currToken in tkn_array do
   begin
-
     point := currParserFunc();
     if point = nil then break;
     currParserFunc := ParserFunc(point^);
   end;//for currTkn in tkn_array do begin
 
-  exit(shLangRec);
+  if Length(tkn_array) = 0 then
+     exit(nil)
+  else
+    exit(shLangRec);
 
 end;//function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 

@@ -135,19 +135,19 @@ begin
     for modifier in currShortcutRec^.KbModifierArr do begin
       modifiers := modifiers or modifier;
     end;
-    DebugLn('Modifiers:'+IntToStr(modifiers));
-    DebugLn('Key:'+IntToStr(currShortcutRec^.Key));
+    //DebugLn('Modifiers:'+IntToStr(modifiers));
+    //DebugLn('Key:'+IntToStr(currShortcutRec^.Key));
     currShortcutRec^.HotKeyID:=i;
     Windows.RegisterHotKey(self.Handle, i, modifiers, currShortcutRec^.Key);
     i:=i+1;
   end;
 
-  //DebugLn('param[0]:'+paramStr(0));
+  DebugLn('Total shortcuts registered:'+IntToStr(i-1));
   for i := 1 to paramCount() do
 	begin
-		DebugLn('. argument: ', paramStr(i));
+		//DebugLn('. argument: ', paramStr(i));
     if paramStr(i) = '--dbg' then
-        DebugLn('Running in debug mode');
+        //DebugLn('Running in debug mode');
         self.DebugMode:= True;
 	end;
 

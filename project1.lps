@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Default"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="project1.lpr"/>
@@ -20,10 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
-        <IsVisibleTab Value="True"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="128"/>
-        <CursorPos X="12" Y="142"/>
+        <TopLine Value="116"/>
+        <CursorPos X="30" Y="136"/>
         <FoldState Value=" T3mB045 Pei601"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
@@ -65,11 +64,12 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Parser"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="137"/>
-        <CursorPos X="34" Y="162"/>
+        <TopLine Value="169"/>
+        <CursorPos X="31" Y="186"/>
         <FoldState Value=" T3iG041 PG60x"/>
-        <UsageCount Value="167"/>
+        <UsageCount Value="168"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -79,7 +79,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="24"/>
         <CursorPos X="8" Y="64"/>
-        <UsageCount Value="167"/>
+        <UsageCount Value="168"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -87,7 +87,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ConfigReader"/>
         <CursorPos X="27" Y="21"/>
-        <UsageCount Value="127"/>
+        <UsageCount Value="128"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -107,22 +107,7 @@
         <UsageCount Value="28"/>
       </Unit>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="1"/>
-    </General>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="321" Column="35" TopLine="247"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="345" Column="9" TopLine="310"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="279" Column="58" TopLine="233"/>
-      </Position>
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="295" Column="69" TopLine="266"/>
@@ -229,6 +214,18 @@
       </Position>
       <Position>
         <Filename Value="mainunit.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="142" Column="12" TopLine="128"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="205" Column="31" TopLine="169"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="136" Column="30" TopLine="116"/>
       </Position>
     </JumpHistory>
     <RunParams>

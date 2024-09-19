@@ -7,3 +7,9 @@ project1.res
 lib/x86_64-win64/project1.res
 lib/x86_64-win64/unit1.o
 lib/x86_64-win64/unit1.ppu
+LangChange_05Apr2024.exe
+/UsefulPrograms/**
+/backup/*.*
+/lib/**
+/*.log
+/*.exe

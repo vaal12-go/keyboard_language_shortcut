@@ -17,6 +17,7 @@ uses
 
 begin
   RequireDerivedFormResource:=True;
+  Application.Title:='LanguageShortcut';
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TMainAppForm, Form1);

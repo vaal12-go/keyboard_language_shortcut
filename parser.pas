@@ -45,6 +45,7 @@ type
 function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
 procedure LoadVirtualCodesFromFile(pathToApplicationFile: string);
 function FindVirtualCodeString(s: string): PTVirtualCodeLang;
+procedure DisposeVirtualCodeArray();
 
 
 implementation
@@ -61,6 +62,17 @@ constructor TParserException.Create(descr: string = ''; tkn: PToken = nil);
 begin
   Description := descr;
   Token := tkn;
+end;
+
+procedure DisposeVirtualCodeArray();
+var
+  currRec: PTVirtualCodeLang;
+begin
+  for currRec in virtCodeArr do
+  begin
+    dispose(currRec);
+  end;
+  setLength(virtCodeArr, 0);
 end;
 
 function FindVirtualCodeString(s: string): PTVirtualCodeLang;
@@ -90,7 +102,7 @@ var
   splitString: TStringArray;
 begin
   virtCodeArr := [];
-  AssignFile(tfIn, pathToApplicationFile+'Virtual key codes_transformed_19Aug2024.csv');
+  AssignFile(tfIn, pathToApplicationFile + 'Virtual key codes_transformed_19Aug2024.csv');
   try
     reset(tfIn);
     while not EOF(tfIn) do
@@ -114,12 +126,12 @@ var
   shLangRec: PTShortcutLangRec;
   lx: TLexer;
   currToken: PToken;
-  tkn_arr: LineOfTokens;
+  tkn_arr: LineOfTokens = ();
   prs: TParser;
 begin
   lx := TLexer.Create();
   lx.StartLine(line);
-  tkn_arr := [];
+  //tkn_arr := [];
   repeat
     begin
       currToken := lx.NextToken();
@@ -132,9 +144,18 @@ begin
       insert(currToken, tkn_arr, Length(tkn_arr));
     end;
   until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);//EOF is not needed
-  prs := TParser.Create();
-  shLangRec := prs.ParseLineOfTokens(tkn_arr);
-  exit(shLangRec);
+
+  if length(tkn_arr) > 0 then
+  begin
+    prs := TParser.Create();
+    shLangRec := prs.ParseLineOfTokens(tkn_arr);
+    for currToken in tkn_arr do
+      dispose(currToken);
+    setLength(tkn_arr, 0);
+    exit(shLangRec);
+  end
+  else
+    exit(nil);
 end; //function ParseLine(line: string): PTShortcutLangRec;
 
 function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
@@ -145,7 +166,7 @@ var
   s: string;
 begin
   //DebugLn('opening file:'+pathToApplicationFile+'languages.conf');
-  AssignFile(tfIn, pathToApplicationFile+'languages.conf');
+  AssignFile(tfIn, pathToApplicationFile + 'languages.conf');
   try
     reset(tfIn);
     while not EOF(tfIn) do
@@ -187,12 +208,13 @@ function TParser.ParseLangCode(): TParserFunc;
 var
   Code: integer;
 begin
+  ParseLangCode := nil;
   case currToken^.TokenType of
     COLON: begin
       exit(@PARSELANGCODE_FUNC);
     end;
     NUMBER: begin
-      Val('$'+currToken^.TokenLiteral, shLangRec^.langCode, Code);
+      Val('$' + currToken^.TokenLiteral, shLangRec^.langCode, Code);
       //TODO: Add checking for error Code
     end;
   end;
@@ -202,11 +224,13 @@ function TParser.ParseKey(): TParserFunc;
 var
   vCode: PTVirtualCodeLang;
 begin
+  vCode := nil;
   case currToken^.TokenType of
     IDENTIFIER: begin
       vCode := FindVirtualCodeString(currToken^.TokenLiteral);
       if vCode = nil then
       begin
+        dispose(vCode);
         raise TParserException.Create(
           'Unknown virtual key name supplied:' + currToken^.TokenLiteral, currToken);
         exit(nil);//Should throw error as this is neither a modifier nor a key
@@ -214,6 +238,7 @@ begin
       else
       begin
         shLangRec^.Key := vCode^.CodeNumber;
+        dispose(vCode);
         exit(@PARSELANGCODE_FUNC);
       end;
     end;
@@ -254,7 +279,6 @@ function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 var
   currParserFunc: ParserFunc;
   point: TParserFunc;
-
 begin
   PARSEMODIFIER_FUNC := ParserFunc(@Self.ParseModifier);
   PARSELANGCODE_FUNC := ParserFunc(@Self.ParseLangCode);
@@ -264,12 +288,11 @@ begin
   new(shLangRec);
   shLangRec^.KbModifierArr := [];
   shLangRec^.Key := 0;
-  shLangRec^.HotKeyID:=-1;
+  shLangRec^.HotKeyID := -1;
   shLangRec^.langName := '';
   shLangRec^.langIconName := '';
   shLangRec^.langCode := -1;
   shLangRec^.LanguageRec := nil;
-
 
   for currToken in tkn_array do
   begin
@@ -279,10 +302,9 @@ begin
   end;//for currTkn in tkn_array do begin
 
   if Length(tkn_array) = 0 then
-     exit(nil)
+    exit(nil)
   else
     exit(shLangRec);
-
 end;//function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 
 end.

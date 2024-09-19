@@ -42,6 +42,7 @@ type
     procedure AddToStartMenuItemClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure ExitContextMenuItemClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LanguageNameTimerTimer(Sender: TObject);
     procedure ListCodesClick(Sender: TObject);
@@ -59,6 +60,7 @@ type
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
     procedure UpdateLanguageState();
     procedure UpdateLanguageIcon(langRec: PTlangRec);
+    destructor Destroy();
 
   end;//TMainAppForm = class(TForm)
 
@@ -70,6 +72,14 @@ implementation
 {$R *.lfm}
 
 { TMainAppForm }
+
+// class eraser
+destructor TMainAppForm.Destroy();
+begin
+  DebugLn('Destructor called');
+  inherited; // Also called parent class destroyer
+end;
+
 
 procedure TMainAppForm.InitApp();
 var
@@ -83,6 +93,7 @@ var
 begin
   self.DebugMode:= False;
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
+  //LazLogger.DebugLogger.
   currDateTime := Now();
   DateTimeToString (dtStr,'yymmmdd_ddd',currDateTime);
 
@@ -158,6 +169,16 @@ end;//procedure TMainAppForm.InitApp();
 procedure TMainAppForm.ExitContextMenuItemClick(Sender: TObject);
 begin
   self.Close();
+end;
+
+procedure TMainAppForm.FormDestroy(Sender: TObject);
+begin
+  DebugLn('OnDestroy called');
+  DisposeVirtualCodeArray();
+  DisposeConfigPTShortcutLangRecArr();
+  DisposeLanguageRecords();
+
+  DebugLn('Disposals finished');
 end;
 
 procedure TMainAppForm.FormShow(Sender: TObject);

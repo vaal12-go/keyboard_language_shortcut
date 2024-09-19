@@ -6,6 +6,7 @@ object MainAppForm: TMainAppForm
   Caption = 'Form1'
   ClientHeight = 193
   ClientWidth = 256
+  OnDestroy = FormDestroy
   OnShow = FormShow
   LCLVersion = '3.2.0.0'
   object Button1: TButton

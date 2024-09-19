@@ -96,8 +96,6 @@ var
   currChar : char;
 begin
   new(tkn);
-
-
   currChar := ReadChar();
   if TCharacter.IsWhiteSpace(currChar) then begin
     SkipWhiteSpace();

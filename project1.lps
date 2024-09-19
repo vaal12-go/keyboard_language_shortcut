@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="project1.lpr"/>
@@ -65,8 +65,8 @@
         <UnitName Value="Parser"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="185"/>
-        <CursorPos X="6" Y="225"/>
+        <TopLine Value="48"/>
+        <CursorPos X="23" Y="77"/>
         <FoldState Value=" T3iG041121211 PjXlI09"/>
         <UsageCount Value="176"/>
         <Loaded Value="True"/>
@@ -106,7 +106,7 @@
         <UsageCount Value="28"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="13">
+    <JumpHistory HistoryIndex="14">
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="52" TopLine="44"/>
@@ -162,6 +162,10 @@
         <Filename Value="parser.pas"/>
         <Caret Line="230" Column="33" TopLine="213"/>
       </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="225" Column="6" TopLine="185"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -184,15 +188,6 @@
     </HistoryLists>
   </ProjectSession>
   <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="parser.pas"/>
-        <Line Value="81"/>
-      </Item>
-    </BreakPoints>
     <Watches>
       <Item>
         <Expression Value="currPositionInLine"/>

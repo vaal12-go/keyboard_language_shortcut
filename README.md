@@ -4,7 +4,7 @@ This software is made to allow change of language with direct shortcut (e.g. Ctr
 
 Windows does have system dialog to set language shortcuts:
 
-![Windows system language shortcut dialog!](/documentation/img/Windows_language_shortcuts.png)
+![Windows system language shortcut dialog!](documentation/img/Windows_language_shortcuts.png)
 
 Over the years and many windows version (windows 7, 10) multiple updates to windows 10 this option had proven to be unstable (while sequence shortcut usually Ctrl-Shift works fine direct shortcuts after several reboots stop working and have to be entered again). Hence this application.
 
@@ -47,6 +47,7 @@ Only windows (tested on Windows 10) OS is supported. No plans for other operatin
 
 * Icon set is made by loopakel@gmail.com
 * Amazing [lazarus IDE and free pascal](https://www.lazarus-ide.org/)
+* This file is converted to HTML with https://markdowntohtml.com/
 
 ## Support
 

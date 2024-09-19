@@ -6,4 +6,4 @@ project1.res
 /lib/**
 /*.log
 /*.exe
-/project1.dbg
+/*.dbg

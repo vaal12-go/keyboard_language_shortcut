@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="project1.lpr"/>
@@ -20,9 +20,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="159"/>
-        <CursorPos X="13" Y="179"/>
-        <FoldState Value=" T3mW04311 PFi60k"/>
+        <TopLine Value="193"/>
+        <CursorPos Y="202"/>
+        <FoldState Value=" T3mU04311 PFi60q"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
@@ -35,21 +35,19 @@
       <Unit>
         <Filename Value="languages.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="100"/>
         <CursorPos X="27" Y="145"/>
         <UsageCount Value="210"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="lexer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lexer"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="78"/>
         <CursorPos X="26" Y="93"/>
         <UsageCount Value="233"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="registryregistration.pas"/>
@@ -66,10 +64,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Parser"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="85"/>
-        <CursorPos X="29" Y="102"/>
-        <FoldState Value=" T3iH0405112 PiJlI0F"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="185"/>
+        <CursorPos X="6" Y="225"/>
+        <FoldState Value=" T3iG041121211 PjXlI09"/>
         <UsageCount Value="176"/>
         <Loaded Value="True"/>
       </Unit>
@@ -77,7 +75,7 @@
         <Filename Value="lexerconstants.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="LexerConstants"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="1"/>
         <CursorPos X="23" Y="30"/>
         <UsageCount Value="176"/>
         <Loaded Value="True"/>
@@ -87,7 +85,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ConfigReader"/>
         <TopLine Value="14"/>
-        <CursorPos X="49" Y="43"/>
+        <CursorPos X="4" Y="31"/>
         <UsageCount Value="136"/>
         <Loaded Value="True"/>
       </Unit>
@@ -108,7 +106,7 @@
         <UsageCount Value="28"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="28">
+    <JumpHistory HistoryIndex="13">
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="52" TopLine="44"/>
@@ -116,14 +114,6 @@
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="278" Column="7" TopLine="246"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="25" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="130" Column="11" TopLine="110"/>
       </Position>
       <Position>
         <Filename Value="parser.pas"/>
@@ -154,14 +144,6 @@
         <Caret Line="288" Column="7" TopLine="194"/>
       </Position>
       <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="99" TopLine="78"/>
-      </Position>
-      <Position>
-        <Filename Value="lexer.pas"/>
-        <Caret Line="98" Column="7" TopLine="78"/>
-      </Position>
-      <Position>
         <Filename Value="parser.pas"/>
         <Caret Line="105" Column="35" TopLine="97"/>
       </Position>
@@ -173,56 +155,12 @@
         <Caret Line="43" Column="49" TopLine="13"/>
       </Position>
       <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="27" Column="28" TopLine="7"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="24" Column="11" TopLine="13"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="54" Column="21" TopLine="37"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="56" Column="24" TopLine="37"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="58" Column="20" TopLine="37"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="62" Column="26" TopLine="37"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="65" Column="20" TopLine="37"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="152" Column="45" TopLine="126"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="108" Column="35" TopLine="91"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="107" Column="3" TopLine="91"/>
-      </Position>
-      <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="108" Column="27" TopLine="89"/>
-      </Position>
-      <Position>
         <Filename Value="lexerconstants.pas"/>
         <Caret Line="30" Column="23"/>
       </Position>
       <Position>
-        <Filename Value="languages.pas"/>
-        <Caret Line="145" Column="27" TopLine="100"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="230" Column="33" TopLine="213"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -246,6 +184,15 @@
     </HistoryLists>
   </ProjectSession>
   <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="parser.pas"/>
+        <Line Value="81"/>
+      </Item>
+    </BreakPoints>
     <Watches>
       <Item>
         <Expression Value="currPositionInLine"/>

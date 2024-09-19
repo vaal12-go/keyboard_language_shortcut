@@ -199,8 +199,6 @@ begin
     DebugLn(errStr);
     //ShowMessage(errStr);
   end;
-
-
   //if lang = 1033 then  //ENglish
   //  self.TrayIcon.Icon := self.enIcon;
   ////self.TrayIcon.Icon.AssignImage(self.ENIcon);

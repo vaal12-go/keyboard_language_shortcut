@@ -26,7 +26,7 @@ In case application (language) icon is hidden you can force it to be visible all
 
 Shortcut can be a combination of ctrl, alt, win and shift modifiers and a single key (this is limitation of windows API, so cannot be changed). Application will be developed to accept multiple keys).
 
-For list of virtual keys see [Windows virtual codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+For list of virtual keys see [Windows virtual codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes). For
 
 For list of supported keyboard layouts see [Windows keyboard layouts codes](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values?view=windows-11)
 

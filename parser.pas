@@ -102,7 +102,7 @@ var
   splitString: TStringArray;
 begin
   virtCodeArr := [];
-  AssignFile(tfIn, pathToApplicationFile + 'Virtual key codes_transformed_19Aug2024.csv');
+  AssignFile(tfIn, pathToApplicationFile + 'lang_list\Virtual key codes_transformed_19Aug2024.csv');
   try
     reset(tfIn);
     while not EOF(tfIn) do

@@ -763,7 +763,7 @@ object MainAppForm: TMainAppForm
       Caption = '-'
     end
     object MenuItem1: TMenuItem
-      Caption = 'Version 0.1 16Sep2024'
+      Caption = 'Version 0.1 23Sep2024'
       Enabled = False
     end
     object Separator1: TMenuItem

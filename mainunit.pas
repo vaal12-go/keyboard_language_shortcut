@@ -6,10 +6,12 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Menus, Windows, LazLogger, JwaWinUser, languages,
-  RegistryRegistration, Parser, ShellApi, ConfigReader,
-  LexerConstants;
-
+  Menus, Windows, LazLogger, JwaWinUser, ShellApi, LexerConstants, LanguagesTypes,
+  languages, RegistryRegistration, Parser, ConfigReader;
+// ,
+//,
+//,
+// ,
 type
   TWMHotKey = packed record
     Msg: cardinal;
@@ -18,7 +20,7 @@ type
     Result: longint;
   end;
 
-  HKLArray = array [0..1000] of HKL;
+  HKLArray = array [0..200] of HKL;
   PHKL = ^HKL;
 
   { TMainAppForm }
@@ -49,8 +51,6 @@ type
     procedure OpenConfInNotepadClick(Sender: TObject);
     procedure RemoveFromStartMenuItemClick(Sender: TObject);
 
-
-
   private
     ApplicationFilePath: string;
     DebugMode : Boolean;
@@ -60,7 +60,7 @@ type
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
     procedure UpdateLanguageState();
     procedure UpdateLanguageIcon(langRec: PTlangRec);
-    destructor Destroy();
+    //destructor Destroy();
 
   end;//TMainAppForm = class(TForm)
 
@@ -74,11 +74,11 @@ implementation
 { TMainAppForm }
 
 // class eraser
-destructor TMainAppForm.Destroy();
-begin
-  DebugLn('Destructor called');
-  inherited; // Also called parent class destroyer
-end;
+//destructor TMainAppForm.Destroy();
+//begin
+//  DebugLn('Destructor called');
+//  inherited; // Also called parent class destroyer
+//end;
 
 
 procedure TMainAppForm.InitApp();
@@ -93,22 +93,37 @@ var
 begin
   self.DebugMode:= False;
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
-  //LazLogger.DebugLogger.
   currDateTime := Now();
   DateTimeToString (dtStr,'yymmmdd_ddd',currDateTime);
 
   self.ApplicationFilePath := ExtractFilePath(Application.ExeName);
 
-  logFName := self.ApplicationFilePath+'langcut_'+dtStr+'.log';
+  logFName := self.ApplicationFilePath+'\logs\langcut_'+dtStr+'.log';
   if FileExists(logFName) then begin
     DateTimeToString(hmsStr, 'hh_mm_ss', currDateTime);
-    renameLogFName := self.ApplicationFilePath+'langcut_'+dtStr+'_pre_'+hmsStr+'.log';
+    renameLogFName := self.ApplicationFilePath+'\logs\langcut_'+dtStr+'_pre_'+hmsStr+'.log';
     RenameFile(logFName, renameLogFName);
   end;
 
   LazLogger.DebugLogger.LogName:= logFName;
+
+  InitLanguagesModule();
+
+
+
+
   languages.loadLanguageRecords(self.ApplicationFilePath);
+
+  DebugLn('Exiting Init');
+  exit();
+
+
+
+  //TODO: move all helper/codes lists (and their loading) to separate unit
   LoadVirtualCodesFromFile(self.ApplicationFilePath);
+
+
+
 
   //TODO: Alt modifier leads to 'freezing' of switching languages after several switches
   //Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
@@ -117,18 +132,6 @@ begin
   //Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
 
 
-  //MOD_CONTROL = 2
-  //VK_OEM_4 = $DB; = decimal 219
-
-
-  //OLD with Ctrl
-  //Windows.RegisterHotKey(self.Handle, 1, MOD_CONTROL, VK_OEM_4);
-  ////http://kbdedit.com/manual/low_level_vk_list.html
-  //Windows.RegisterHotKey(self.Handle, 2, MOD_CONTROL, VK_OEM_6); //}
-  //Windows.RegisterHotKey(self.Handle, 3, MOD_CONTROL, VK_OEM_5); //\
-
-  //Windows.RegisterHotKey(self.Handle, 4, MOD_CONTROL, VK_K);  //{
-  //self.Hide();
   self.UpdateLanguageState();
 
   //Creation of new menu item
@@ -138,6 +141,7 @@ begin
   ////MItem.Name := ItemName;
   //TrayPopupMenu.Items.Insert(2, MItem);
 
+
   ReadConfigFile(self.ApplicationFilePath);
 
   i:=1;
@@ -146,19 +150,16 @@ begin
     for modifier in currShortcutRec^.KbModifierArr do begin
       modifiers := modifiers or modifier;
     end;
-    //DebugLn('Modifiers:'+IntToStr(modifiers));
-    //DebugLn('Key:'+IntToStr(currShortcutRec^.Key));
     currShortcutRec^.HotKeyID:=i;
     Windows.RegisterHotKey(self.Handle, i, modifiers, currShortcutRec^.Key);
     i:=i+1;
   end;
 
+
   DebugLn('Total shortcuts registered:'+IntToStr(i-1));
   for i := 1 to paramCount() do
 	begin
-		//DebugLn('. argument: ', paramStr(i));
     if paramStr(i) = '--dbg' then
-        //DebugLn('Running in debug mode');
         self.DebugMode:= True;
 	end;
 
@@ -174,9 +175,26 @@ end;
 procedure TMainAppForm.FormDestroy(Sender: TObject);
 begin
   DebugLn('OnDestroy called');
+
   DisposeVirtualCodeArray();
+
+
+
   DisposeConfigPTShortcutLangRecArr();
+
+
+
   DisposeLanguageRecords();
+  FinishLanguagesModule();
+
+
+  // By default information is written to standard output,
+  // this function allows you to redirect the information to a file
+  //SetHeapTraceOutput('heaptrace.log');
+  //
+  //// normally the heap dump will be written automatically at the end,
+  //// but can also be written on demand any time
+  //DumpHeap;
 
   DebugLn('Disposals finished');
 end;
@@ -199,14 +217,6 @@ begin
     DebugLn(errStr);
     //ShowMessage(errStr);
   end;
-  //if lang = 1033 then  //ENglish
-  //  self.TrayIcon.Icon := self.enIcon;
-  ////self.TrayIcon.Icon.AssignImage(self.ENIcon);
-  //if lang = 1049 then //RU
-  //  self.TrayIcon.Icon := self.ruIcon;
-
-  //if lang = 1058 then //UKR
-  //  self.TrayIcon.Icon := self.ukrIcon;
 end;//procedure TMainAppForm.UpdateLanguageIcon(langRec: PTlangRec);
 
 procedure TMainAppForm.UpdateLanguageState();
@@ -226,21 +236,21 @@ begin
   //TODO: check what is upper bytes of langKL do
   langID := (langKL and $ffff0000) shr 16;
   langRec := nil;
+
   langRec := languages.findLanguageByCode(langID);
+
+
   if langRec <> nil then
   begin
     langName := (langRec)^.LanguageName;
     self.UpdateLanguageIcon(langRec);
 
     langRec := languages.findLanguageByCode(langKL);
-    //if langRec <> nil then
-    //  langNameFull := (langRec)^.LanguageName;
-
-    //ShowMessage('Found shor language name:'+langName+' long name:'+langNameFull);
     self.Label1.Caption := langName;
     self.Caption := langName;
     Application.Title := 'Language:' + langName;
   end;
+
 end;
 
 procedure TMainAppForm.LanguageNameTimerTimer(Sender: TObject);
@@ -268,10 +278,7 @@ end; //procedure TMainAppForm.RemoveFromStartMenuItemClick(Sender: TObject);
 procedure TMainAppForm.Button1Click(Sender: TObject);
 var
   hkArray: ^HKLArray;
-  //hk: ^HKL;
-  //ptr: pointer;
   i, res: integer;
-  //layoutName: string;
 begin
   new(hkArray);
   i := 0;
@@ -293,8 +300,6 @@ begin
 end;
 
 procedure TMainAppForm.AddToStartMenuItemClick(Sender: TObject);
-//var
-//  Registry: TRegistry;
 begin
   AddToStartMenu(Application.ExeName);
 end;
@@ -323,10 +328,12 @@ function findShortcutRecByHotkey(hotkey : longint) : PTShortcutLangRec;
 var
   currRec : PTShortcutLangRec;
 begin
+
   for currRec in ConfigPTShortcutLangRecArr do begin
     if currRec^.HotKeyID = hotkey then
       exit(currRec);
   end;
+
   exit(nil);
 end;
 
@@ -342,28 +349,6 @@ begin
   LanguageNameTimer.Enabled:=False;
 
   self.ActivateLanguage(shortcutRec);
-
-  //if (Mes.HotKey = 1) then
-  //begin
-  //  ActivateLanguage('00000409');
-  //  self.Caption := 'EN';
-  //  langRec := languages.findLanguageByCode(1033);
-  //  self.UpdateLanguageIcon(langRec);
-  //end;
-  //if (Mes.HotKey = 2) then
-  //begin
-  //  ActivateLanguage('00000419');
-  //  self.Caption := 'RUS';
-  //  langRec := languages.findLanguageByCode(1049);
-  //  self.UpdateLanguageIcon(langRec);
-  //end;
-  //if (Mes.HotKey = 3) then
-  //begin
-  //  ActivateLanguage('00000422');
-  //  self.Caption := 'UKR';
-  //  langRec := languages.findLanguageByCode(1058);
-  //  self.UpdateLanguageIcon(langRec);
-  //end;
   LanguageNameTimer.Interval:= 1000;
   LanguageNameTimer.Enabled:=True;
 end;//procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);

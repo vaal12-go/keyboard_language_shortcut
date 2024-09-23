@@ -3,13 +3,14 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <CursorPos X="5" Y="25"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="25" Y="20"/>
         <UsageCount Value="235"/>
       </Unit>
       <Unit>
@@ -20,9 +21,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="342"/>
-        <CursorPos X="26" Y="356"/>
-        <FoldState Value=" T3mU04311 PFi60q"/>
+        <TopLine Value="98"/>
+        <CursorPos X="27" Y="115"/>
+        <FoldState Value=" T3lT0303121 PPiX0d"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
@@ -35,18 +36,21 @@
       <Unit>
         <Filename Value="languages.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="100"/>
-        <CursorPos X="27" Y="145"/>
+        <IsVisibleTab Value="True"/>
+        <WindowIndex Value="3"/>
+        <TopLine Value="129"/>
+        <CursorPos X="11" Y="163"/>
+        <FoldState Value=" T3O0A113 Pfj30X"/>
         <UsageCount Value="210"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="lexer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lexer"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="78"/>
-        <CursorPos X="26" Y="93"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="5" Y="10"/>
         <UsageCount Value="233"/>
       </Unit>
       <Unit>
@@ -63,29 +67,30 @@
         <Filename Value="parser.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Parser"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="8" Y="8"/>
-        <FoldState Value=" T3iG041121211 PjXlI09"/>
-        <UsageCount Value="176"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="191"/>
+        <CursorPos X="21" Y="245"/>
+        <FoldState Value=" T3iE040113211 PiNlR0x"/>
+        <UsageCount Value="180"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="lexerconstants.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="LexerConstants"/>
-        <EditorIndex Value="1"/>
-        <CursorPos X="23" Y="30"/>
-        <UsageCount Value="176"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="4"/>
+        <CursorPos Y="11"/>
+        <FoldState Value=" T3iC0K2 PGW0 T1iZ07H"/>
+        <UsageCount Value="180"/>
       </Unit>
       <Unit>
         <Filename Value="configreader.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ConfigReader"/>
-        <TopLine Value="14"/>
-        <CursorPos X="4" Y="31"/>
-        <UsageCount Value="136"/>
+        <CursorPos X="9" Y="24"/>
+        <UsageCount Value="140"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -104,66 +109,139 @@
         <CursorPos X="88" Y="3834"/>
         <UsageCount Value="28"/>
       </Unit>
+      <Unit>
+        <Filename Value="languagestypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LanguagesTypes"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="4"/>
+        <CursorPos X="5" Y="10"/>
+        <UsageCount Value="22"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="14">
+    <General>
+      <ActiveWindowIndexAtStart Value="2"/>
+    </General>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="mainunit.pas"/>
-        <Caret Line="52" TopLine="44"/>
+        <Caret Line="60" Column="30" TopLine="29"/>
       </Position>
       <Position>
         <Filename Value="mainunit.pas"/>
-        <Caret Line="278" Column="7" TopLine="246"/>
+        <Caret Line="109" Column="25" TopLine="77"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="73" Column="7" TopLine="66"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="116" Column="59" TopLine="93"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="86" Column="11" TopLine="66"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="125" Column="66" TopLine="108"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="97" TopLine="76"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="132" Column="23" TopLine="108"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="111" Column="11" TopLine="79"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="186" Column="18" TopLine="161"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="288" Column="7" TopLine="217"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="220" Column="39" TopLine="185"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="111" Column="11" TopLine="104"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="251" TopLine="217"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="288" Column="7" TopLine="194"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="256" Column="23" TopLine="224"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="105" Column="35" TopLine="97"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="268" Column="62" TopLine="233"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="359" Column="27" TopLine="327"/>
       </Position>
       <Position>
-        <Filename Value="configreader.pas"/>
-        <Caret Line="43" Column="49" TopLine="13"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="341" TopLine="320"/>
       </Position>
       <Position>
-        <Filename Value="lexerconstants.pas"/>
-        <Caret Line="30" Column="23"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="10" Column="34"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="230" Column="33" TopLine="213"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="274" Column="25" TopLine="248"/>
       </Position>
       <Position>
-        <Filename Value="parser.pas"/>
-        <Caret Line="225" Column="6" TopLine="185"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="303" Column="39" TopLine="248"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="10" Column="42"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="121" TopLine="101"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="178" Column="3" TopLine="154"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="10" Column="56"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="155" TopLine="123"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="181" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="334" TopLine="275"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="119" TopLine="98"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="141" Column="34" TopLine="113"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="142" TopLine="112"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="144" Column="46" TopLine="114"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="83" Column="30" TopLine="24"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="80" Column="68" TopLine="37"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="69" Column="13" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="languages.pas"/>
+        <Caret Line="157" Column="54" TopLine="110"/>
       </Position>
     </JumpHistory>
     <RunParams>

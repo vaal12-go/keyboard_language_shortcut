@@ -10,7 +10,6 @@ uses
 type
 
   TLexer = class
-    //procedure TestCall();
     procedure StartLine(textLine: string);
     function NextToken(): PToken;
 
@@ -103,7 +102,6 @@ begin
   end;
   if currPositionInLine = EOF_POSITION then
     exit(nil);
-
   case currChar of
     HASHTAG: begin
       tkn^.TokenType := HASHTAG;

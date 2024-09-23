@@ -13,8 +13,6 @@ procedure DisposeConfigPTShortcutLangRecArr();
 var
   ConfigPTShortcutLangRecArr: PTShortcutLangRecArr;
 
-
-
 implementation
 
 procedure DisposeConfigPTShortcutLangRecArr();
@@ -25,6 +23,7 @@ begin
       dispose(currRec);
     end;
     setLength(ConfigPTShortcutLangRecArr, 0);
+    Finalize(ConfigPTShortcutLangRecArr);
 end;
 
 procedure ReadConfigFile(pathToApplicationFile: string);

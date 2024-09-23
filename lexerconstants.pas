@@ -5,7 +5,7 @@ unit LexerConstants;
 interface
 
 uses
-  Classes, SysUtils, Windows, LazLogger, languages;
+  Classes, SysUtils, Windows, LazLogger, LanguagesTypes;
 
 type
 

@@ -46,7 +46,6 @@
               <DebugInfoType Value="dsDwarf3"/>
               <UseHeaptrc Value="True"/>
               <TrashVariables Value="True"/>
-              <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <Options>
               <Win32>
@@ -141,6 +140,11 @@
         <Filename Value="configreader.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ConfigReader"/>
+      </Unit>
+      <Unit>
+        <Filename Value="languagestypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LanguagesTypes"/>
       </Unit>
     </Units>
   </ProjectOptions>

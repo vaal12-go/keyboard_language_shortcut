@@ -38,8 +38,6 @@ type
     Description: string;
     Token: PToken;
     constructor Create(descr: string = ''; tkn: PToken = nil);
-
-
   end;
 
 function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
@@ -72,6 +70,7 @@ begin
     dispose(currRec);
   end;
   setLength(virtCodeArr, 0);
+  Finalize(virtCodeArr);
 end;
 
 function FindVirtualCodeString(s: string): PTVirtualCodeLang;
@@ -127,10 +126,10 @@ var
   currToken: PToken;
   tkn_arr: LineOfTokens = ();
   prs: TParser;
+  i: integer;
 begin
   lx := TLexer.Create();
   lx.StartLine(line);
-  //tkn_arr := [];
   repeat
     begin
       currToken := lx.NextToken();
@@ -143,18 +142,28 @@ begin
       insert(currToken, tkn_arr, Length(tkn_arr));
     end;
   until (currToken = nil) or (currToken^.TokenType = EOF_TYPE);//EOF is not needed
+  DebugLn('Length(tkn_arr):', IntToStr(Length(tkn_arr)));
 
   if length(tkn_arr) > 0 then
   begin
     prs := TParser.Create();
     shLangRec := prs.ParseLineOfTokens(tkn_arr);
-    for currToken in tkn_arr do
+    i:=0;
+    for currToken in tkn_arr do begin
       dispose(currToken);
+      i:=i+1;
+    end;
     setLength(tkn_arr, 0);
+    DebugLn('Number of tokens disposed:', IntToStr(i));
+    lx.Free();
+    prs.Free();
     exit(shLangRec);
   end
-  else
+  else begin
+    lx.Free();
     exit(nil);
+
+  end;
 end; //function ParseLine(line: string): PTShortcutLangRec;
 
 function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
@@ -229,13 +238,11 @@ begin
       vCode := FindVirtualCodeString(currToken^.TokenLiteral);
       if vCode = nil then
       begin
-        dispose(vCode);
+        //dispose(vCode);
         raise TParserException.Create(
           'Unknown virtual key name supplied:' + currToken^.TokenLiteral, currToken);
         exit(nil);//Should throw error as this is neither a modifier nor a key
-      end
-      else
-      begin
+      end else begin
         shLangRec^.Key := vCode^.CodeNumber;
         dispose(vCode);
         exit(@PARSELANGCODE_FUNC);
@@ -281,9 +288,7 @@ var
 begin
   PARSEMODIFIER_FUNC := ParserFunc(@Self.ParseModifier);
   PARSELANGCODE_FUNC := ParserFunc(@Self.ParseLangCode);
-
   currParserFunc := ParserFunc(@Self.ParseModifier);
-
   new(shLangRec);
   shLangRec^.KbModifierArr := [];
   shLangRec^.Key := 0;
@@ -292,14 +297,12 @@ begin
   shLangRec^.langIconName := '';
   shLangRec^.langCode := -1;
   shLangRec^.LanguageRec := nil;
-
   for currToken in tkn_array do
   begin
     point := currParserFunc();
     if point = nil then break;
     currParserFunc := ParserFunc(point^);
   end;//for currTkn in tkn_array do begin
-
   if Length(tkn_array) = 0 then
     exit(nil)
   else

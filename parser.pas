@@ -100,7 +100,8 @@ var
   splitString: TStringArray;
 begin
   virtCodeArr := [];
-  AssignFile(tfIn, pathToApplicationFile + 'lang_list\Virtual key codes_transformed_19Aug2024.csv');
+  AssignFile(tfIn, pathToApplicationFile +
+    'lang_list\Virtual key codes_transformed_19Aug2024.csv');
   try
     reset(tfIn);
     while not EOF(tfIn) do
@@ -130,13 +131,17 @@ var
 begin
   lx := TLexer.Create();
   lx.StartLine(line);
+  shLangRec := nil;
+  currToken := nil;
   repeat
     begin
       currToken := lx.NextToken();
+      //currToken := nil;
       if currToken = nil then
         break;
       if currToken^.TokenType = HASHTAG then
       begin
+        Dispose(currToken);
         Break;
       end;
       insert(currToken, tkn_arr, Length(tkn_arr));
@@ -148,32 +153,31 @@ begin
   begin
     prs := TParser.Create();
     shLangRec := prs.ParseLineOfTokens(tkn_arr);
-    i:=0;
-    for currToken in tkn_arr do begin
+    //shLangRec := nil;
+    i := 0;
+    for currToken in tkn_arr do
+    begin
       dispose(currToken);
-      i:=i+1;
+      i := i + 1;
     end;
     setLength(tkn_arr, 0);
+    Finalize(tkn_arr);
     DebugLn('Number of tokens disposed:', IntToStr(i));
-    lx.Free();
     prs.Free();
-    exit(shLangRec);
-  end
-  else begin
-    lx.Free();
-    exit(nil);
-
   end;
+  lx.Free();
+  exit(shLangRec);
 end; //function ParseLine(line: string): PTShortcutLangRec;
 
 function ParseLanguageConf(pathToApplicationFile: string): PTShortcutLangRecArr;
 var
-  retArray: array of PTShortcutLangRec = ();
+  retArray: PTShortcutLangRecArr;
   currRec: PTShortcutLangRec;
   tfIn: TextFile;
   s: string;
 begin
   //DebugLn('opening file:'+pathToApplicationFile+'languages.conf');
+  new(retArray);
   AssignFile(tfIn, pathToApplicationFile + 'languages.conf');
   try
     reset(tfIn);
@@ -182,20 +186,28 @@ begin
       readln(tfIn, s);
       DebugLn(s);
       currRec := ParseLine(s);
-      if currRec <> nil then
-        insert(currRec, retArray, Length(retArray));
+      //currRec := nil;
+      if currRec <> nil then begin
+        insert(currRec, retArray^, Length(retArray^));
+        DebugLn('Inserting rec');
+      end;
     end;
     CloseFile(tfIn);
   except
     on E: EInOutError do
-      writeln('File handling error occurred. Details: ', E.Message);
+    begin
+      DebugLn('File handling error occurred. Details: ', E.Message);
+      ShowMessage('Error on line: ' + s + sLineBreak + E.Message);
+    end;
+
     on E: TParserException do
     begin
+      DebugLn('File handling error occurred. Details: ', E.Message);
       ShowMessage('Error on line: ' + s + sLineBreak + E.Description +
         sLineBreak + 'Token:' + E.Token^.TokenLiteral);
-      exit(nil);
     end;
   end;
+  DebugLn('Number of recs in array:', IntToStr(Length(retArray^)));
   exit(retArray);
 end;
 
@@ -242,7 +254,9 @@ begin
         raise TParserException.Create(
           'Unknown virtual key name supplied:' + currToken^.TokenLiteral, currToken);
         exit(nil);//Should throw error as this is neither a modifier nor a key
-      end else begin
+      end
+      else
+      begin
         shLangRec^.Key := vCode^.CodeNumber;
         dispose(vCode);
         exit(@PARSELANGCODE_FUNC);
@@ -303,9 +317,10 @@ begin
     if point = nil then break;
     currParserFunc := ParserFunc(point^);
   end;//for currTkn in tkn_array do begin
-  if Length(tkn_array) = 0 then
-    exit(nil)
-  else
+  if Length(tkn_array) = 0 then begin
+    Dispose(shLangRec);
+    exit(nil);
+  end else
     exit(shLangRec);
 end;//function TParser.ParseLineOfTokens(tkn_array: LineOfTokens): PTShortcutLangRec;
 

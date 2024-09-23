@@ -114,13 +114,13 @@ begin
 
   languages.loadLanguageRecords(self.ApplicationFilePath);
 
-  DebugLn('Exiting Init');
-  exit();
+
 
 
 
   //TODO: move all helper/codes lists (and their loading) to separate unit
   LoadVirtualCodesFromFile(self.ApplicationFilePath);
+
 
 
 
@@ -134,6 +134,7 @@ begin
 
   self.UpdateLanguageState();
 
+
   //Creation of new menu item
   //MItem := TMenuItem.Create(Self);
   //MItem.Caption := 'Caption';
@@ -144,9 +145,11 @@ begin
 
   ReadConfigFile(self.ApplicationFilePath);
 
+
+
   i:=1;
   modifiers :=0;
-  for currShortcutRec in ConfigPTShortcutLangRecArr do begin
+  for currShortcutRec in ConfigPTShortcutLangRecArr^ do begin
     for modifier in currShortcutRec^.KbModifierArr do begin
       modifiers := modifiers or modifier;
     end;
@@ -156,7 +159,12 @@ begin
   end;
 
 
+
+
   DebugLn('Total shortcuts registered:'+IntToStr(i-1));
+
+  //DebugLn('Exiting Init2');
+  //exit();
   for i := 1 to paramCount() do
 	begin
     if paramStr(i) = '--dbg' then
@@ -329,7 +337,7 @@ var
   currRec : PTShortcutLangRec;
 begin
 
-  for currRec in ConfigPTShortcutLangRecArr do begin
+  for currRec in ConfigPTShortcutLangRecArr^ do begin
     if currRec^.HotKeyID = hotkey then
       exit(currRec);
   end;

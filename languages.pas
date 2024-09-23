@@ -150,18 +150,15 @@ begin
         rec^.LanguageCodeShortInt := rec^.LanguageCodeInt;
       end;
 
-      //TEST
-      //rec^.LanguageIcon := nil;
+
       rec^.LanguageIcon := TIcon.Create();
       findIconByLanguage(rec, pathToApplicationFile);
-      //rec^.LanguageIconFileName := findIconByLanguage(rec, pathToApplicationFile);
-      //rec^.LanguageIconFileName := 'qwe1.ico';
+
 
       if FileExists(rec^.LanguageIconFileName) then
       begin
         rec^.LanguageIcon.LoadFromFile(rec^.LanguageIconFileName);
       end;
-      //TEST - END
       langList.Add(rec);
     end;
     CloseFile(tfIn);

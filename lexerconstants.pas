@@ -30,7 +30,9 @@ type
     LanguageRec : PTlangRec;
   end;
 
-  PTShortcutLangRecArr = array of PTShortcutLangRec;
+  TShortcutLangRecArr = array of PTShortcutLangRec;
+  PTShortcutLangRecArr = ^TShortcutLangRecArr;
+
 
 procedure PrintToken(tkn: PToken);
 procedure PrintTokenArray(tknArr: LineOfTokens);
@@ -71,7 +73,10 @@ begin
     DebugLn('   Modifiers:'+modifStr);
     DebugLn('   Key:'+IntToStr(langRec^.Key)+'  | LangCode:'+IntToStr(langRec^.langCode));
     DebugLn('   Language name:'+langRec^.langName);
-    DebugLn('   Language string code:'+langRec^.LanguageRec^.LanguageCodeStr);
+    if langRec^.LanguageRec = nil then
+        DebugLn('   Language record is NIL!')
+    else
+      DebugLn('   Language string code:'+langRec^.LanguageRec^.LanguageCodeStr);
   end;
 end;
 

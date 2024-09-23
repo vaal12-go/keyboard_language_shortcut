@@ -1,0 +1,100 @@
+<h1 id="keyboard-language-shortcut">Keyboard language shortcut</h1>
+<p>
+  This software is made to allow change of language with direct shortcut (e.g.
+  Ctrl-1 for English, Ctrl-2 for Polish) in Windows.
+</p>
+<p>Windows does have system dialog to set language shortcuts:</p>
+<p>
+    <!-- src="/documentation/img/Windows_language_shortcuts.png" -->
+  <img
+    src="documentation/img/Windows_language_shortcuts.png"
+    alt="Windows system language shortcut dialog!"
+  />
+</p>
+<p>
+  Over the years and many windows version (windows 7, 10) multiple updates to
+  windows 10 this option had proven to be unstable (while sequence shortcut
+  usually Ctrl-Shift works fine direct shortcuts after several reboots stop
+  working and have to be entered again). Hence this application.
+</p>
+<p>
+  Application does not change cycling through languages via standart (usually
+  Ctrl-Shift).
+</p>
+<h2 id="installation">Installation</h2>
+<p>
+  This is a simple application. Download zip file from the releases section of
+  github and unzip it somewhere on your computer.
+</p>
+<p>
+  Edit supplied sample languages.conf file (for options see comments in the
+  file).
+</p>
+<p>
+  Keyboard languages does not need to be installed separately if they are not
+  available - application will load those via Windows API.
+</p>
+<p>
+  If you wish for application to start during windows startup automatically, the
+  right press on the application language.
+</p>
+<p>
+  In case application (language) icon is hidden you can force it to be visible
+  all the time (see -
+  <a
+    href="https://www.supportyourtech.com/tech/how-to-show-hidden-icons-on-taskbar-windows-11-a-step-by-step-guide/"
+    >how to show icon</a
+  >)
+</p>
+<h2 id="notes">Notes</h2>
+<p>
+  Shortcut can be a combination of ctrl, alt, win and shift modifiers and a
+  single key (this is limitation of windows API, so cannot be changed).
+  Application will be developed to accept multiple keys).
+</p>
+<p>
+  For list of virtual keys see
+  <a
+    href="https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes"
+    >Windows virtual codes</a
+  >. For
+</p>
+<p>
+  For list of supported keyboard layouts see
+  <a
+    href="https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values?view=windows-11"
+    >Windows keyboard layouts codes</a
+  >
+</p>
+<p>
+  This is not a stable application. It will not harm your computer, but possible
+  bugs may require restart of the application.
+</p>
+<h3 id="operating-systems">Operating systems</h3>
+<p>
+  Only windows (tested on Windows 10) OS is supported. No plans for other
+  operating systems. Although the application is in free pascal (which is cross
+  platform), application relies heavily on OS specific keyboard APIs, which I
+  believe would be hard to port for other OSes.
+</p>
+<h3 id="further-development">Further development</h3>
+<ul>
+  <li>Add support for custom language icon files</li>
+  <li>Add dark language icons</li>
+  <li>Add language selection via right click menu on language icon</li>
+</ul>
+<h2 id="thanks">Thanks</h2>
+<ul>
+  <li>Icon set is made by loopakel@gmail.com</li>
+  <li>
+    Amazing
+    <a href="https://www.lazarus-ide.org/">lazarus IDE and free pascal</a>
+  </li>
+</ul>
+<h2 id="support">Support</h2>
+<p>
+  For questions/bug reports, please go to
+  <a href="https://discord.gg/dH48ShUhGm"
+    >discord channel for this application</a
+  >.
+</p>

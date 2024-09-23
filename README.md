@@ -4,7 +4,7 @@ This software is made to allow change of language with direct shortcut (e.g. Ctr
 
 Windows does have system dialog to set language shortcuts:
 
-![Windows system language shortcut dialog!](/documentation/img/Windows_language_shortcuts.png)
+![Windows system language shortcut dialog!](documentation/img/Windows_language_shortcuts.png)
 
 Over the years and many windows version (windows 7, 10) multiple updates to windows 10 this option had proven to be unstable (while sequence shortcut usually Ctrl-Shift works fine direct shortcuts after several reboots stop working and have to be entered again). Hence this application.
 
@@ -26,7 +26,7 @@ In case application (language) icon is hidden you can force it to be visible all
 
 Shortcut can be a combination of ctrl, alt, win and shift modifiers and a single key (this is limitation of windows API, so cannot be changed). Application will be developed to accept multiple keys).
 
-For list of virtual keys see [Windows virtual codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+For list of virtual keys see [Windows virtual codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes). For
 
 For list of supported keyboard layouts see [Windows keyboard layouts codes](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values?view=windows-11)
 
@@ -47,6 +47,7 @@ Only windows (tested on Windows 10) OS is supported. No plans for other operatin
 
 * Icon set is made by loopakel@gmail.com
 * Amazing [lazarus IDE and free pascal](https://www.lazarus-ide.org/)
+* This file is converted to HTML with https://markdowntohtml.com/
 
 ## Support
 

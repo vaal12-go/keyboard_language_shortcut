@@ -54,7 +54,6 @@ implementation
 
 var
   PARSEMODIFIER_FUNC: ParserFunc;
-  //PARSEKEY_FUNC: ParserFunc;
   PARSELANGCODE_FUNC: ParserFunc;
   virtCodeArr: array of PTVirtualCodeLang;
 

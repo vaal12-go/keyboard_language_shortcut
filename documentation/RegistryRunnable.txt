@@ -1,0 +1,8 @@
+https://www.wintips.org/how-to-run-a-program-at-startup-via-registry/
+
+https://www.thewindowsclub.com/windows-startup-paths-folders-and-registry-settings
+
+https://devblogs.microsoft.com/powershell/how-to-access-or-modify-startup-items-in-the-window-registry/
+
+Working with registry: https://wiki.freepascal.org/fcl-registry
+https://forum.lazarus.freepascal.org/index.php?topic=32131.0

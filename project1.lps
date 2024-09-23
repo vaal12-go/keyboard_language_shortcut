@@ -3,87 +3,168 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Default"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="20"/>
+        <CursorPos X="5" Y="25"/>
+        <UsageCount Value="235"/>
       </Unit>
       <Unit>
-        <Filename Value="unit1.pas"/>
+        <Filename Value="mainunit.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="MainAppForm"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="43"/>
-        <CursorPos X="29" Y="55"/>
-        <UsageCount Value="20"/>
+        <UnitName Value="MainUnit"/>
+        <WindowIndex Value="2"/>
+        <TopLine Value="342"/>
+        <CursorPos X="26" Y="356"/>
+        <FoldState Value=" T3mU04311 PFi60q"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <EditorIndex Value="-1"/>
+          <CursorPos X="28" Y="9"/>
+        </ExtraEditor1>
+        <UsageCount Value="235"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="languages.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="100"/>
+        <CursorPos X="27" Y="145"/>
+        <UsageCount Value="210"/>
+      </Unit>
+      <Unit>
+        <Filename Value="lexer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Lexer"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="78"/>
+        <CursorPos X="26" Y="93"/>
+        <UsageCount Value="233"/>
+      </Unit>
+      <Unit>
+        <Filename Value="registryregistration.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RegistryRegistration"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="3"/>
+        <CursorPos X="10" Y="32"/>
+        <UsageCount Value="233"/>
+      </Unit>
+      <Unit>
+        <Filename Value="parser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Parser"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="48"/>
+        <CursorPos X="18" Y="84"/>
+        <FoldState Value=" T3iG041121211 PjXlI09"/>
+        <UsageCount Value="176"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="lexerconstants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LexerConstants"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="23" Y="30"/>
+        <UsageCount Value="176"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="configreader.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ConfigReader"/>
+        <TopLine Value="14"/>
+        <CursorPos X="4" Y="31"/>
+        <UsageCount Value="136"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\lcl\include\icon.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="400"/>
+        <CursorPos X="83" Y="424"/>
+        <UsageCount Value="1"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\winunits-jedi\src\jwawinuser.pas"/>
+        <UnitName Value="JwaWinUser"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="2"/>
+        <TopLine Value="3827"/>
+        <CursorPos X="88" Y="3834"/>
+        <UsageCount Value="28"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="13">
+    <JumpHistory HistoryIndex="14">
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="43" Column="18" TopLine="21"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="52" TopLine="44"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="8" Column="75" TopLine="6"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="278" Column="7" TopLine="246"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="17" Column="7" TopLine="6"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="73" Column="7" TopLine="66"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="43" Column="42" TopLine="28"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="86" Column="11" TopLine="66"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="44" Column="55" TopLine="24"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="97" TopLine="76"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="53" Column="10" TopLine="32"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="111" Column="11" TopLine="79"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="49" Column="25" TopLine="34"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="288" Column="7" TopLine="217"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="58" Column="3" TopLine="37"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="111" Column="11" TopLine="104"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="56" Column="54" TopLine="37"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="288" Column="7" TopLine="194"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="60" Column="43" TopLine="37"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="105" Column="35" TopLine="97"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="58" Column="2" TopLine="37"/>
+        <Filename Value="parser.pas"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="62" Column="2" TopLine="43"/>
+        <Filename Value="configreader.pas"/>
+        <Caret Line="43" Column="49" TopLine="13"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="54" Column="2" TopLine="40"/>
+        <Filename Value="lexerconstants.pas"/>
+        <Caret Line="30" Column="23"/>
       </Position>
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="62" Column="2" TopLine="43"/>
+        <Filename Value="parser.pas"/>
+        <Caret Line="230" Column="33" TopLine="213"/>
+      </Position>
+      <Position>
+        <Filename Value="parser.pas"/>
+        <Caret Line="225" Column="6" TopLine="185"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -91,19 +172,53 @@
       <Modes ActiveMode="default">
         <Mode Name="default">
           <local>
-            <CommandLineParams Value="--debug-log=qwe1.log"/>
+            <CommandLineParams Value="--debug-log=qwe1.log --dbg"/>
           </local>
         </Mode>
       </Modes>
     </RunParams>
     <HistoryLists>
-      <List Name="WorkingDirectory" Type="File" Count="1"/>
       <List Name="LaunchingApplication" Type="File" Count="1">
         <Item1 Value="C:\Windows\system32\cmd.exe /C ${TargetCmdLine}"/>
       </List>
       <List Name="CommandLineParameters" Count="2">
-        <Item1 Value="--debug-log=qwe1.log"/>
+        <Item1 Value="--debug-log=qwe1.log --dbg"/>
+        <Item2 Value="--debug-log=qwe1.log"/>
       </List>
     </HistoryLists>
   </ProjectSession>
+  <Debugging>
+    <Watches>
+      <Item>
+        <Expression Value="currPositionInLine"/>
+      </Item>
+      <Item>
+        <Expression Value="lexingLine"/>
+      </Item>
+      <Item>
+        <Expression Value="lexingLine[currPositionInLine]"/>
+      </Item>
+      <Item>
+        <Expression Value="currToken &lt;> nil"/>
+      </Item>
+      <Item>
+        <Expression Value="currToken^.TokenType &lt;> EOF_TYPE"/>
+      </Item>
+      <Item>
+        <Expression Value="@ParseModifier"/>
+      </Item>
+      <Item>
+        <Expression Value="PARSEMODIFIER_FUNC"/>
+      </Item>
+      <Item>
+        <Expression Value="currToken"/>
+      </Item>
+      <Item>
+        <Expression Value="virtCodeArr"/>
+      </Item>
+      <Item>
+        <Expression Value="retArray[0]"/>
+      </Item>
+    </Watches>
+  </Debugging>
 </CONFIG>

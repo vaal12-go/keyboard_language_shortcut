@@ -367,6 +367,6 @@ begin
   LanguageNameTimer.Interval:= 1000;
   LanguageNameTimer.Enabled:=True;
 end;//procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
-
+//34563fa7993331f673895a167bf2aab2542a409fe6bb765bf0226c582d54a7e226173c050e6f2c12d0d24b3a331fec0ae13617f328d2c192a4c3802fa21f06ae
 
 end.

@@ -20,8 +20,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="193"/>
-        <CursorPos Y="202"/>
+        <TopLine Value="342"/>
+        <CursorPos X="26" Y="356"/>
         <FoldState Value=" T3mU04311 PFi60q"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
@@ -66,7 +66,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="48"/>
-        <CursorPos X="23" Y="77"/>
+        <CursorPos X="18" Y="84"/>
         <FoldState Value=" T3iG041121211 PjXlI09"/>
         <UsageCount Value="176"/>
         <Loaded Value="True"/>

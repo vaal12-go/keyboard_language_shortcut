@@ -8,10 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   Menus, Windows, LazLogger, JwaWinUser, ShellApi, LexerConstants, LanguagesTypes,
   languages, RegistryRegistration, Parser, ConfigReader;
-// ,
-//,
-//,
-// ,
+
 type
   TWMHotKey = packed record
     Msg: cardinal;
@@ -73,17 +70,9 @@ implementation
 
 { TMainAppForm }
 
-// class eraser
-//destructor TMainAppForm.Destroy();
-//begin
-//  DebugLn('Destructor called');
-//  inherited; // Also called parent class destroyer
-//end;
-
 
 procedure TMainAppForm.InitApp();
 var
-  //MItem: TMenuItem;
   currDateTime : TDateTime;
   dtStr, logFName, renameLogFName, hmsStr : string;
   i, modifier: integer;
@@ -108,22 +97,10 @@ begin
   LazLogger.DebugLogger.LogName:= logFName;
 
   InitLanguagesModule();
-
-
-
-
   languages.loadLanguageRecords(self.ApplicationFilePath);
-
-
-
-
 
   //TODO: move all helper/codes lists (and their loading) to separate unit
   LoadVirtualCodesFromFile(self.ApplicationFilePath);
-
-
-
-
 
   //TODO: Alt modifier leads to 'freezing' of switching languages after several switches
   //Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
@@ -131,9 +108,7 @@ begin
   //Windows.RegisterHotKey(self.Handle, 2, MOD_ALT, VK_OEM_6); //}
   //Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
 
-
   self.UpdateLanguageState();
-
 
   //Creation of new menu item
   //MItem := TMenuItem.Create(Self);
@@ -142,11 +117,7 @@ begin
   ////MItem.Name := ItemName;
   //TrayPopupMenu.Items.Insert(2, MItem);
 
-
   ReadConfigFile(self.ApplicationFilePath);
-
-
-
   i:=1;
   modifiers :=0;
   for currShortcutRec in ConfigPTShortcutLangRecArr^ do begin
@@ -157,9 +128,6 @@ begin
     Windows.RegisterHotKey(self.Handle, i, modifiers, currShortcutRec^.Key);
     i:=i+1;
   end;
-
-
-
 
   DebugLn('Total shortcuts registered:'+IntToStr(i-1));
 
@@ -317,8 +285,12 @@ var
   hk: HKL;
   forWindowHandle, parentHandle: HWND;
   lang_str: PChar;
-  //errStr : string;
 begin
+  if langRec = nil then begin
+     ShowMessage('Language record is empty');
+     exit;
+  end;
+
   lang_str := PChar(langRec^.LanguageRec^.LanguageCodeStr);
   hk := Windows.LoadKeyboardLayoutA(lang_str, JwaWinUser.KLF_ACTIVATE or
     JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS);
@@ -350,7 +322,9 @@ var
   //langRec: PTlangRec;
   shortcutRec :PTShortcutLangRec;
 begin
-  shortcutRec:=findShortcutRecByHotkey(Mes.HotKey);
+//  Since some version of Windows 10 Mes.HotKey stopped returning Hotkey ID
+  // Instead it is returned in Mes.Unused
+  shortcutRec:=findShortcutRecByHotkey(Mes.Unused);
   DebugLn('---------------------');
   PrintShortcutLangRec(shortcutRec);
 

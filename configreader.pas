@@ -32,7 +32,7 @@ var
   modifier: integer;
   testArray: array of PTShortcutLangRec = ();
 begin
-  //TODO: check why    Language name: is empty
+  //TODO: check why Language name: is empty
   //ConfigPTShortcutLangRecArr := array of PTShortcutLangRec
   ConfigPTShortcutLangRecArr := ParseLanguageConf(pathToApplicationFile);
     //ConfigPTShortcutLangRecArr := testArray;

@@ -36,6 +36,9 @@ This is not a stable application. It will not harm your computer, but possible b
 
 Only windows (tested on Windows 10) OS is supported. No plans for other operating systems. Although the application is in free pascal (which is cross platform), application relies heavily on OS specific keyboard APIs, which I believe would be hard to port for other OSes.
 
+### Releases
+See [Releases](/documentation/RELEASES.md) page
+
 ### Further development
 
 * Add support for custom language icon files

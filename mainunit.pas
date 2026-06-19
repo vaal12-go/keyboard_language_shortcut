@@ -90,6 +90,8 @@ var
 begin
 //  TODO: check why .conf file is not working with numbers (0..9) in Virtual codes:
 //  https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+
+//  TODO: check why after Dvorak keyboard RUS language is not turning off. UKR does
   self.DebugMode:= False;
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
   currDateTime := Now();

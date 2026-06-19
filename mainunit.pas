@@ -88,6 +88,8 @@ var
   currShortcutRec: PTShortcutLangRec;
 
 begin
+//  TODO: check why .conf file is not working with numbers (0..9) in Virtual codes:
+//  https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
   self.DebugMode:= False;
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
   currDateTime := Now();
@@ -302,31 +304,14 @@ begin
      exit;
   end;
 
-  lang_str := PChar(langRec^.LanguageRec^.LanguageCodeStr);
-  //lang_str := PChar('0422');
-  //lang_str := PChar('00010409');
-
-  //lang_str := '1033';
-  //old_hkl := GetKeyboardLayout(0);
-
-  lang_str_wide := LPCWSTR(langRec^.LanguageRec^.LanguageCodeStr);
-
   //hk := Windows.LoadKeyboardLayout(lang_str, JwaWinUser.KLF_ACTIVATE or
   //  JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS or KLF_REPLACELANG);
   hk := Windows.LoadKeyboardLayout(LPCSTR(langRec^.LanguageRec^.LanguageCodeStr), KLF_ACTIVATE);
   err_code := GetLastError();
-    hk_dword := DWORD(hk);
-    hk_qword := QWord(hk);
   //                 or JwaWinUser.KLF_NOTELLSHELL
   //hk := hk and $1111111111111111;
   //Windows.ActivateKeyboardLayout(hk, JwaWinUser.KLF_SETFORPROCESS);
   forWindowHandle := Windows.GetForegroundWindow();
-
-  //err_code := GetLastError();
-  //hk :=  68748313;
-  //if hk = 18446744073452127266 then
-  //   hk := 4037542946;  //Trimmed QWord to DWord: F0A8 0422
-
 
   Windows.PostMessage(forWindowHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, LPARAM(hk));
   parentHandle := Windows.GetParent(forWindowHandle);

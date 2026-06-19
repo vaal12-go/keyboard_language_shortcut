@@ -23,8 +23,8 @@
         <UnitName Value="MainUnit"/>
         <IsVisibleTab Value="True"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="316"/>
-        <CursorPos X="23" Y="328"/>
+        <TopLine Value="295"/>
+        <CursorPos X="16" Y="306"/>
         <FoldState Value=" T3lD0303121 PPiX0Z"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
@@ -105,7 +105,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="4"/>
         <CursorPos X="5" Y="10"/>
-        <UsageCount Value="87"/>
+        <UsageCount Value="88"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\icon.inc"/>
@@ -137,7 +137,7 @@
         <WindowIndex Value="2"/>
         <TopLine Value="156"/>
         <CursorPos X="10" Y="169"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
@@ -145,14 +145,6 @@
       <ActiveWindowIndexAtStart Value="1"/>
     </General>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="327" Column="16" TopLine="317"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="315" TopLine="310"/>
-      </Position>
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="316" Column="19" TopLine="310"/>
@@ -265,6 +257,14 @@
         <Filename Value="mainunit.pas"/>
         <Caret Line="328" TopLine="316"/>
       </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="313" TopLine="301"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="302" Column="37" TopLine="295"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -287,15 +287,6 @@
     </HistoryLists>
   </ProjectSession>
   <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="mainunit.pas"/>
-        <Line Value="316"/>
-      </Item>
-    </BreakPoints>
     <Watches>
       <Item>
         <Expression Value="currToken &lt;> nil"/>

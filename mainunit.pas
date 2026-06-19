@@ -10,11 +10,19 @@ uses
   languages, RegistryRegistration, Parser, ConfigReader;
 
 type
-  TWMHotKey = packed record
-    Msg: cardinal;
-    HotKey: longint;
-    Unused: longint;
-    Result: longint;
+  //TWMHotKey = packed record
+  //  Msg: cardinal;
+  //  HotKey: longint;
+  //  Unused: longint;
+  //  Result: longint;
+  //end;
+//  This version is working for 64 bit systems
+  TWMHotKey = record
+    Msg: Cardinal;
+    MsgFiller: TDWordFiller;
+    HotKey: WPARAM;
+    Unused: LPARAM;
+    Result: LRESULT;
   end;
 
   HKLArray = array [0..200] of HKL;
@@ -282,9 +290,12 @@ end;
 
 procedure TMainAppForm.ActivateLanguage(langRec: PTShortcutLangRec);
 var
-  hk: HKL;
+  hk, old_hkl: HKL;
   forWindowHandle, parentHandle: HWND;
   lang_str: PChar;
+  lang_str_wide : PWideChar;
+  err_code, hk_dword: DWORD;
+  hk_qword: QWord;
 begin
   if langRec = nil then begin
      ShowMessage('Language record is empty');
@@ -292,14 +303,34 @@ begin
   end;
 
   lang_str := PChar(langRec^.LanguageRec^.LanguageCodeStr);
-  hk := Windows.LoadKeyboardLayoutA(lang_str, JwaWinUser.KLF_ACTIVATE or
-    JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS);
+  //lang_str := PChar('0422');
+  //lang_str := PChar('00010409');
+
+  //lang_str := '1033';
+  //old_hkl := GetKeyboardLayout(0);
+
+  lang_str_wide := LPCWSTR(langRec^.LanguageRec^.LanguageCodeStr);
+
+  //hk := Windows.LoadKeyboardLayout(lang_str, JwaWinUser.KLF_ACTIVATE or
+  //  JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS or KLF_REPLACELANG);
+  hk := Windows.LoadKeyboardLayout(LPCSTR(langRec^.LanguageRec^.LanguageCodeStr), KLF_ACTIVATE);
+  err_code := GetLastError();
+    hk_dword := DWORD(hk);
+    hk_qword := QWord(hk);
   //                 or JwaWinUser.KLF_NOTELLSHELL
-  Windows.ActivateKeyboardLayout(hk, 0);
+  //hk := hk and $1111111111111111;
+  //Windows.ActivateKeyboardLayout(hk, JwaWinUser.KLF_SETFORPROCESS);
   forWindowHandle := Windows.GetForegroundWindow();
-  Windows.PostMessage(forWindowHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
+
+  //err_code := GetLastError();
+  //hk :=  68748313;
+  //if hk = 18446744073452127266 then
+  //   hk := 4037542946;  //Trimmed QWord to DWord: F0A8 0422
+
+
+  Windows.PostMessage(forWindowHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, LPARAM(hk));
   parentHandle := Windows.GetParent(forWindowHandle);
-  Windows.PostMessage(parentHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, hk);
+  Windows.PostMessage(parentHandle, Windows.WM_INPUTLANGCHANGEREQUEST, 0, LPARAM(hk));
 
   self.UpdateLanguageIcon(langRec^.LanguageRec);
 end;//procedure ActivateLanguage(var lng_const : string);
@@ -324,7 +355,7 @@ var
 begin
 //  Since some version of Windows 10 Mes.HotKey stopped returning Hotkey ID
   // Instead it is returned in Mes.Unused
-  shortcutRec:=findShortcutRecByHotkey(Mes.Unused);
+  shortcutRec:=findShortcutRecByHotkey(Mes.HotKey);
   DebugLn('---------------------');
   PrintShortcutLangRec(shortcutRec);
 

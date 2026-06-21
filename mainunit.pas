@@ -10,12 +10,6 @@ uses
   languages, RegistryRegistration, Parser, ConfigReader;
 
 type
-  //TWMHotKey = packed record
-  //  Msg: cardinal;
-  //  HotKey: longint;
-  //  Unused: longint;
-  //  Result: longint;
-  //end;
 //  This version is working for 64 bit systems
   TWMHotKey = record
     Msg: Cardinal;
@@ -65,8 +59,6 @@ type
     procedure OnMenuHotKey(var Mes: TWMHotKey); message wm_hotkey;
     procedure UpdateLanguageState();
     procedure UpdateLanguageIcon(langRec: PTlangRec);
-    //destructor Destroy();
-
   end;//TMainAppForm = class(TForm)
 
 var
@@ -117,8 +109,6 @@ begin
   //TODO: Alt modifier leads to 'freezing' of switching languages after several switches
   //Windows.RegisterHotKey(self.Handle, 1, MOD_ALT, VK_OEM_4);
   ////http://kbdedit.com/manual/low_level_vk_list.html
-  //Windows.RegisterHotKey(self.Handle, 2, MOD_ALT, VK_OEM_6); //}
-  //Windows.RegisterHotKey(self.Handle, 3, MOD_ALT, VK_OEM_5); //\
 
   self.UpdateLanguageState();
 
@@ -141,10 +131,7 @@ begin
     i:=i+1;
   end;
 
-  DebugLn('Total shortcuts registered:'+IntToStr(i-1));
-
-  //DebugLn('Exiting Init2');
-  //exit();
+  // DebugLn('Total shortcuts registered:'+IntToStr(i-1));
   for i := 1 to paramCount() do
 	begin
     if paramStr(i) = '--dbg' then
@@ -163,34 +150,17 @@ end;
 procedure TMainAppForm.FormDestroy(Sender: TObject);
 begin
   DebugLn('OnDestroy called');
-
   DisposeVirtualCodeArray();
-
-
-
   DisposeConfigPTShortcutLangRecArr();
-
-
-
   DisposeLanguageRecords();
   FinishLanguagesModule();
-
-
-  // By default information is written to standard output,
-  // this function allows you to redirect the information to a file
-  //SetHeapTraceOutput('heaptrace.log');
-  //
-  //// normally the heap dump will be written automatically at the end,
-  //// but can also be written on demand any time
-  //DumpHeap;
-
   DebugLn('Disposals finished');
 end;
 
 procedure TMainAppForm.FormShow(Sender: TObject);
 begin
   self.InitApp();
-end; //procedure TMainAppForm.FormShow(Sender: TObject);
+end; 
 
 procedure TMainAppForm.UpdateLanguageIcon(langRec: PTlangRec);
 var
@@ -203,7 +173,6 @@ begin
     errStr := 'Have language without icon:' + langRec^.LanguageName + sLineBreak;
     errStr := errStr + '    code:' + IntToStr(langRec^.LanguageCodeInt) + sLineBreak;
     DebugLn(errStr);
-    //ShowMessage(errStr);
   end;
 end;//procedure TMainAppForm.UpdateLanguageIcon(langRec: PTlangRec);
 
@@ -227,7 +196,6 @@ begin
 
   langRec := languages.findLanguageByCode(langID);
 
-
   if langRec <> nil then
   begin
     langName := (langRec)^.LanguageName;
@@ -238,7 +206,6 @@ begin
     self.Caption := langName;
     Application.Title := 'Language:' + langName;
   end;
-
 end;
 
 procedure TMainAppForm.LanguageNameTimerTimer(Sender: TObject);
@@ -305,7 +272,6 @@ begin
      ShowMessage('Language record is empty');
      exit;
   end;
-
   //hk := Windows.LoadKeyboardLayout(lang_str, JwaWinUser.KLF_ACTIVATE or
   //  JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS or KLF_REPLACELANG);
   hk := Windows.LoadKeyboardLayout(LPCSTR(langRec^.LanguageRec^.LanguageCodeStr), KLF_ACTIVATE);
@@ -326,32 +292,25 @@ function findShortcutRecByHotkey(hotkey : longint) : PTShortcutLangRec;
 var
   currRec : PTShortcutLangRec;
 begin
-
   for currRec in ConfigPTShortcutLangRecArr^ do begin
     if currRec^.HotKeyID = hotkey then
       exit(currRec);
   end;
-
   exit(nil);
 end;
 
 procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
 var
-  //langRec: PTlangRec;
   shortcutRec :PTShortcutLangRec;
 begin
-//  Since some version of Windows 10 Mes.HotKey stopped returning Hotkey ID
-  // Instead it is returned in Mes.Unused
   shortcutRec:=findShortcutRecByHotkey(Mes.HotKey);
-  DebugLn('---------------------');
+  // DebugLn('---------------------');
   PrintShortcutLangRec(shortcutRec);
-
   LanguageNameTimer.Enabled:=False;
-
   self.ActivateLanguage(shortcutRec);
   LanguageNameTimer.Interval:= 1000;
   LanguageNameTimer.Enabled:=True;
 end;//procedure TMainAppForm.OnMenuHotKey(var Mes: TWMHotKey);
-//34563fa7993331f673895a167bf2aab2542a409fe6bb765bf0226c582d54a7e226173c050e6f2c12d0d24b3a331fec0ae13617f328d2c192a4c3802fa21f06ae
 
+//c46c48ddaccc53835237b551df240c1dc51ca78911fdec845481c04bb2bb438b71ed15431131850dd2654a136047dbe3129c728d4148f971d3bc0d7568124a86
 end.

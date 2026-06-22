@@ -26,11 +26,17 @@ In case application (language) icon is hidden you can force it to be visible all
 
 Shortcut can be a combination of ctrl, alt, win and shift modifiers and a single key (this is limitation of windows API, so cannot be changed). Application will be developed to accept multiple keys).
 
-For list of virtual keys see [Windows virtual codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes). For
+For list of virtual keys see [Windows virtual codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes). 
+
+At the moment it seems that only letters and VK keyboard codes are working. In next versions special attention will be paid to digits and special symbols inside shortcuts.
 
 For list of supported keyboard layouts see [Windows keyboard layouts codes](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values?view=windows-11)
 
-This is not a stable application. It will not harm your computer, but possible bugs may require restart of the application. 
+Stability of the application is tested during several years of development and everyday use. For shortcuts and languages where it is working - it does not require restarts.
+
+### Note on enhanced layouts (e.g. US Dvorak)
+
+Such layouts change where keys are located on the keyboard (including VK_ keys). This can be probably best overcome with ability to have multiple shortcuts for one keyboard layout (e.g. Ctrl-P on US Intl. layout and Ctrl-L on Dvorak will be the same combination of physical keys). This will be addressed in next few releases of the application.
 
 ### Operating systems
 

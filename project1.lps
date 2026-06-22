@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="project1.lpr"/>
@@ -23,8 +23,9 @@
         <UnitName Value="MainUnit"/>
         <IsVisibleTab Value="True"/>
         <WindowIndex Value="2"/>
-        <TopLine Value="97"/>
-        <CursorPos X="45" Y="102"/>
+        <TopLine Value="270"/>
+        <CursorPos X="42" Y="293"/>
+        <FoldState Value=" T3iU0=3 PEj00f"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
@@ -105,14 +106,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="4"/>
         <CursorPos X="5" Y="10"/>
-        <UsageCount Value="119"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\lazarus\lcl\include\icon.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="400"/>
-        <CursorPos X="83" Y="424"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="143"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\winunits-jedi\src\jwawinuser.pas"/>
@@ -121,7 +115,7 @@
         <WindowIndex Value="2"/>
         <TopLine Value="3827"/>
         <CursorPos X="88" Y="3834"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="16"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\win\wininc\base.inc"/>
@@ -129,7 +123,7 @@
         <WindowIndex Value="2"/>
         <TopLine Value="120"/>
         <CursorPos X="6" Y="131"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\win\wininc\ascdef.inc"/>
@@ -137,7 +131,7 @@
         <WindowIndex Value="2"/>
         <TopLine Value="156"/>
         <CursorPos X="10" Y="169"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -147,38 +141,14 @@
         <WindowIndex Value="2"/>
         <TopLine Value="5750"/>
         <CursorPos X="16" Y="5753"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="1"/>
     </General>
-    <JumpHistory HistoryIndex="28">
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="323" TopLine="307"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="316" TopLine="307"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="317" TopLine="307"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="318" TopLine="307"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="319" TopLine="307"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="328" Column="60" TopLine="307"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="316" TopLine="303"/>
@@ -269,7 +239,35 @@
       </Position>
       <Position>
         <Filename Value="mainunit.pas"/>
-        <Caret Line="292" Column="3" TopLine="324"/>
+        <Caret Line="192" Column="12" TopLine="174"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="196" Column="35" TopLine="181"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="293" Column="30" TopLine="275"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="292" Column="17" TopLine="275"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="293" TopLine="275"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="295" Column="21" TopLine="269"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="296" Column="7" TopLine="270"/>
+      </Position>
+      <Position>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="289" Column="18" TopLine="270"/>
       </Position>
     </JumpHistory>
     <RunParams>

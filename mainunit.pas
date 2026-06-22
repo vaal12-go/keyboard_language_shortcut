@@ -176,7 +176,7 @@ begin
   end;
 end;//procedure TMainAppForm.UpdateLanguageIcon(langRec: PTlangRec);
 
-procedure TMainAppForm.UpdateLanguageState();
+function GetForegroundWindowKeyboardLayout(): HKL;
 var
   langKL: HKL;
   langID: integer;
@@ -191,7 +191,24 @@ begin
 
   langKL := Windows.GetKeyboardLayout(threadID);
   //TODO: check what is upper bytes of langKL do
+
+  exit(langKL);
+end;
+
+procedure TMainAppForm.UpdateLanguageState();
+var
+  langKL: HKL;
+  langID: integer;
+  langName: string;
+  forWindowHandle: HWND;
+  procID, threadID: DWORD;
+  langRec: PTlangRec;
+begin
+  langKL := GetForegroundWindowKeyboardLayout();
+
   langID := (langKL and $ffff0000) shr 16;
+
+
   langRec := nil;
 
   langRec := languages.findLanguageByCode(langID);
@@ -272,6 +289,12 @@ begin
      ShowMessage('Language record is empty');
      exit;
   end;
+
+//  Some layouts (e.g. Dvorak) redeclare where VK_OEM_4 buttons are located on the keyboard - e.g.
+//    on Dvorak it becomes '-' button on the US keyboard.
+//  TODO: this creates a need to have several keyboard shortcuts for one language.
+
+  old_hkl := GetForegroundWindowKeyboardLayout();
   //hk := Windows.LoadKeyboardLayout(lang_str, JwaWinUser.KLF_ACTIVATE or
   //  JwaWinUser.KLF_SUBSTITUTE_OK or JwaWinUser.KLF_SETFORPROCESS or KLF_REPLACELANG);
   hk := Windows.LoadKeyboardLayout(LPCSTR(langRec^.LanguageRec^.LanguageCodeStr), KLF_ACTIVATE);

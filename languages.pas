@@ -130,9 +130,11 @@ begin
     while not EOF(tfIn) do
     begin
       readln(tfIn, s);
+      //DebugLn('Parsing key line:', s);
       splitStr := s.Split(';');
       new(rec);
       rec^.LanguageName := splitStr[0];
+      //DebugLn('Loading virtual code:', splitStr[0]);
       rec^.LanguageCodeStr := splitStr[1];
       Val('$' + rec^.LanguageCodeStr, rec^.LanguageCodeInt, Code);
       if Code <> 0 then
@@ -150,10 +152,8 @@ begin
         rec^.LanguageCodeShortInt := rec^.LanguageCodeInt;
       end;
 
-
       rec^.LanguageIcon := TIcon.Create();
       findIconByLanguage(rec, pathToApplicationFile);
-
 
       if FileExists(rec^.LanguageIconFileName) then
       begin

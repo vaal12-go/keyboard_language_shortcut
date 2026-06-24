@@ -19,7 +19,6 @@ type
 
   TParserFunc = ^ParserFunc;
   ParserFunc = function(): TParserFunc of object;
-  //FuncPointer = function:ParserFunc of object;
 
   TParser = class
     function ParseKey(): TParserFunc;
@@ -78,8 +77,10 @@ var
   resVCode, currVCode: PTVirtualCodeLang;
 begin
   resVCode := nil;
+  DebugLn('Checking VirtualCode:', s);
   for currVCode in virtCodeArr do
   begin
+    DebugLn('Checking against code:',currVCode^.CodeString);
     if currVCode^.CodeString = s then
     begin
       new(resVCode);
@@ -89,6 +90,7 @@ begin
     end;
   end;
   exit(resVCode);
+
 end;
 
 
@@ -107,8 +109,10 @@ begin
     while not EOF(tfIn) do
     begin
       readln(tfIn, s);
+      DebugLn('loading line', s);
       new(virtCode);
       splitString := s.Split(';');
+      DebugLn('virtual key:', splitString[0]);
       virtCode^.CodeString := splitString[0];
       Val(splitString[1], virtCode^.CodeNumber);
       insert(virtCode, virtCodeArr, Length(virtCodeArr));
@@ -136,7 +140,6 @@ begin
   repeat
     begin
       currToken := lx.NextToken();
-      //currToken := nil;
       if currToken = nil then
         break;
       if currToken^.TokenType = HASHTAG then
@@ -153,7 +156,6 @@ begin
   begin
     prs := TParser.Create();
     shLangRec := prs.ParseLineOfTokens(tkn_arr);
-    //shLangRec := nil;
     i := 0;
     for currToken in tkn_arr do
     begin
@@ -245,12 +247,14 @@ var
   vCode: PTVirtualCodeLang;
 begin
   vCode := nil;
-  case currToken^.TokenType of
-    IDENTIFIER: begin
-      vCode := FindVirtualCodeString(currToken^.TokenLiteral);
+  if (currToken^.TokenType = IDENTIFIER) or
+    (currToken^.TokenType = NUMBER) then begin
+      if currToken^.TokenType = NUMBER  then
+            vCode := FindVirtualCodeString('NUM_'+currToken^.TokenLiteral)
+      else
+            vCode := FindVirtualCodeString(currToken^.TokenLiteral);
       if vCode = nil then
       begin
-        //dispose(vCode);
         raise TParserException.Create(
           'Unknown virtual key name supplied:' + currToken^.TokenLiteral, currToken);
         exit(nil);//Should throw error as this is neither a modifier nor a key
@@ -261,16 +265,16 @@ begin
         dispose(vCode);
         exit(@PARSELANGCODE_FUNC);
       end;
-    end;
-    else begin
+  end
+  else begin
       exit(nil);//Should throw error.
     end;
-  end;//case currToken^.TokenType of
 end;//function TParser.ParseKey(): TParserFunc;
 
 function TParser.ParseModifier(): TParserFunc;
 var
   currMod: integer;
+  parserExcept : TParserException;
 begin
   case currToken^.TokenType of
     IDENTIFIER: begin
@@ -285,13 +289,20 @@ begin
         exit(@PARSEMODIFIER_FUNC);
       end;
     end;//IDENTIFIER: begin
+
+    NUMBER: begin
+      exit(ParseKey())
+    end;//NUMBER begin
+
     HYPHEN: begin
       exit(@PARSEMODIFIER_FUNC);
     end;
     else begin
       DebugLn('ParseModifier: unknown token');
+      parserExcept := TParserException.Create('ParseModifier: unknown token');
+      raise parserExcept;
       exit(nil);//TODO: Should throw error
-    end;
+    end;//HYPHEN: begin
   end;//case currToken^.TokenType of
 end;//function TParser.ParseModifier(): TParserFunc;
 

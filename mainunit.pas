@@ -79,11 +79,15 @@ var
   modifiers: uint;
   currShortcutRec: PTShortcutLangRec;
 
-begin
-//  TODO: check why .conf file is not working with numbers (0..9) in Virtual codes:
-//  https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+//  TODO: Check if 'Remove from autostart' function in context menu is really working.
+//  TODO: Check how other modifiers e.g. Alt, Shift are working
+//  TODO: write more explanation about setting multiple keys for one keyboard e.g.
+//    for US Intl. and Dvorak layouts
 
-//  TODO: check why after Dvorak keyboard RUS language is not turning off. UKR does
+begin
+//  [x]: check why .conf file is not working with numbers (0..9) in Virtual codes:
+
+//  [x]: check why after Dvorak keyboard RUS language is not turning off. UKR does
   self.DebugMode:= False;
   LazLogger.DebugLogger.CloseLogFileBetweenWrites := True;
   currDateTime := Now();

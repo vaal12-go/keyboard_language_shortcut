@@ -2,6 +2,19 @@
 
 This software is made to allow change of language with direct shortcut (e.g. Ctrl-1 for English, Ctrl-2 for Polish) in Windows. 
 
+<!-- TOC -->
+
+- [Installation](#installation)
+- [Notes](#notes)
+    - [Note on enhanced layouts e.g. US Dvorak](#note-on-enhanced-layouts-eg-us-dvorak)
+    - [Operating systems](#operating-systems)
+    - [Releases](#releases)
+    - [Further development](#further-development)
+- [Thanks](#thanks)
+- [Support](#support)
+
+<!-- /TOC -->
+
 Windows does have system dialog to set language shortcuts:
 
 ![Windows system language shortcut dialog!](documentation/img/Windows_language_shortcuts.png)
@@ -28,7 +41,7 @@ Shortcut can be a combination of ctrl, alt, win and shift modifiers and a single
 
 For list of virtual keys see [Windows virtual codes](https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes). 
 
-At the moment it seems that only letters and VK keyboard codes are working. In next versions special attention will be paid to digits and special symbols inside shortcuts.
+Digits and special keys are working as shortcuts starting version v0.4 2026Jun24. For special keys see key codes VK_OEM_XXXX as symbols (e.g. '=') will not work directly. For key with '=' and '+' VK_OEM_PLUS code should be used. See link to list of virtual codes above.
 
 For list of supported keyboard layouts see [Windows keyboard layouts codes](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values?view=windows-11)
 

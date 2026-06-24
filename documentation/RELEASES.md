@@ -1,5 +1,9 @@
 # Releases
 
+## 2026Jun24
+* Keyboard shortcuts which were using numbers (e.g. Ctrl-0, Alt-2) were not working correctly. Those are working fine now.
+* Small cleaning
+
 ## 2026Jun10
 * New version of language icons (centered and increased font)
 
